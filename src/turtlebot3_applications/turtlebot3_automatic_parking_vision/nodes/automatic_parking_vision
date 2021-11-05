@@ -164,8 +164,8 @@ class AutomaticParkingVision():
                 print(self.initial_marker_pose_theta)
                 self.current_parking_sequence = self.ParkingSequence.stop.value
                 self.is_sequence_finished = False
-		self.fnPostDocking()
-		rospy.sleep(2)
+                self.fnPostDocking()
+                rospy.sleep(2)
 
         elif self.current_parking_sequence == self.ParkingSequence.stop.value:
             self.fnStop()
@@ -279,7 +279,7 @@ class AutomaticParkingVision():
         self.fnTrackMarker(-desired_angle_turn)
 
         print self.marker_2d_pose_x
-        if abs(self.marker_2d_pose_x) < 0.22:
+        if abs(self.marker_2d_pose_x) < 0.26:   #0.22
             self.fnStop()
             return True
         else:

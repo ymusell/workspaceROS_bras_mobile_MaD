@@ -31,8 +31,7 @@
 		<remap from="camera_info"   to="/raspicam_node/camera_info" />
 	</node>
 
-  <!-- <node pkg="turtlebot3_automatic_parking_vision" type="start_parking_vision.sh" name="start_parking_vision" /> -->
 
-  <node pkg="turtlebot3_automatic_parking_vision" type="automatic_parking_vision" name="automatic_parking_vision" required="true"/>  
+  <node pkg="turtlebot3_automatic_parking_vision" type="automatic_parking_vision" name="automatic_parking_vision" required="true" output="screen"/>  
 
 </launch>
