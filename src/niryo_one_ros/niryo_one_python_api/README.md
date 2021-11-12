@@ -1,3 +1,9 @@
+# Note:  
+this is the Python API package and all of these programs are launch for the ssh connection.  
+Moreover, since we use the Python API, we have a limited number of possible actions. In the first place, those actions will be enough.  
+The created programs are available in the folder examples.
+
+
 # Niryo One Python API
 
 To use Python API :
