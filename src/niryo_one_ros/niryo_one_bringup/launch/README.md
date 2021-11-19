@@ -17,3 +17,18 @@ Driver = permet l'interface entre ROS et les commandes moteurs. Permet de connai
 Le niveau de contrôle, recoit les trajectoires, permet en compte l'état actuel du robot et calcul la commande en position qu'elle va envoyé au driver.
 Pour la partie motion planning, c'est ici qu'est utilisé la cinématique inversée et la création de chemin approprié pour le robot.
 La partie de commande c'est le haut niveau que nous utilisons pour les commandes via l'API python. Elle regarde s'il n'y a pas déjà de commande en cours, elle valide les paramètres si un mouvement est nécessaire, elle demande à la partie motion planning et autrement, elle envoie la commandes aux controle et hardware.
+
+Comment trouver où sont les launchs qui se lancent? 
+rpi_setup.launch -> "node niryo_one_rpi"(rosparam file=....rpi_ros_processes.yaml) -> si "launch_ros_processes" -> self.niryo_one_ros_seup = NiryoOneRosSetup() -> NiryoOneRosSetup.py -> "~process_state_publish_rate" et "~processes"
+Les launchs sont lancés en tant que processe et ils sont considérés comme des services pouvant être gérés (restart, kill,...) facilement.
+
+## Recherche pour la suppression des logs
+
+Pour la gestion des logs, quand la mémoire est pleine, il y a quand l'on lance le roslaunch des erreurs de "CAN connection problem with motor" et [WARN] [1637233664.431273]: Unable to start server: [Errno 98] Address already in use Retrying in 5s.
+Pour régler le problème, il faut vider les logs.
+Info, du -sh = 1.5M quand ça ne fonctionnait pas et 1.3M avant de lancer ce dernier launch.  
+
+Dans les logs, nous avons la ligne suivante:
+[rosout][WARNING] 2021-11-18 12:08:09,039: Purging ROS log on startup !
+Mais il semble que rien ne se passe. Peut-être les autorisations en lançant le code en sudo? Le lancement de roslaunch en sudo ne fonctionne pas.
+Changerments effectuées ok. Dès que le launch est lancé on purge les anciens logs.

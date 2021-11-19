@@ -48,7 +48,8 @@ class RosLogManager:
         # clean log on startup if param is true
         if self.purge_log_on_startup:
             rospy.logwarn("Purging ROS log on startup !")
-            print self.purge_log()
+            rospy.loginfo(self.purge_log())
+            # print self.purge_log()
 
         self.purge_log_server = rospy.Service('/niryo_one/rpi/purge_ros_logs', SetInt,
                                               self.callback_purge_log)

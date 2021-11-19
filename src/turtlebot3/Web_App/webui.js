@@ -13,6 +13,7 @@ var teleop;
 PC_IP = "192.168.1.122";
 NIRYO_IP = "192.168.1.130";
 
+//Connection a rosbridhe_server
 var ros = new ROSLIB.Ros({
     url: "ws://" + PC_IP + ":9090"
 });
@@ -24,9 +25,10 @@ var ros = new ROSLIB.Ros({
 document.getElementById('affichage_joystick').style.display = 'block' ? 'none' : 'block';
 document.getElementById('main_niryo').style.display = 'block' ? 'none' : 'block';
 document.getElementById('main_meuble').style.display = 'block' ? 'none' : 'block';
-document.getElementById('bandeau_joystick').style.display = 'block' ? 'none' : 'block';
+document.getElementById('bandeau_joystick').style.display = 'block' ? 'none' : 'block'; //Le bandeau du boitier qui est en double pour moi
 
 // fonction qui va servir pour la publication de la vitesse des roues lors de l'usage du joystick
+//TODO a mettre ailleurs a voir
 function moveAction(linear, angular) {
     if (linear !== undefined && angular !== undefined) {
         twist.linear.x = linear;
@@ -37,7 +39,12 @@ function moveAction(linear, angular) {
     }
     cmdVel.publish(twist);
 }
-// On initialise la variable listener qui va aller lire ce que le topic /messages publie
+
+//----------------------------------------------------------------------------------------------------------------------------------------
+// Initialisation des variables et des fonctions pour ROS
+//----------------------------------------------------------------------------------------------------------------------------------------
+
+// On initialise la variable listener qui va aller lire ce que le topic /messages publie (partie turtlebot)
 var listener = new ROSLIB.Topic({
     ros: ros,
     name: '/messages',
@@ -51,6 +58,7 @@ var listener_niryo = new ROSLIB.Topic({
 });
 
 // lecture puis affichage du message sur l'écran de l'utilisateur
+//TODO, voir les commandes de unsubscribe
 listener.subscribe(function (message) {
     //console.log('Received message on ' + listener.name + ': ' + message.data);
     save_msg = message.data;
@@ -444,7 +452,7 @@ var battery = new ROSLIB.Topic({
 battery.subscribe(function (level) {
     // Affichage et mise à jour de la barre de batterie :
     battery_status.style = "width:" + level.data + "%" + ";background-color:#62cdff";
-    battery_status.innerHTML = level.data + '%';
+    battery_status.innerHTML = level.data + '%'; //TODO, voir pourquoi la fonction trouve battery_status
 });
 
 
@@ -553,7 +561,7 @@ function Affichage_cam() {
                     }, 50);
                 }
             });
-            // event litener for joystick release, always send stop message
+            // event listener for joystick release, always send stop message
             manager.on('end', function () {
                 moveAction(0, 0);
             });

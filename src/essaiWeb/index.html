@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="fr+en">
+  <head>
+    <title>turtlebot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body class="bg" style="background-color:#ffffff">
+    <!-- Bandeau -->
+    <div id='bandeau'>
+        <nav class="navbar navbar-dark flex-fill" style="background-color:#62cdff">
+                <h5 style="align-items: center;color: rgb(0, 0, 0)">
+                    commande turtlebot
+                </h5> 
+        </nav>
+    </div>
+
+
+    <!-- VIDEO -->
+    <div id='affichage_video'>
+        <h5 style="text-align:center; color:#5439cc"><b><u>Camera du turtlebot :</u></b></h5>
+        <div class="row my-4">
+            <div class="col d-flex justify-content-center">
+                <img src="" style="margin:auto;display:block" class="p-1 bg-dark" alt="" id="video" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Nouveau controleur-->
+    <div id='controleur'>
+        <div class="row my-2">
+            <div class="col-md-0"></div>
+            <div class="col-md-0" style="margin:auto;display:block">
+                <br>
+                <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/up.png" width="50" height="50" class="d-inline-block" alt="" onclick="Up()" id="up-img" type="button">
+            </div>
+            <div class="col-md-0"></div>
+        </div>
+
+        <div class="row my-2">
+            <div class="col-md-0"></div>
+            <div class="col-md-0" style="margin:auto;display:block">
+                <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/left.png" width="50" height="50" class="d-inline-block" alt="" onclick="Left()" id="left-img" type="button">
+                <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/logo_grey_transp.png" width="50" height="50" class="d-inline-block" alt="" onclick="Center()" id="center-img" type="button">
+                <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/right.png" width="50" height="50" class="d-inline-block" alt="" onclick="Right()" id="right-img" type="button">
+            </div>
+            <div class="col-md-0"></div>
+        </div>
+
+        <div class="row my-2">
+            <div class="col-md-0"></div>
+            <div class="col-md-0" style="margin:auto;display:block">
+                <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/down.png" width="50" height="50" class="d-inline-block" alt="" onclick="Down()" id="down-img" type="button">
+                <br>
+            </div>
+            <div class="col-md-0"></div>
+        </div>
+    </div>
+
+    <!-- JOYSTICK
+    <div class="row my-4">
+        <div class="col">
+            <div class="d-flex justify-content-center" style="width: 210px; height: 210px;">
+                <div id="joystick"></div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- INFO -->
+    <div class="row my-4">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="alert alert-info">
+                <h4 class="alert-heading">Méthode de controle du turtlebot</h4>
+                <ul>
+                    <li>Commande en utilisant les boutonts sur la page web</li>
+                    <li>En utilisant les touches du clavier </li>
+                    <ul>
+                        <li>touche <mark style="color: chocolate">z</mark> pour aller devant</li>
+                        <li>touche <mark id='essai'>q</mark> pour aller à gaucher</li>
+                        <li>touche <mark>d</mark> pour aller à droite</li>
+                        <li>touche <mark>x</mark> pour aller en arrière</li>
+                        <li>touche <mark>s</mark> pour se stopper</li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+    <!-- Bandeau des informations -->
+
+    <div class="row my-4">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="alert" style="background-color:#5de2c1">
+                <h5 class="alert-heading"><b>Informations :</b></h5>
+                <h5>
+                    <style type='text/css'>
+                        body {
+                            color: #ffffff;
+                        }
+                    </style>
+                    <h5>
+                        <h6 id="message"></h6>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+    <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+    <script src="https://static.robotwebtools.org/keyboardteleopjs/current/keyboardteleop.min.js"></script>
+    <script src="//yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js"></script>
+    <script src="webui.js"></script>
+</body>
+</html>
