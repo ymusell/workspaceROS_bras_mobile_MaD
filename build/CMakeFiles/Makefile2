@@ -2453,6 +2453,24 @@ clean: emergency_stop_for_tests/CMakeFiles/emergency_activation_for_tests.dir/cl
 .PHONY : clean
 
 #=============================================================================
+# Directory level rules for directory interface_web
+
+# Convenience name for "all" pass in the directory.
+interface_web/all:
+
+.PHONY : interface_web/all
+
+# Convenience name for "clean" pass in the directory.
+interface_web/clean:
+
+.PHONY : interface_web/clean
+
+# Convenience name for "preinstall" pass in the directory.
+interface_web/preinstall:
+
+.PHONY : interface_web/preinstall
+
+#=============================================================================
 # Directory level rules for directory niryo_one_ros/mcp_can_rpi
 
 # Convenience name for "all" pass in the directory.
