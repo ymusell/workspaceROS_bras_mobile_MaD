@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="fr+en">
+  <head>
+    <title>turtlebot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body class="bg" style="background-color:#ffffff">
+    
+    <!-- Bandeau -->
+    <header>
+        <div id='bandeau'>
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#62cdff">    <!-- "navbar navbar-dark" -->
+                <b>
+                    <img src="pictures/logo_MaD_light.png"
+                        width="80" height="50" class="d-inline-block" alt="">
+                </b>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Robots
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="turtlebot_teleop.html">Turtlebot3</a>
+                            <a class="dropdown-item" href="niryo_one.html">Niryo One</a>
+                            <a class="dropdown-item" href="meuble.html">meuble</a>
+                        </div>
+                    </li>
+                    </ul>
+            </nav>
+        </div>
+    </header>
+
+    <h5 style="text-align:center; color:#888888"><b><u>Commandes du turtlebot3 :</u></b></h5>
+
+    <!--Partie sur le niveau de batterie et les boutons urgence et activation-->
+    <div id='batterie_urgence'>
+        <div class="container">
+            <br>
+            <h5 style="color:#888888"><b>Niveau de Batterie :</b></h5>
+            <div class="progress">
+
+                <div id="battery_status" class="progress-bar progress-bar-striped progress-bar-animated"
+                role="progressbar" style="width:50%; background-color:#62cdff" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                50%</div>
+
+            </div>
+        </div>
+
+        <div class="row my-2">
+            <div class="col-md-0"></div>
+            <div class="col-md-0" style="margin:auto;display:block">
+                <br>
+                <button type="button" onclick="Urgence()" class="btn btn-outline-danger" id="urgence-btn"><b>Arrêt
+                        d'urgence</b></button>
+                <img src="pictures/warning.png"
+                    width="50" height="50" class="d-inline-block" alt="">
+                <button type="button" onclick="Reactivation()" class="btn btn-outline-success"
+                    id="reactivation-btn"><b>Réactivation</b></button>
+                <br>
+            </div>
+            <div class="col-md-0"></div>
+        </div>
+
+        <!-- Interligne bleue -->
+        <hr style="height:2px ;border-width:0; margin-top:1cm ; background-color:#62cdff;">
+
+    </div>
+
+    <!-- VIDEO -->
+    <div id='affichage_video'>
+        <h5 style="text-align:center; color:#5439cc"><b><u>Camera du turtlebot :</u></b></h5>
+        <div class="row my-4">
+            <div class="col d-flex justify-content-center">
+                <img src="" style="margin:auto;display:block" class="p-1 bg-dark" alt="" id="video_turtlebot" />
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="Try()">Allumage de la caméra</button>"
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- Nouveau controleur-->
+    <div id='controleur'>
+        <!-- Boutons -->
+        <div id='button'>
+            <div class="row my-2">
+                <div class="col-md-0"></div>
+                <div class="col-md-0" style="margin:auto;display:block">
+
+                    <br>
+                    <button type="button" onclick="Salon()" class="btn text-white btn-sm" id="salon-btn" style="background-color:#4785e2">Salon</button>
+                    <button type="button" onclick="Chambre()" class="btn text-white btn-sm" id="chambre-btn" style="background-color:#4785e2">Chambre</button>
+
+                    <!-- Cuisine -->
+
+                    <button class="btn text-white dropdown-toggle btn-sm" type="button" id="dropdownMenu2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:#4785e2">
+                        Cuisine
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <button class="dropdown-item" type="button" onclick="Plan()" id="plan-btn">Plan de
+                            travail</button>
+                        <button class="dropdown-item" type="button" onclick="Table()"
+                            id="table-btn">Table</button>
+                        <button class="dropdown-item" type="button" onclick="Frigidaire()"
+                            id="frigidaire-btn">Frigidaire</button>
+                    </div>
+
+
+
+                    <button type="button" onclick="Dock()" class="btn text-white btn-sm" id="base-btn" style="background-color:#a7b9c4">Retour à la
+                        base</button>
+
+                    <br>
+                </div>
+                <div class="col-md-0"></div>
+            </div>
+        </div>
+        <!-- Clavier -->
+        <div id='keyboard'>
+            <div class="row my-2">
+                <div class="col-md-0"></div>
+                <div class="col-md-0" style="margin:auto;display:block">
+                    <br>
+                    <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/up.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Up()" onmouseup="UpRelease()" id="up-img" type="button">
+                </div>
+                <div class="col-md-0"></div>
+            </div>
+
+            <div class="row my-2">
+                <div class="col-md-0"></div>
+                <div class="col-md-0" style="margin:auto;display:block">
+                    <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/left.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Left()" onmouseup="LeftRelease()" id="left-img" type="button">
+                    <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/logo_grey_transp.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Center()" onmouseup="CenterRelease()" id="center-img" type="button">
+                    <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/right.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Right()" onmouseup="RightRelease()" id="right-img" type="button">
+                </div>
+                <div class="col-md-0"></div>
+            </div>
+
+            <div class="row my-2">
+                <div class="col-md-0"></div>
+                <div class="col-md-0" style="margin:auto;display:block">
+                    <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/down.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Down()" onmouseup="DownRelease()" id="down-img" type="button">
+                    <br>
+                </div>
+                <div class="col-md-0"></div>
+            </div>
+        </div>
+        <!-- JOYSTICK -->
+        <div id='joystick'>
+            <div class="row my-4">
+                <div class="col">
+                    <div class="d-flex justify-content-center" style="width: 210px; height: 210px;">
+                        <div id="joystick"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- INFO -->
+    <div class="row my-4">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="alert alert-info">
+                <h4 class="alert-heading">Méthode de controle du turtlebot</h4>
+                <ul>
+                    <li>Commande en utilisant les boutonts sur la page web</li>
+                    <li>En utilisant les touches du clavier </li>
+                    <ul>
+                        <li>touche <strong id='letterZ'>z</strong> pour aller devant</li>
+                        <li>touche <strong id='letterQ'>q</strong> pour aller à gaucher</li>
+                        <li>touche <strong id='letterD'>d</strong> pour aller à droite</li>
+                        <li>touche <strong id='letterX'>x</strong> pour aller en arrière</li>
+                        <li>touche <strong id='letterS'>s</strong> pour se stopper</li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+    <!-- Interligne bleue -->
+    <hr style="height:2px ;border-width:0; margin-top:1cm ; margin-bottom:1cm ; background-color:#31ffff;">
+
+    <!-- Bandeau des informations -->
+
+    <div class="row my-4">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="alert" style="background-color:#5de2c1">
+                <h5 class="alert-heading"><b>Informations :</b></h5>
+                <h5>
+                    <style type='text/css'>
+                        body {
+                            color: #ffffff;
+                        }
+                    </style>
+                    <h5>
+                        <h6 id="message"></h6>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+    <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+    <script src="https://static.robotwebtools.org/keyboardteleopjs/current/keyboardteleop.min.js"></script>
+    <script src="//yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js"></script>
+    <script src="scripts/js_turtlebot_teleop.js"></script>
+</body>
+</html>

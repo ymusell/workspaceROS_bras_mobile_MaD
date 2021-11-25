@@ -733,7 +733,7 @@ class NiryoOne:
 
         def remove_workspace(self, name):
             """
-            Call worksspace manager to remove a certain workspace
+            Call workspace manager to remove a certain workspace
 
             :param name: workspace name
             :type name: str

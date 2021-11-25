@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="fr+en">
+  <head>
+    <title>turtlebot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body class="bg" style="background-color:#ffffff">
+    
+    <!-- Bandeau -->
+    <header>
+        <div id='bandeau'>
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#62cdff">    <!-- "navbar navbar-dark" -->
+                <b>
+                    <img src="pictures/logo_MaD_light.png"
+                        width="80" height="50" class="d-inline-block" alt="">
+                </b>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Robots
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="turtlebot_teleop.html">Turtlebot3</a>
+                            <a class="dropdown-item" href="niryo_one.html">Niryo One</a>
+                            <a class="dropdown-item" href="meuble.html">meuble</a>
+                        </div>
+                    </li>
+                    </ul>
+            </nav>
+        </div>
+    </header>
+
+    <h5 style="text-align:center; color:#888888"><b><u>Commandes du niryo :</u></b></h5>
+
+    <!-- VIDEO -->
+    <div id='affichage_video'>
+        <h5 style="text-align:center; color:#5439cc"><b><u>Camera du niryo :</u></b></h5>
+        <div class="row my-4">
+            <div class="col d-flex justify-content-center">
+                <img src="" style="margin:auto;display:block" class="p-1 bg-dark" alt="" id="video_turtlebot" />
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="Try()">Allumage de la caméra</button>"
+            </div>
+        </div>
+    </div>
+
+    <!-- Partie sur le bras niryo -->
+    <div id='main_niryo'>
+
+        <!-- Boutons des actions disponibles pour le niryo -->
+        <div class="row my-2">
+            <div class="col-md-0"></div>
+            <div class="col-md-0" style="margin:auto;display:block">
+
+                <br>
+                <button type="button" onclick="Servir()" class="btn text-white btn-sm" id="servir-btn"
+                    style="background-color:#3dc0c0">Servir</button>
+                <button type="button" onclick="Pause_bras()" class="btn text-white btn-sm" id="pause-btn"
+                    style="background-color:#808080"><b>Pause</b></button>
+                <button type="button" onclick="Reprise_bras()" class="btn text-white btn-sm" id="reprise-btn"
+                    style="background-color:#808080"><b>Marche</b></button>
+                <button type="button" onclick="Ranger()" class="btn text-white btn-sm" id="ranger-btn"
+                    style="background-color:#3dc0c0">Ranger</button>
+                <br>
+            </div>
+            <div class="col-md-0"></div>
+        </div>
+
+
+        <!-- Boutons pour arreter l acton du niryo -->
+        <div class="row my-2">
+            <div class="col-md-0"></div>
+            <div class="col-md-0" style="margin:auto;display:block">
+                <br>
+                <button type="button" onclick="Arret_action()" class="btn btn-danger btn-lg" id="arret-btn"><b>Arrêt
+                        de l'action</b></button>
+                <br>
+            </div>
+            <div class="col-md-0"></div>
+        </div>
+    </div>
+
+    <!-- Interligne bleue -->
+    <hr style="height:2px ;border-width:0; margin-top:1cm ; margin-bottom:1cm ; background-color:#31ffff;">
+
+    <!-- Partie observation -->
+    <div id='observation_niryo'>
+        <!-- Boutons pour demarrer l observation -->
+        <div class="row my-2">
+            <div class="col-md-0"></div>
+            <div class="col-md-0" style="margin:auto;display:block">
+                <button type="button" onclick="Observation()" class="btn text-white btn-block" id="observation-btn"
+                    style="background-color:#3dc0c0">Démarrer l'observation</button>
+            </div>
+            <div class="col-md-0"></div>
+        </div>
+
+        <!-- Boutons pour gere l observationi du niryo -->
+        <div class="row my-2">
+            <div class="col-md-0"></div>
+            <div class="col-md-0" style="margin:auto;display:block">
+                <br>
+                <img src="pictures/up.png" width="50" height="50" class="d-inline-block" alt="" onclick="Up()" id="up-img" type="button">
+            </div>
+            <div class="col-md-0"></div>
+        </div>
+
+        <div class="row my-2">
+            <div class="col-md-0"></div>
+            <div class="col-md-0" style="margin:auto;display:block">
+                <img src="pictures/left.png" width="50" height="50" class="d-inline-block" alt="" onclick="Left()" id="left-img" type="button">
+                <img src="pictures/logo_grey_transp.png" width="50" height="50" class="d-inline-block" alt="" onclick="Center()" id="center-img" type="button">
+                <img src="pictures/right.png" width="50" height="50" class="d-inline-block" alt="" onclick="Right()" id="right-img" type="button">
+            </div>
+            <div class="col-md-0"></div>
+        </div>
+
+        <div class="row my-2">
+            <div class="col-md-0"></div>
+            <div class="col-md-0" style="margin:auto;display:block">
+                <img src="pictures/down.png" width="50" height="50" class="d-inline-block" alt="" onclick="Down()" id="down-img" type="button">
+                <br>
+            </div>
+            <div class="col-md-0"></div>
+        </div>
+    </div>
+
+    <!-- Interligne bleue -->
+    <hr style="height:2px ;border-width:0; margin-top:1cm ; margin-bottom:1cm ; background-color:#31ffff;">
+    
+    <!-- Bandeau des informations -->
+
+    <div class="row my-4">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="alert" style="background-color:#5de2c1">
+                <h5 class="alert-heading"><b>Informations :</b></h5>
+                <h5>
+                    <style type='text/css'>
+                        body {
+                            color: #ffffff;
+                        }
+                    </style>
+                    <h5>
+                        <h6 id="message"></h6>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+    <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+    <script src="https://static.robotwebtools.org/keyboardteleopjs/current/keyboardteleop.min.js"></script>
+    <script src="//yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js"></script>
+    <script src="scripts/js_niryo_one.js"></script>
+</body>
+</html>
