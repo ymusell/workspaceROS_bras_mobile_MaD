@@ -38,3 +38,12 @@ specify object. Use ObjDetection srv
 Use GetCalibrationCam srv
 - _/niryo_one_vision/take_picture_ : Save the last image seen in a specified path. Use TakePicture srv
 - _/niryo_one_vision/start_stop_video_streaming_ : Start and stop video streaming. Use SetBool from std_srvs
+
+## Some more
+
+For the calibration in order to correcte the distortions, the vision.launch is played. Then, for the calibration the important file is camera_publisher_and_services.py. 
+Utilisation de l'objet CalibrationObject.py et de l'attribut _calibration_object  
+Il semble que nous détections K et D, il permette d'avoir une image non distordu.  
+
+Pour la calibration manuelle, j'ai utilisé la fonction suivante sur ma machine virtuelle sous linux et donc j'ai autorisé le périphérique sous linux: voir le tuto suivant https://www.numetopia.fr/comment-activer-le-support-usb-2-ou-3-dans-virtualbox/  
+`python calibration.py` avec cela, j'ai recopier les valeurs de mtx et de dist dans le fichier cam_intrinsics.yalm

@@ -5,6 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/style.css"/>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -93,82 +94,108 @@
         </div>
     </div>
 
+    <!-- Interligne bleue -->
+    <hr style="height:2px ;border-width:0; margin-top:1cm ; background-color:#62cdff;">
+
+    <!-- affichage des controleurs-->
+    <h5 style="text-align:center; color:#888888"><b><u>Controleur du turtlebot :</u></b></h5>
+
+    <button class="btn btn-primary" id="option1" type="submit" onclick="MenuBoutons()">Button</button>
+    <button class="btn btn-primary" id="option2" type="submit" onclick="MenuClavier()">Clavier</button>
+    <button class="btn btn-primary" id="option3" type="submit" onclick="MenuJoystick()">Joystick</button>
     
 
-    <!-- Nouveau controleur-->
-    <div id='controleur'>
-        <!-- Boutons -->
-        <div id='button'>
-            <div class="row my-2">
-                <div class="col-md-0"></div>
-                <div class="col-md-0" style="margin:auto;display:block">
+    <!-- Les controleurs-->
+    <!-- Boutons -->
+    <div id='button' style="border: 10px solid #4785e2;border-radius: 10px">
+        <div class="row my-2">
+            <div class="col-md-0"></div>
+            <div class="col-md-0" style="margin:auto;display:block">
+                <button type="button" onclick="Salon()" class="btn text-white btn-sm" id="salon-btn" style="background-color:#4785e2">Salon</button>
+                <button type="button" onclick="Chambre()" class="btn text-white btn-sm" id="chambre-btn" style="background-color:#4785e2">Chambre</button>
 
-                    <br>
-                    <button type="button" onclick="Salon()" class="btn text-white btn-sm" id="salon-btn" style="background-color:#4785e2">Salon</button>
-                    <button type="button" onclick="Chambre()" class="btn text-white btn-sm" id="chambre-btn" style="background-color:#4785e2">Chambre</button>
+                <!-- Cuisine -->
 
-                    <!-- Cuisine -->
-
-                    <button class="btn text-white dropdown-toggle btn-sm" type="button" id="dropdownMenu2"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:#4785e2">
-                        Cuisine
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <button class="dropdown-item" type="button" onclick="Plan()" id="plan-btn">Plan de
-                            travail</button>
-                        <button class="dropdown-item" type="button" onclick="Table()"
-                            id="table-btn">Table</button>
-                        <button class="dropdown-item" type="button" onclick="Frigidaire()"
-                            id="frigidaire-btn">Frigidaire</button>
-                    </div>
-
-
-
-                    <button type="button" onclick="Dock()" class="btn text-white btn-sm" id="base-btn" style="background-color:#a7b9c4">Retour à la
-                        base</button>
-
-                    <br>
+                <button class="btn text-white dropdown-toggle btn-sm" type="button" id="dropdownMenu2"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:#4785e2">
+                    Cuisine
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <button class="dropdown-item" type="button" onclick="Plan()" id="plan-btn">Plan de
+                        travail</button>
+                    <button class="dropdown-item" type="button" onclick="Table()"
+                        id="table-btn">Table</button>
+                    <button class="dropdown-item" type="button" onclick="Frigidaire()"
+                        id="frigidaire-btn">Frigidaire</button>
                 </div>
-                <div class="col-md-0"></div>
+
+
+
+                <button type="button" onclick="Dock()" class="btn text-white btn-sm" id="base-btn" style="background-color:#a7b9c4">Retour à la
+                    base</button>
+
+                <br>
             </div>
+            <div class="col-md-0"></div>
         </div>
-        <!-- Clavier -->
-        <div id='keyboard'>
-            <div class="row my-2">
-                <div class="col-md-0"></div>
-                <div class="col-md-0" style="margin:auto;display:block">
-                    <br>
-                    <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/up.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Up()" onmouseup="UpRelease()" id="up-img" type="button">
-                </div>
-                <div class="col-md-0"></div>
+    </div>
+    <!-- Clavier -->
+    <div id='keyboard' style="border: 10px solid #4785e2;border-radius: 10px">
+        <div class="row my-2">
+            <div class="col-md-0"></div>
+            <div class="col-md-0" style="margin:auto;display:block">
+                <br>
+                <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/up.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Up()" onmouseup="UpRelease()" id="up-img" type="button">
             </div>
-
-            <div class="row my-2">
-                <div class="col-md-0"></div>
-                <div class="col-md-0" style="margin:auto;display:block">
-                    <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/left.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Left()" onmouseup="LeftRelease()" id="left-img" type="button">
-                    <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/logo_grey_transp.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Center()" onmouseup="CenterRelease()" id="center-img" type="button">
-                    <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/right.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Right()" onmouseup="RightRelease()" id="right-img" type="button">
-                </div>
-                <div class="col-md-0"></div>
-            </div>
-
-            <div class="row my-2">
-                <div class="col-md-0"></div>
-                <div class="col-md-0" style="margin:auto;display:block">
-                    <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/down.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Down()" onmouseup="DownRelease()" id="down-img" type="button">
-                    <br>
-                </div>
-                <div class="col-md-0"></div>
-            </div>
+            <div class="col-md-0"></div>
         </div>
-        <!-- JOYSTICK -->
-        <div id='joystick'>
-            <div class="row my-4">
-                <div class="col">
-                    <div class="d-flex justify-content-center" style="width: 210px; height: 210px;">
-                        <div id="joystick"></div>
-                    </div>
+
+        <div class="row my-2">
+            <div class="col-md-0"></div>
+            <div class="col-md-0" style="margin:auto;display:block">
+                <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/left.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Left()" onmouseup="LeftRelease()" id="left-img" type="button">
+                <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/logo_grey_transp.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Center()" onmouseup="CenterRelease()" id="center-img" type="button">
+                <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/right.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Right()" onmouseup="RightRelease()" id="right-img" type="button">
+            </div>
+            <div class="col-md-0"></div>
+        </div>
+
+        <div class="row my-2">
+            <div class="col-md-0"></div>
+            <div class="col-md-0" style="margin:auto;display:block">
+                <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/down.png" width="50" height="50" class="d-inline-block" alt="" onmousedown="Down()" onmouseup="DownRelease()" id="down-img" type="button">
+                <br>
+            </div>
+            <div class="col-md-0"></div>
+        </div>
+        <!-- info -->
+        <div class="row my-4">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="alert alert-info">
+                    <h4 class="alert-heading">Méthode de controle du turtlebot</h4>
+                    <ul>
+                        <li>Commande en utilisant les boutonts sur la page web</li>
+                        <li>En utilisant les touches du clavier </li>
+                        <ul>
+                            <li>touche <strong id='letterZ'>z</strong> pour aller devant</li>
+                            <li>touche <strong id='letterQ'>q</strong> pour aller à gaucher</li>
+                            <li>touche <strong id='letterD'>d</strong> pour aller à droite</li>
+                            <li>touche <strong id='letterX'>x</strong> pour aller en arrière</li>
+                            <li>touche <strong id='letterS'>s</strong> pour se stopper</li>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+    <!-- JOYSTICK -->
+    <div id='joystick' style="border: 10px solid #4785e2;border-radius:10px"">
+        <div class="row my-4">
+            <div class="col">
+                <div class="d-flex justify-content-center" style="width: 210px; height: 210px;">
+                    <div id="joystick"></div>
                 </div>
             </div>
         </div>

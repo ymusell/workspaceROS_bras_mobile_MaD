@@ -12,7 +12,7 @@ Ces launchs permettent de lancer n'importe quel noeud ros, sans eux, les paramè
 
 ## Informations supplémentaires:
 
-le launch ne se fait pas au démarrage car le service a été annulé. Pour plus d'informations ou pour le rendre de nouveau automatique (je le laisse désactivé, il faut donc activer le bringup à chaque test) voir ici (niryo one:connect-to-the-raspberry-pi-3-via-ssh).
+le launch ne se fait pas au démarrage car le service a été annulé. Pour plus d'informations ou pour le rendre de nouveau automatique (je le laisse désactivé, il faut donc activer le bringup à chaque test) voir ici (https://niryo.com/docs/niryo-one/developer-tutorials/connect-to-the-raspberry-pi-3-via-ssh/          dans niryo one:connect-to-the-raspberry-pi-3-via-ssh).
 Driver = permet l'interface entre ROS et les commandes moteurs. Permet de connaitre la position et l'état des moteurs et leur envoie des commandes.
 Le niveau de contrôle, recoit les trajectoires, permet en compte l'état actuel du robot et calcul la commande en position qu'elle va envoyé au driver.
 Pour la partie motion planning, c'est ici qu'est utilisé la cinématique inversée et la création de chemin approprié pour le robot.
@@ -28,7 +28,7 @@ Pour la gestion des logs, quand la mémoire est pleine, il y a quand l'on lance 
 Pour régler le problème, il faut vider les logs.
 Info, du -sh = 1.5M quand ça ne fonctionnait pas et 1.3M avant de lancer ce dernier launch.  
 
-Dans les logs, nous avons la ligne suivante:
+Dans les logs, nous avons la ligne suivante: 
 [rosout][WARNING] 2021-11-18 12:08:09,039: Purging ROS log on startup !
 Mais il semble que rien ne se passe. Peut-être les autorisations en lançant le code en sudo? Le lancement de roslaunch en sudo ne fonctionne pas.
 Changerments effectuées ok. Dès que le launch est lancé on purge les anciens logs.

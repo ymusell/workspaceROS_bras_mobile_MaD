@@ -8,6 +8,35 @@ var ros;
 var port = window.location.port;
 PC_IP = location.hostname;
 
+////////////////////////////// Display part ////////////////////////////////
+
+//Initialisation de l'affichage
+document.getElementById('keyboard').style.display="none";
+document.getElementById('joystick').style.display="none";
+
+//Affichage
+function MenuBoutons() {
+    document.getElementById('button').style.display="block";
+    document.getElementById('keyboard').style.display="none";
+    document.getElementById('joystick').style.display="none";
+    console.log("appuie sur le bouton de Boutons");
+}
+
+function MenuClavier(){
+    document.getElementById('button').style.display="none";
+    document.getElementById('keyboard').style.display="block";
+    document.getElementById('joystick').style.display="none";
+    console.log("appuie sur le bouton de clavier");
+}
+
+function MenuJoystick(){
+    document.getElementById('button').style.display="none";
+    document.getElementById('keyboard').style.display="none";
+    document.getElementById('joystick').style.display="block";
+    console.log("appuie sur le bouton de Joystick");
+}
+
+//ROS part
 function moveAction(linear, angular) {
     if (linear !== undefined && angular !== undefined) {
         twist.linear.x = linear;
@@ -73,7 +102,7 @@ window.onload = function () {
         url: "ws://" + PC_IP + ":9090"
     });
 
-    initVelocityPublisher();
+    //initVelocityPublisher();
 }
 
 ////Nouveau essai
