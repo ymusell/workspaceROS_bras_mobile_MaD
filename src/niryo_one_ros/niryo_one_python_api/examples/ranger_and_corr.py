@@ -129,18 +129,10 @@ while abs(angle) > 0.3 :
   img = n.get_compressed_image()
   img = f(img)
 
-  filename = '/home/niryo/catkin_ws/src/niryo_one_python_api/examples/testImage.jpg'
+  filename = '/home/yann/catkin_ws/src/niryo_one_ros/niryo_one_python_api/examples/testImage.jpg'
   cv2.imwrite(filename, img)
 
-  n.activate_learning_mode(True)
-
-  #################################################################################################
-
-  # path 
-  path = r'/home/niryo/catkin_ws/src/niryo_one_python_api/examples/testImage.jpg'
-
-  # Reading an image in default mode
-  img = cv2.imread(path)
+  img = cv2.imread(filename)
 
   gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 

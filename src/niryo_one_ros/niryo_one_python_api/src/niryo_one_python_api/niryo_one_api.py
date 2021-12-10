@@ -151,9 +151,9 @@ class NiryoOne:
             # Break point publisher (for break point blocks in Blockly interface)
             self.break_point_publisher = rospy.Publisher('/niryo_one/blockly/break_point', Int32, queue_size=10)
 
-            self.video_stream_subscriber = rospy.Subscriber('/niryo_one_vision/compressed_video_stream',
+            self.video_stream_subscriber = rospy.Subscriber('/niryo_one_vision/compressed_video_stream/compressed',
                                                             CompressedImage, self.sub_stream_video,
-                                                            queue_size=1)
+                                                            queue_size=1)                   ###!!! Ajout de /compressed pour avoir le bon nom de topic, quand on lance le rosrun sur l'ordi distant
 
             self.joints = None
             self.pose = None
@@ -963,6 +963,8 @@ class NiryoOne:
             timeout = rospy.get_time() + 2.0
             while self.compressed_image_message is None:
                 rospy.sleep(0.05)
+                print("new value")
+                print(rospy.get_time())
                 if rospy.get_time() > timeout:
                     raise NiryoOneException(
                         'Timeout: could not video stream message (/niryo_one_vision/compressed_video_stream topic)')
