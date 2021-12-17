@@ -14,10 +14,12 @@
     <!-- Bandeau -->
     <header>
         <div id='bandeau'>
-            <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#62cdff">    <!-- "navbar navbar-dark" -->
+            <nav class="navbar navbar-expand navbar-light" style="background-color:#62cdff">    <!-- "navbar navbar-dark" -->
                 <b>
-                    <img src="pictures/logo_MaD_light.png"
-                        width="80" height="50" class="d-inline-block" alt="">
+                    <a href="index.html">
+                        <img src="pictures/logo_MaD_light.png"
+                        width="80" height="50" class="d-inline-block" alt="logo de la chaire">
+                    </a>
                 </b>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
@@ -39,14 +41,14 @@
         </div>
     </header>
 
-    <h5 style="text-align:center; color:#888888"><b><u>Commandes du niryo :</u></b></h5>
+    <h5 style="text-align:center; color:#888888"><b><u>Niryo One :</u></b></h5>
 
     <!-- VIDEO -->
     <div id='affichage_video'>
-        <h5 style="text-align:center; color:#5439cc"><b><u>Camera du niryo :</u></b></h5>
-        <div class="row my-4">
+        <!-- <h5 style="text-align:center; color:#5439cc"><b><u>Camera du niryo :</u></b></h5> -->
+        <div class="row my-2">
             <div class="col d-flex justify-content-center">
-                <img src="" style="margin:auto;display:block" class="p-1 bg-dark" alt="" id="video_turtlebot" />
+                <img src="" style="margin:auto;display:block;margin:1" height="308" width="410" class="p-1 bg-dark" alt="flux video" id="video_turtlebot" />
             </div>
         </div>
     </div>
@@ -54,94 +56,102 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="Try()">Allumage de la caméra</button>"
+                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="AllumeCamera()">Allumage de la caméra</button>"
             </div>
         </div>
     </div>
 
-    <!-- Partie sur le bras niryo -->
-    <div id='main_niryo'>
-
-        <!-- Boutons des actions disponibles pour le niryo -->
-        <div class="row my-2">
-            <div class="col-md-0"></div>
-            <div class="col-md-0" style="margin:auto;display:block">
-
-                <br>
-                <button type="button" onclick="Servir()" class="btn text-white btn-sm" id="servir-btn"
-                    style="background-color:#3dc0c0">Servir</button>
-                <button type="button" onclick="Pause_bras()" class="btn text-white btn-sm" id="pause-btn"
-                    style="background-color:#808080"><b>Pause</b></button>
-                <button type="button" onclick="Reprise_bras()" class="btn text-white btn-sm" id="reprise-btn"
-                    style="background-color:#808080"><b>Marche</b></button>
-                <button type="button" onclick="Ranger()" class="btn text-white btn-sm" id="ranger-btn"
-                    style="background-color:#3dc0c0">Ranger</button>
-                <br>
-            </div>
-            <div class="col-md-0"></div>
+    <!-- utilisation des Collapse -->
+    <div class="text-center">
+        <div class="btn-group" style="justify-content: center" role="group" aria-label="...">
+            <button id="boutonControleNiryo" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#main_niryo" aria-expanded="false" aria-controls="main_niryo">
+                Controle du Niryo
+            </button>
+            <button id="boutonObservationNiryo" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#observation_niryo" aria-expanded="false" aria-controls="observation_niryo">
+                Observation avec le Niryo
+            </button>
         </div>
-
-
-        <!-- Boutons pour arreter l acton du niryo -->
-        <div class="row my-2">
-            <div class="col-md-0"></div>
-            <div class="col-md-0" style="margin:auto;display:block">
-                <br>
-                <button type="button" onclick="Arret_action()" class="btn btn-danger btn-lg" id="arret-btn"><b>Arrêt
-                        de l'action</b></button>
-                <br>
+    </div>
+    <div class="collapse" id="main_niryo">
+        <div class="card card-body">
+            <div class="row my-2">
+                <div class="col-md-0"></div>
+                <div class="col-md-0" style="margin:auto;display:block">
+    
+                    <br>
+                    <button type="button" onclick="Servir()" class="btn text-white btn-sm" id="servir-btn"
+                        style="background-color:#3dc0c0">Servir</button>
+                    <button type="button" onclick="Pause_bras()" class="btn text-white btn-sm" id="pause-btn"
+                        style="background-color:#808080"><b>Pause</b></button>
+                    <button type="button" onclick="Reprise_bras()" class="btn text-white btn-sm" id="reprise-btn"
+                        style="background-color:#808080"><b>Marche</b></button>
+                    <button type="button" onclick="Ranger()" class="btn text-white btn-sm" id="ranger-btn"
+                        style="background-color:#3dc0c0">Ranger</button>
+                    <br>
+                </div>
+                <div class="col-md-0"></div>
             </div>
-            <div class="col-md-0"></div>
+    
+    
+            <!-- Boutons pour arreter l acton du niryo -->
+            <div class="row my-2">
+                <div class="col-md-0"></div>
+                <div class="col-md-0" style="margin:auto;display:block">
+                    <br>
+                    <button type="button" onclick="Arret_action()" class="btn btn-danger btn-lg" id="arret-btn"><b>Arrêt
+                            de l'action</b></button>
+                    <br>
+                </div>
+                <div class="col-md-0"></div>
+            </div>
+        </div>
+    </div>
+    <div class="collapse" id="observation_niryo">
+        <div class="card card-body">
+            <div class="row my-2">
+                <div class="col-md-0"></div>
+                <div class="col-md-0" style="margin:auto;display:block">
+                    <button type="button" onclick="Observation()" class="btn text-white btn-lg" id="observation-btn"
+                        style="background-color:#3dc0c0">Démarrer l'observation</button>
+                    <button type="button" onclick="finObservation()" class="btn text-white btn-lg" id="fin-observation-btn"
+                        style="background-color:#3dc0c0">Fin de l'observation</button>
+                </div>
+                <div class="col-md-0"></div>
+            </div>
+    
+            <!-- Boutons pour gere l observation du niryo -->
+            <div class="row my-2">
+                <div class="col-md-0"></div>
+                <div class="col-md-0" style="margin:auto;display:block">
+                    <br>
+                    <img src="pictures/up.png" width="50" height="50" class="d-inline-block" alt="" onclick="Up()" id="up-img" type="button">
+                </div>
+                <div class="col-md-0"></div>
+            </div>
+    
+            <div class="row my-2">
+                <div class="col-md-0"></div>
+                <div class="col-md-0" style="margin:auto;display:block">
+                    <img src="pictures/left.png" width="50" height="50" class="d-inline-block" alt="" onclick="Left()" id="left-img" type="button">
+                    <img src="pictures/logo_grey_transp.png" width="50" height="50" class="d-inline-block" alt="" onclick="Center()" id="center-img" type="button">
+                    <img src="pictures/right.png" width="50" height="50" class="d-inline-block" alt="" onclick="Right()" id="right-img" type="button">
+                </div>
+                <div class="col-md-0"></div>
+            </div>
+    
+            <div class="row my-2">
+                <div class="col-md-0"></div>
+                <div class="col-md-0" style="margin:auto;display:block">
+                    <img src="pictures/down.png" width="50" height="50" class="d-inline-block" alt="" onclick="Down()" id="down-img" type="button">
+                    <br>
+                </div>
+                <div class="col-md-0"></div>
+            </div>
         </div>
     </div>
 
-    <!-- Interligne bleue -->
-    <hr style="height:2px ;border-width:0; margin-top:1cm ; margin-bottom:1cm ; background-color:#31ffff;">
-
-    <!-- Partie observation -->
-    <div id='observation_niryo'>
-        <!-- Boutons pour demarrer l observation -->
-        <div class="row my-2">
-            <div class="col-md-0"></div>
-            <div class="col-md-0" style="margin:auto;display:block">
-                <button type="button" onclick="Observation()" class="btn text-white btn-block" id="observation-btn"
-                    style="background-color:#3dc0c0">Démarrer l'observation</button>
-            </div>
-            <div class="col-md-0"></div>
-        </div>
-
-        <!-- Boutons pour gere l observationi du niryo -->
-        <div class="row my-2">
-            <div class="col-md-0"></div>
-            <div class="col-md-0" style="margin:auto;display:block">
-                <br>
-                <img src="pictures/up.png" width="50" height="50" class="d-inline-block" alt="" onclick="Up()" id="up-img" type="button">
-            </div>
-            <div class="col-md-0"></div>
-        </div>
-
-        <div class="row my-2">
-            <div class="col-md-0"></div>
-            <div class="col-md-0" style="margin:auto;display:block">
-                <img src="pictures/left.png" width="50" height="50" class="d-inline-block" alt="" onclick="Left()" id="left-img" type="button">
-                <img src="pictures/logo_grey_transp.png" width="50" height="50" class="d-inline-block" alt="" onclick="Center()" id="center-img" type="button">
-                <img src="pictures/right.png" width="50" height="50" class="d-inline-block" alt="" onclick="Right()" id="right-img" type="button">
-            </div>
-            <div class="col-md-0"></div>
-        </div>
-
-        <div class="row my-2">
-            <div class="col-md-0"></div>
-            <div class="col-md-0" style="margin:auto;display:block">
-                <img src="pictures/down.png" width="50" height="50" class="d-inline-block" alt="" onclick="Down()" id="down-img" type="button">
-                <br>
-            </div>
-            <div class="col-md-0"></div>
-        </div>
-    </div>
-
-    <!-- Interligne bleue -->
-    <hr style="height:2px ;border-width:0; margin-top:1cm ; margin-bottom:1cm ; background-color:#31ffff;">
+    <!-- Interligne bleue, plus utilisé mais on ne sait jamais -->
+    <!-- <hr style="height:2px ;border-width:0; margin-top:1cm ; margin-bottom:1cm ; background-color:#31ffff;"> -->
     
     <!-- Bandeau des informations -->
 
@@ -177,7 +187,7 @@
     <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
     <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
     <script src="https://static.robotwebtools.org/keyboardteleopjs/current/keyboardteleop.min.js"></script>
-    <script src="//yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js"></script>
+    <!-- <script src="//yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js"></script> -->
     <script src="scripts/js_niryo_one.js"></script>
 </body>
 </html>

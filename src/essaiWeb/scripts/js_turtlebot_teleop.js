@@ -1,42 +1,90 @@
 var twist;
 var cmdVel;
 var publishImmidiately = true;
+var pubMode;
+var msgMode;
+var mode;
 var robot_IP;
 var manager;
 var teleop;
 var ros;
+var linSpeed;
+var angSpeed;
 var port = window.location.port;
 PC_IP = location.hostname;
+
+ros = new ROSLIB.Ros({
+    url: "ws://" + PC_IP + ":9090"
+});
+
+ros.on('error',function(){
+    alert("Connection impossible avec ROS, veuillez lancer un roscore et rafraichissez la page");
+});
 
 ////////////////////////////// Display part ////////////////////////////////
 
 //Initialisation de l'affichage
 document.getElementById('keyboard').style.display="none";
-document.getElementById('joystick').style.display="none";
+document.getElementById('joystickCommand').style.display="none";
+initModePublisher();
+mode = 0;
+msgMode.data = mode;
+pubMode.publish(msgMode);
+
+
 
 //Affichage
 function MenuBoutons() {
     document.getElementById('button').style.display="block";
     document.getElementById('keyboard').style.display="none";
-    document.getElementById('joystick').style.display="none";
+    document.getElementById('joystickCommand').style.display="none";
+    mode = 0;
+    msgMode.data = mode;
+    pubMode.publish(msgMode);
     console.log("appuie sur le bouton de Boutons");
 }
 
 function MenuClavier(){
     document.getElementById('button').style.display="none";
     document.getElementById('keyboard').style.display="block";
-    document.getElementById('joystick').style.display="none";
+    document.getElementById('joystickCommand').style.display="none";
+    mode = 1;
+    msgMode.data = mode;
+    pubMode.publish(msgMode);
+    initVelocityPublisher();
+    linSpeed = 0;
+    angSpeed = 0;
     console.log("appuie sur le bouton de clavier");
 }
 
 function MenuJoystick(){
     document.getElementById('button').style.display="none";
     document.getElementById('keyboard').style.display="none";
-    document.getElementById('joystick').style.display="block";
+    document.getElementById('joystickCommand').style.display="block";
+    mode = 2;
+    msgMode.data = mode;
+    pubMode.publish(msgMode);
+    initVelocityPublisher();
+    createJoystick();
     console.log("appuie sur le bouton de Joystick");
 }
 
 //ROS part
+function initModePublisher() {
+    // Init message with zero values.
+    msgMode = new ROSLIB.Message({
+        data: 0
+    });
+    // Init topic object
+    pubMode = new ROSLIB.Topic({
+        ros: ros,
+        name: '/turtlebotMode',
+        messageType: 'std_msgs/Int32'
+    });
+    // Register publisher within ROS system
+    pubMode.advertise();
+}
+
 function moveAction(linear, angular) {
     if (linear !== undefined && angular !== undefined) {
         twist.linear.x = linear;
@@ -72,45 +120,54 @@ function initVelocityPublisher() {
     cmdVel.advertise();
 }
 
-function initTeleopKeyboard() {
-    // Use w, s, a, d keys to drive your robot
+// Gestion du niveau de batterie
+var battery = new ROSLIB.Topic({
+    ros: ros,
+    name: '/battery_level',
+    messageType: 'std_msgs/Int32'
+});
 
-    // Check if keyboard controller was aready created
-    if (teleop == null) {
-        // Initialize the teleop.
-        teleop = new KEYBOARDTELEOP.Teleop({
-            ros: ros,
-            topic: '/cmd_vel'
-        });
-    }
-
-    // Add event listener for slider moves
-    robotSpeedRange = document.getElementById("robot-speed");
-    robotSpeedRange.oninput = function () {
-        teleop.scale = robotSpeedRange.value / 100
-    }
-}
+battery.subscribe(function (level) {
+    // Affichage et mise à jour de la barre de batterie :
+    battery_status.style = "width:" + level.data + "%" + ";background-color:#62cdff";
+    battery_status.innerHTML = level.data + '%';
+});
 
 window.onload = function () {
     // determine robot address automatically
     // robot_IP = location.hostname;
     // set robot address statically
-    PC_IP = location.hostname;
-
-    // // Init handle for rosbridge_websocket
-    ros = new ROSLIB.Ros({
-        url: "ws://" + PC_IP + ":9090"
-    });
-
-    //initVelocityPublisher();
+    console.log("Lancement")
 }
 
-////Nouveau essai
-document.getElementById('message').innerText = "un essai";
+//Partie controle par clavier
+function TeleopMoveAction(lin, ang){
+    if (lin>0.26) {
+        linSpeed = 0.26;
+    }
+    else if (lin<-0.26){
+        linSpeed = -0.26;
+    }
+    else {
+        linSpeed = lin;
+    }
+    if (ang>1.82){
+        angSpeed = 1.82;
+    }
+    else if (ang<-1.82){
+        angSpeed = -1.82;
+    }
+    else {
+        angSpeed = ang;
+    }
+    moveAction(linSpeed,angSpeed);
+}
 
 function Up(){
     document.getElementById('letterZ').style.color = 'red';
-    document.getElementById('up-img').
+    if (mode == 1){
+        TeleopMoveAction(linSpeed+0.01, angSpeed);
+    }
     console.log("appuie touche Z")   
 }
 
@@ -121,6 +178,9 @@ function UpRelease(){
 
 function Left(){
     document.getElementById('letterQ').style.color = 'red';
+    if (mode == 1){
+        TeleopMoveAction(linSpeed, angSpeed+0.1);
+    }
     console.log("appuie touche Q");   
 }
 
@@ -131,6 +191,11 @@ function LeftRelease(){
 
 function Center(){
     document.getElementById('letterS').style.color = 'red';
+    if (mode == 1){
+        moveAction(0,0);
+        linSpeed = 0;
+        angSpeed = 0;
+    }
     console.log("appuie touche S");
 }
 
@@ -141,6 +206,9 @@ function CenterRelease(){
 
 function Right(){
     document.getElementById('letterD').style.color = 'red';
+    if (mode == 1){
+        TeleopMoveAction(linSpeed, angSpeed-0.1);
+    }
     console.log("appuie touche D");  
 }
 
@@ -151,6 +219,9 @@ function RightRelease(){
 
 function Down(){
     document.getElementById('letterX').style.color = 'red';
+    if (mode == 1){
+        TeleopMoveAction(linSpeed-0.01, angSpeed);
+    }
     console.log("appuie touche X");  
 }
 
@@ -203,24 +274,72 @@ document.addEventListener('keyup',function(event) {
     }
 });
 
-function Try(){
+function changePage(){
+    document.getElementById('message').innerText = document.URL;
+    window.location.href = "http://"+PC_IP+":"+port+"/pages/turtlebot_teleop.html";
+}
+
+//Partie pour la creation du joystick
+function createJoystick() {
+    // Check if joystick was aready created and if there is enough battery
+    if (manager == null) {
+        joystickContainer = document.getElementById('joystick');
+        // joystck configuration, if you want to adjust joystick, refer to:
+        // https://yoannmoinet.github.io/nipplejs/
+        var options = {
+            zone: joystickContainer,
+            position: { left: 50 + '%', top: 100 + 'px' },
+            mode: 'static',
+            size: 125,
+            color: '#0066ff',
+            restJoystick: true,
+        };
+
+        manager = nipplejs.create(options);
+        // event listener for joystick move
+        manager.on('move', function (evt, nipple) {
+            fadeTime: 0;
+            // nipplejs returns direction is screen coordiantes
+            // we need to rotate it, that dragging towards screen top will move robot forward
+            var direction = nipple.angle.degree - 90;
+            // console.log(nipple);
+            if (direction > 180) {
+                direction = -(450 - nipple.angle.degree);
+            }
+            // convert angles to radians and scale linear and angular speed
+            // adjust if you want robot to drive faster or slower
+            var lin = Math.cos(direction / 57.29) * nipple.distance * 0.005;
+            var ang = Math.sin(direction / 57.29) * nipple.distance * 0.05;
+            // nipplejs is triggering events when joystic moves each pixel
+            // we need delay between consecutive message publications to 
+            // prevent system from being flooded by messages
+            // events triggered earlier than 50ms after last publication will be dropped 
+            if (publishImmidiately) {
+                publishImmidiately = false;
+                moveAction(lin, ang);
+                setTimeout(function () {
+                    publishImmidiately = true;
+                }, 50);
+            }
+        });
+        // event listener for joystick release, always send stop message
+        manager.on('end', function () {
+            moveAction(0, 0);
+        });
+    }
+}
+
+//Partie gestion de la camera
+function AllumeCamera(){
     console.log("Travail du grand bouton");
     video = document.getElementById('video_turtlebot');
     video.height = 308;
     video.width = 410;
     video.margin = 1;
-    //video.height = 480;
-    //video.width = 640;
-    //video.margin = 100;
 
     // Source de la caméra (de l'image non compressée)
     video.src = "http://" + PC_IP + ":8080/stream?topic=/raspicam_node/image&type=mjpeg&quality=50";
     video.onload = function () {
         document.getElementById('message').innerText = "un début de la vidéo";
     };   
-}
-
-function changePage(){
-    document.getElementById('message').innerText = document.URL;
-    window.location.href = "http://"+PC_IP+":"+port+"/pages/turtlebot_teleop.html";
 }

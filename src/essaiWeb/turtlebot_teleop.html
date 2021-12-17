@@ -15,10 +15,12 @@
     <!-- Bandeau -->
     <header>
         <div id='bandeau'>
-            <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#62cdff">    <!-- "navbar navbar-dark" -->
+            <nav class="navbar navbar-expand navbar-light" style="background-color:#62cdff">    <!-- "navbar navbar-dark" -->
                 <b>
-                    <img src="pictures/logo_MaD_light.png"
-                        width="80" height="50" class="d-inline-block" alt="">
+                    <a href="index.html">
+                        <img src="pictures/logo_MaD_light.png"
+                        width="80" height="50" class="d-inline-block" alt="logo de la chaire">
+                    </a>
                 </b>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
@@ -40,7 +42,7 @@
         </div>
     </header>
 
-    <h5 style="text-align:center; color:#888888"><b><u>Commandes du turtlebot3 :</u></b></h5>
+    <h5 style="text-align:center; color:#888888"><b><u>TurtleBot3 Waffle Pi :</u></b></h5>
 
     <!--Partie sur le niveau de batterie et les boutons urgence et activation-->
     <div id='batterie_urgence'>
@@ -81,7 +83,7 @@
         <h5 style="text-align:center; color:#5439cc"><b><u>Camera du turtlebot :</u></b></h5>
         <div class="row my-4">
             <div class="col d-flex justify-content-center">
-                <img src="" style="margin:auto;display:block" class="p-1 bg-dark" alt="" id="video_turtlebot" />
+                <img src="" style="margin:auto;display:block;margin:1" height="308" width="410" class="p-1 bg-dark" alt="flux video" id="video_turtlebot" />
             </div>
         </div>
     </div>
@@ -89,7 +91,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="Try()">Allumage de la caméra</button>"
+                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="AllumeCamera()">Allumage de la caméra</button>"
             </div>
         </div>
     </div>
@@ -191,38 +193,14 @@
         </div>
     </div>
     <!-- JOYSTICK -->
-    <div id='joystick' style="border: 10px solid #4785e2;border-radius:10px"">
-        <div class="row my-4">
+    <div id='joystickCommand' style="border: 10px solid #4785e2;border-radius:10px">
+        <div class="row my-2">
             <div class="col">
                 <div class="d-flex justify-content-center" style="width: 210px; height: 210px;">
                     <div id="joystick"></div>
                 </div>
             </div>
         </div>
-    </div>
-
-    
-
-    <!-- INFO -->
-    <div class="row my-4">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <div class="alert alert-info">
-                <h4 class="alert-heading">Méthode de controle du turtlebot</h4>
-                <ul>
-                    <li>Commande en utilisant les boutonts sur la page web</li>
-                    <li>En utilisant les touches du clavier </li>
-                    <ul>
-                        <li>touche <strong id='letterZ'>z</strong> pour aller devant</li>
-                        <li>touche <strong id='letterQ'>q</strong> pour aller à gaucher</li>
-                        <li>touche <strong id='letterD'>d</strong> pour aller à droite</li>
-                        <li>touche <strong id='letterX'>x</strong> pour aller en arrière</li>
-                        <li>touche <strong id='letterS'>s</strong> pour se stopper</li>
-                    </ul>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-2"></div>
     </div>
 
     <!-- Interligne bleue -->
@@ -262,7 +240,7 @@
     <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
     <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
     <script src="https://static.robotwebtools.org/keyboardteleopjs/current/keyboardteleop.min.js"></script>
-    <script src="//yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js"></script>
+    <script src="https://yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js"></script>
     <script src="scripts/js_turtlebot_teleop.js"></script>
 </body>
 </html>
