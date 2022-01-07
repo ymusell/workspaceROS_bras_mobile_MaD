@@ -30,6 +30,10 @@ initModePublisher();
 mode = 0;
 msgMode.data = mode;
 pubMode.publish(msgMode);
+initChoixPublisher();
+choix = 10;     //TODO change this value, corresponding to nothing
+msgChoix.data = choix;
+pubChoix.publish(msgChoix);
 
 
 
@@ -51,6 +55,8 @@ function MenuClavier(){
     mode = 1;
     msgMode.data = mode;
     pubMode.publish(msgMode);
+    msgChoix.data = 10;
+    pubChoix.publish(msgChoix);
     initVelocityPublisher();
     linSpeed = 0;
     angSpeed = 0;
@@ -64,6 +70,8 @@ function MenuJoystick(){
     mode = 2;
     msgMode.data = mode;
     pubMode.publish(msgMode);
+    msgChoix.data =10;
+    pubChoix.publish(msgChoix);
     initVelocityPublisher();
     createJoystick();
     console.log("appuie sur le bouton de Joystick");
@@ -78,11 +86,26 @@ function initModePublisher() {
     // Init topic object
     pubMode = new ROSLIB.Topic({
         ros: ros,
-        name: '/turtlebotMode',
+        name: '/interface/turtlebotMode',
         messageType: 'std_msgs/Int32'
     });
     // Register publisher within ROS system
     pubMode.advertise();
+}
+
+function initChoixPublisher() {
+    // Init message with zero values.
+    msgChoix = new ROSLIB.Message({
+        data: 0
+    });
+    // Init topic object
+    pubChoix = new ROSLIB.Topic({
+        ros: ros,
+        name: '/interface/choix',
+        messageType: 'std_msgs/Int32'
+    });
+    // Register publisher within ROS system
+    pubChoix.advertise();
 }
 
 function moveAction(linear, angular) {
@@ -128,16 +151,89 @@ var battery = new ROSLIB.Topic({
 });
 
 battery.subscribe(function (level) {
-    // Affichage et mise à jour de la barre de batterie :
+    // Affichage et mise à jour de la barre de batterie
     battery_status.style = "width:" + level.data + "%" + ";background-color:#62cdff";
     battery_status.innerHTML = level.data + '%';
 });
 
+//Gestion de la fenêtre
 window.onload = function () {
     // determine robot address automatically
     // robot_IP = location.hostname;
     // set robot address statically
     console.log("Lancement")
+}
+
+//Partie gestion de la camera
+function AllumeCamera(){
+    console.log("Travail du grand bouton");
+    video = document.getElementById('video_turtlebot');
+    video.height = 308;
+    video.width = 410;
+    video.margin = 1;
+
+    // Source de la caméra (de l'image non compressée)
+    video.src = "http://" + PC_IP + ":8080/stream?topic=/raspicam_node/image&type=mjpeg&quality=50";
+    video.onload = function () {
+        document.getElementById('message').innerText = "un début de la vidéo";
+    };   
+}
+
+//Partie controle par boutons
+// Bouton salon : qui publie la valeur 1 sur le topic /choix afin d'avertir le robot qu'il doit aller au salon
+function Salon() {
+    msgChoix.data = 1;
+    pubChoix.publish(msgChoix);
+    console.log(msgChoix.data);
+}
+
+function Chambre() {
+    msgChoix.data = 2;
+    pubChoix.publish(msgChoix);
+    console.log(msgChoix.data);
+}
+
+function Dock() {
+    msgChoix.data = 3;
+    pubChoix.publish(msgChoix);
+    console.log(msgChoix.data);
+}
+
+function Plan() {
+    msgChoix.data = 4;
+    pubChoix.publish(msgChoix);
+    console.log(msgChoix.data);
+}
+
+function Table() {
+    msgChoix.data = 5;
+    pubChoix.publish(msgChoix);
+    console.log(msgChoix.data);
+}
+
+function Frigidaire() {
+    msgChoix.data = 6;
+    pubChoix.publish(msgChoix);
+    console.log(msgChoix.data);
+}
+
+function Stop() {  //D'ou vient il?
+    document.getElementById("stop-btn");
+    msgChoix.data = 7;
+    pubChoix.publish(msgChoix);
+    console.log(msgChoix.data);
+}
+
+function Urgence() {
+    msgChoix.data = 8;
+    pubChoix.publish(msgChoix);
+    console.log(msgChoix.data);
+}
+
+function Reactivation() {
+    msgChoix.data = 9;
+    pubChoix.publish(msgChoix);
+    console.log(msgChoix.data);
 }
 
 //Partie controle par clavier
@@ -329,17 +425,3 @@ function createJoystick() {
     }
 }
 
-//Partie gestion de la camera
-function AllumeCamera(){
-    console.log("Travail du grand bouton");
-    video = document.getElementById('video_turtlebot');
-    video.height = 308;
-    video.width = 410;
-    video.margin = 1;
-
-    // Source de la caméra (de l'image non compressée)
-    video.src = "http://" + PC_IP + ":8080/stream?topic=/raspicam_node/image&type=mjpeg&quality=50";
-    video.onload = function () {
-        document.getElementById('message').innerText = "un début de la vidéo";
-    };   
-}

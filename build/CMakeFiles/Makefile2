@@ -246,12 +246,12 @@ gtest/preinstall: gtest/gtest/preinstall
 gtest/CMakeFiles/gmock.dir/all:
 	$(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/depend
 	$(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yann/catkin_ws/build/CMakeFiles --progress-num= "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yann/catkin_ws/build/CMakeFiles --progress-num=12 "Built target gmock"
 .PHONY : gtest/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
 gtest/CMakeFiles/gmock.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 gtest/CMakeFiles/gmock.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 0
 .PHONY : gtest/CMakeFiles/gmock.dir/rule
@@ -2453,24 +2453,6 @@ clean: emergency_stop_for_tests/CMakeFiles/emergency_activation_for_tests.dir/cl
 .PHONY : clean
 
 #=============================================================================
-# Directory level rules for directory interface_web
-
-# Convenience name for "all" pass in the directory.
-interface_web/all:
-
-.PHONY : interface_web/all
-
-# Convenience name for "clean" pass in the directory.
-interface_web/clean:
-
-.PHONY : interface_web/clean
-
-# Convenience name for "preinstall" pass in the directory.
-interface_web/preinstall:
-
-.PHONY : interface_web/preinstall
-
-#=============================================================================
 # Directory level rules for directory niryo_one_ros/mcp_can_rpi
 
 # Convenience name for "all" pass in the directory.
@@ -3477,7 +3459,7 @@ niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_genlisp.dir/all: niryo_on
 
 # Build rule for subdir invocation for target.
 niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_genlisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 13
 	$(MAKE) -f CMakeFiles/Makefile2 niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_genlisp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 0
 .PHONY : niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_genlisp.dir/rule
@@ -3573,7 +3555,7 @@ niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_geneus.dir/all: niryo_one
 
 # Build rule for subdir invocation for target.
 niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_geneus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 13
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 14
 	$(MAKE) -f CMakeFiles/Makefile2 niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_geneus.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 0
 .PHONY : niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_geneus.dir/rule
@@ -4201,12 +4183,12 @@ niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_lisp.di
 niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_lisp.dir/all: niryo_one_ros/niryo_one_msgs/CMakeFiles/_niryo_one_msgs_generate_messages_check_deps_DebugColorDetection.dir/all
 	$(MAKE) -f niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_lisp.dir/build.make niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_lisp.dir/depend
 	$(MAKE) -f niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_lisp.dir/build.make niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yann/catkin_ws/build/CMakeFiles --progress-num=46,47,48,49,50,51,52,53,54,55,56,57,58,59 "Built target niryo_one_msgs_generate_messages_lisp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yann/catkin_ws/build/CMakeFiles --progress-num=47,48,49,50,51,52,53,54,55,56,57,58,59 "Built target niryo_one_msgs_generate_messages_lisp"
 .PHONY : niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 13
 	$(MAKE) -f CMakeFiles/Makefile2 niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_lisp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 0
 .PHONY : niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_lisp.dir/rule
@@ -5885,12 +5867,12 @@ niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_eus.dir
 niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_eus.dir/all: niryo_one_ros/niryo_one_msgs/CMakeFiles/_niryo_one_msgs_generate_messages_check_deps_DebugColorDetection.dir/all
 	$(MAKE) -f niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_eus.dir/build.make niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_eus.dir/depend
 	$(MAKE) -f niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_eus.dir/build.make niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_eus.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yann/catkin_ws/build/CMakeFiles --progress-num=33,34,35,36,37,38,39,40,41,42,43,44,45 "Built target niryo_one_msgs_generate_messages_eus"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yann/catkin_ws/build/CMakeFiles --progress-num=33,34,35,36,37,38,39,40,41,42,43,44,45,46 "Built target niryo_one_msgs_generate_messages_eus"
 .PHONY : niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_eus.dir/all
 
 # Build rule for subdir invocation for target.
 niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 13
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 14
 	$(MAKE) -f CMakeFiles/Makefile2 niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_eus.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 0
 .PHONY : niryo_one_ros/niryo_one_msgs/CMakeFiles/niryo_one_msgs_generate_messages_eus.dir/rule
@@ -7963,11 +7945,13 @@ niryo_one_ros/niryo_one_tools/preinstall:
 
 # Convenience name for "all" pass in the directory.
 simple_navigation_goals/all: simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/all
+simple_navigation_goals/all: simple_navigation_goals/CMakeFiles/navigation_goals.dir/all
 
 .PHONY : simple_navigation_goals/all
 
 # Convenience name for "clean" pass in the directory.
 simple_navigation_goals/clean: simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/clean
+simple_navigation_goals/clean: simple_navigation_goals/CMakeFiles/navigation_goals.dir/clean
 
 .PHONY : simple_navigation_goals/clean
 
@@ -8010,6 +7994,43 @@ simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/clean:
 
 # clean rule for target.
 clean: simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target simple_navigation_goals/CMakeFiles/navigation_goals.dir
+
+# All Build rule for target.
+simple_navigation_goals/CMakeFiles/navigation_goals.dir/all:
+	$(MAKE) -f simple_navigation_goals/CMakeFiles/navigation_goals.dir/build.make simple_navigation_goals/CMakeFiles/navigation_goals.dir/depend
+	$(MAKE) -f simple_navigation_goals/CMakeFiles/navigation_goals.dir/build.make simple_navigation_goals/CMakeFiles/navigation_goals.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yann/catkin_ws/build/CMakeFiles --progress-num= "Built target navigation_goals"
+.PHONY : simple_navigation_goals/CMakeFiles/navigation_goals.dir/all
+
+# Include target in all.
+all: simple_navigation_goals/CMakeFiles/navigation_goals.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+simple_navigation_goals/CMakeFiles/navigation_goals.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 simple_navigation_goals/CMakeFiles/navigation_goals.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 0
+.PHONY : simple_navigation_goals/CMakeFiles/navigation_goals.dir/rule
+
+# Convenience name for target.
+navigation_goals: simple_navigation_goals/CMakeFiles/navigation_goals.dir/rule
+
+.PHONY : navigation_goals
+
+# clean rule for target.
+simple_navigation_goals/CMakeFiles/navigation_goals.dir/clean:
+	$(MAKE) -f simple_navigation_goals/CMakeFiles/navigation_goals.dir/build.make simple_navigation_goals/CMakeFiles/navigation_goals.dir/clean
+.PHONY : simple_navigation_goals/CMakeFiles/navigation_goals.dir/clean
+
+# clean rule for target.
+clean: simple_navigation_goals/CMakeFiles/navigation_goals.dir/clean
 
 .PHONY : clean
 
@@ -13225,7 +13246,7 @@ turtlebot3/turtlebot3_slam/CMakeFiles/flat_world_imu_node.dir/all: niryo_one_ros
 turtlebot3/turtlebot3_slam/CMakeFiles/flat_world_imu_node.dir/all: niryo_one_ros/niryo_one_msgs/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
 	$(MAKE) -f turtlebot3/turtlebot3_slam/CMakeFiles/flat_world_imu_node.dir/build.make turtlebot3/turtlebot3_slam/CMakeFiles/flat_world_imu_node.dir/depend
 	$(MAKE) -f turtlebot3/turtlebot3_slam/CMakeFiles/flat_world_imu_node.dir/build.make turtlebot3/turtlebot3_slam/CMakeFiles/flat_world_imu_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yann/catkin_ws/build/CMakeFiles --progress-num=12 "Built target flat_world_imu_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yann/catkin_ws/build/CMakeFiles --progress-num= "Built target flat_world_imu_node"
 .PHONY : turtlebot3/turtlebot3_slam/CMakeFiles/flat_world_imu_node.dir/all
 
 # Include target in all.
@@ -13235,7 +13256,7 @@ all: turtlebot3/turtlebot3_slam/CMakeFiles/flat_world_imu_node.dir/all
 
 # Build rule for subdir invocation for target.
 turtlebot3/turtlebot3_slam/CMakeFiles/flat_world_imu_node.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 turtlebot3/turtlebot3_slam/CMakeFiles/flat_world_imu_node.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yann/catkin_ws/build/CMakeFiles 0
 .PHONY : turtlebot3/turtlebot3_slam/CMakeFiles/flat_world_imu_node.dir/rule

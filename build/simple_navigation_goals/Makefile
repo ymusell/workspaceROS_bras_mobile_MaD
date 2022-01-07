@@ -89,6 +89,17 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -121,17 +132,6 @@ install/local: preinstall
 install/local/fast: install/local
 
 .PHONY : install/local/fast
-
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -180,6 +180,48 @@ simple_navigation_goals/fast:
 	cd /home/yann/catkin_ws/build && $(MAKE) -f simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/build.make simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir/build
 .PHONY : simple_navigation_goals/fast
 
+# Convenience name for target.
+simple_navigation_goals/CMakeFiles/navigation_goals.dir/rule:
+	cd /home/yann/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 simple_navigation_goals/CMakeFiles/navigation_goals.dir/rule
+.PHONY : simple_navigation_goals/CMakeFiles/navigation_goals.dir/rule
+
+# Convenience name for target.
+navigation_goals: simple_navigation_goals/CMakeFiles/navigation_goals.dir/rule
+
+.PHONY : navigation_goals
+
+# fast build rule for target.
+navigation_goals/fast:
+	cd /home/yann/catkin_ws/build && $(MAKE) -f simple_navigation_goals/CMakeFiles/navigation_goals.dir/build.make simple_navigation_goals/CMakeFiles/navigation_goals.dir/build
+.PHONY : navigation_goals/fast
+
+src/navigation_goals.o: src/navigation_goals.cpp.o
+
+.PHONY : src/navigation_goals.o
+
+# target to build an object file
+src/navigation_goals.cpp.o:
+	cd /home/yann/catkin_ws/build && $(MAKE) -f simple_navigation_goals/CMakeFiles/navigation_goals.dir/build.make simple_navigation_goals/CMakeFiles/navigation_goals.dir/src/navigation_goals.cpp.o
+.PHONY : src/navigation_goals.cpp.o
+
+src/navigation_goals.i: src/navigation_goals.cpp.i
+
+.PHONY : src/navigation_goals.i
+
+# target to preprocess a source file
+src/navigation_goals.cpp.i:
+	cd /home/yann/catkin_ws/build && $(MAKE) -f simple_navigation_goals/CMakeFiles/navigation_goals.dir/build.make simple_navigation_goals/CMakeFiles/navigation_goals.dir/src/navigation_goals.cpp.i
+.PHONY : src/navigation_goals.cpp.i
+
+src/navigation_goals.s: src/navigation_goals.cpp.s
+
+.PHONY : src/navigation_goals.s
+
+# target to generate assembly for a file
+src/navigation_goals.cpp.s:
+	cd /home/yann/catkin_ws/build && $(MAKE) -f simple_navigation_goals/CMakeFiles/navigation_goals.dir/build.make simple_navigation_goals/CMakeFiles/navigation_goals.dir/src/navigation_goals.cpp.s
+.PHONY : src/navigation_goals.cpp.s
+
 src/simple_navigation_goals.o: src/simple_navigation_goals.cpp.o
 
 .PHONY : src/simple_navigation_goals.o
@@ -216,11 +258,15 @@ help:
 	@echo "... list_install_components"
 	@echo "... install"
 	@echo "... rebuild_cache"
+	@echo "... test"
 	@echo "... edit_cache"
 	@echo "... simple_navigation_goals"
+	@echo "... navigation_goals"
 	@echo "... install/strip"
 	@echo "... install/local"
-	@echo "... test"
+	@echo "... src/navigation_goals.o"
+	@echo "... src/navigation_goals.i"
+	@echo "... src/navigation_goals.s"
 	@echo "... src/simple_navigation_goals.o"
 	@echo "... src/simple_navigation_goals.i"
 	@echo "... src/simple_navigation_goals.s"

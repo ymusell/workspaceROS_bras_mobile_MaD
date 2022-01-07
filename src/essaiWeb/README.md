@@ -17,14 +17,22 @@ Et il faut lancer depuis le dossier essaiWeb
 Voir le fichier '.live-server.json' pour fixer les numéros de ports.
 
 ## Informations concernant la programmation de la page
-Pour afficher les différentes fenêtres de controle du robot, dans le cas du turtlebot, on utilise des boutons qui modifient les propriétés avec style display. 
-Pour l'affichage de la commande ou de l'observation du Niryo, un Collapse (de bootstrap) a été utilisé.
+- Pour afficher les différentes fenêtres de controle du robot, dans le cas du turtlebot, on utilise des boutons qui modifient les propriétés avec style display. 
+- Pour l'affichage de la commande ou de l'observation du Niryo, un Collapse (de bootstrap) a été utilisé.  
+> A voir quelle méthode utiliser et changer les propriétés de l'autre  
+- Version de bootstrap utilisée 4.3.1
 
 
 # TODO 
-- Pour le turtlebot choisir le bon type de controler et lien avec le turtlebot
 - Pouvoir voir quel robot est connecté sur le réseau.
 - Controler le turtlebot
 - Controler le Niryo One
+- Gestion du lien entre l'interface web et le Niryo faire un driver entre les 2.
+- Gestion de la communication oral pour savoir ce que fait le robot.
+- Penser à l'esthétique de l'interface web, notamment la page d'accueil.
 
+## Documentation
+Création d'une jauge circulaire: https://nosmoking.developpez.com/demos/css/gauge_circulaire.html
+Liste des fonctionnalités de bootstrap: https://getbootstrap.com/docs/4.3/getting-started/introduction/
+Lien pour la documentation bootstrap beaucoup utilisée: https://www.w3schools.com/bootstrap4/  
 

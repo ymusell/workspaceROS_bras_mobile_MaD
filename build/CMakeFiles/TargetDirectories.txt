@@ -172,13 +172,6 @@
 /home/yann/catkin_ws/build/emergency_stop_for_tests/CMakeFiles/emergency_activation_for_tests.dir
 /home/yann/catkin_ws/build/emergency_stop_for_tests/CMakeFiles/install/strip.dir
 /home/yann/catkin_ws/build/emergency_stop_for_tests/CMakeFiles/install/local.dir
-/home/yann/catkin_ws/build/interface_web/CMakeFiles/list_install_components.dir
-/home/yann/catkin_ws/build/interface_web/CMakeFiles/install.dir
-/home/yann/catkin_ws/build/interface_web/CMakeFiles/rebuild_cache.dir
-/home/yann/catkin_ws/build/interface_web/CMakeFiles/install/strip.dir
-/home/yann/catkin_ws/build/interface_web/CMakeFiles/install/local.dir
-/home/yann/catkin_ws/build/interface_web/CMakeFiles/test.dir
-/home/yann/catkin_ws/build/interface_web/CMakeFiles/edit_cache.dir
 /home/yann/catkin_ws/build/niryo_one_ros/mcp_can_rpi/CMakeFiles/list_install_components.dir
 /home/yann/catkin_ws/build/niryo_one_ros/mcp_can_rpi/CMakeFiles/install.dir
 /home/yann/catkin_ws/build/niryo_one_ros/mcp_can_rpi/CMakeFiles/rebuild_cache.dir
@@ -398,11 +391,12 @@
 /home/yann/catkin_ws/build/simple_navigation_goals/CMakeFiles/list_install_components.dir
 /home/yann/catkin_ws/build/simple_navigation_goals/CMakeFiles/install.dir
 /home/yann/catkin_ws/build/simple_navigation_goals/CMakeFiles/rebuild_cache.dir
+/home/yann/catkin_ws/build/simple_navigation_goals/CMakeFiles/test.dir
 /home/yann/catkin_ws/build/simple_navigation_goals/CMakeFiles/edit_cache.dir
 /home/yann/catkin_ws/build/simple_navigation_goals/CMakeFiles/simple_navigation_goals.dir
+/home/yann/catkin_ws/build/simple_navigation_goals/CMakeFiles/navigation_goals.dir
 /home/yann/catkin_ws/build/simple_navigation_goals/CMakeFiles/install/strip.dir
 /home/yann/catkin_ws/build/simple_navigation_goals/CMakeFiles/install/local.dir
-/home/yann/catkin_ws/build/simple_navigation_goals/CMakeFiles/test.dir
 /home/yann/catkin_ws/build/niryo_one_ros/niryo_one_commander/CMakeFiles/rebuild_cache.dir
 /home/yann/catkin_ws/build/niryo_one_ros/niryo_one_commander/CMakeFiles/install/strip.dir
 /home/yann/catkin_ws/build/niryo_one_ros/niryo_one_commander/CMakeFiles/tf2_msgs_generate_messages_lisp.dir

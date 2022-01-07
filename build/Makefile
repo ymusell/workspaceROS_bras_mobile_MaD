@@ -2883,6 +2883,19 @@ simple_navigation_goals/fast:
 .PHONY : simple_navigation_goals/fast
 
 #=============================================================================
+# Target rules for targets named navigation_goals
+
+# Build rule for target.
+navigation_goals: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 navigation_goals
+.PHONY : navigation_goals
+
+# fast build rule for target.
+navigation_goals/fast:
+	$(MAKE) -f simple_navigation_goals/CMakeFiles/navigation_goals.dir/build.make simple_navigation_goals/CMakeFiles/navigation_goals.dir/build
+.PHONY : navigation_goals/fast
+
+#=============================================================================
 # Target rules for targets named tf2_msgs_generate_messages_lisp
 
 # Build rule for target.
@@ -5041,6 +5054,7 @@ help:
 	@echo "... _niryo_one_msgs_generate_messages_check_deps_DebugColorDetection"
 	@echo "... dxl_debug_tools"
 	@echo "... simple_navigation_goals"
+	@echo "... navigation_goals"
 	@echo "... tf2_msgs_generate_messages_lisp"
 	@echo "... diagnostic_msgs_generate_messages_nodejs"
 	@echo "... control_msgs_generate_messages_py"

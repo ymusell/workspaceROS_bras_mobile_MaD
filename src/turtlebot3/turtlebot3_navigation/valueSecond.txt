@@ -1,0 +1,49 @@
+initiale:
+position: 
+      x: -0.223423328994
+      y: -0.204416568211
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: 0.328075724022
+      w: 0.94465142741
+
+Salon/toilette:
+pose: 
+    position: 
+      x: -2.92039651047
+      y: -1.89925655378
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: 0.515017165372
+      w: 0.857179864073
+
+
+Chambre/coté Abbas:
+pose: 
+    position: 
+      x: 2.71108637355
+      y: 2.12715123202
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: 0.224780800777
+      w: 0.974409355252
+
+
+Cuisine:
+pose: 
+    position: 
+      x: -0.737615257558
+      y: 3.09913915478
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: 0.442213196557
+      w: 0.896909966937
+

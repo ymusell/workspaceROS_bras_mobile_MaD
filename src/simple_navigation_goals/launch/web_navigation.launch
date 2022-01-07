@@ -1,0 +1,11 @@
+<launch>
+	<arg name="map_name" default="map" />
+	<node pkg="web_video_server" type="web_video_server" name="web_video_server" output="screen"/>
+	<node pkg="image_transport" type="republish" name="republish" args="compressed in:=raspicam_node/image raw out:=raspicam_node/image"/>
+	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
+	<include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch">
+		<arg name="map_name" value="$(arg map_name)" />
+	</include>
+	<node pkg="simple_navigation_goals" name="navigation_goals" type="navigation_goals" output="screen"/>
+</launch>
+	

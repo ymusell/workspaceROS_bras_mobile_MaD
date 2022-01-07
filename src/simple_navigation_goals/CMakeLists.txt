@@ -207,3 +207,5 @@ include_directories(
 
 add_executable(simple_navigation_goals src/simple_navigation_goals.cpp)
 target_link_libraries(simple_navigation_goals ${catkin_LIBRARIES})
+add_executable(navigation_goals src/navigation_goals.cpp)
+target_link_libraries(navigation_goals ${catkin_LIBRARIES})

@@ -2,13 +2,13 @@
   <!-- Arguments -->
   <arg name="scan_topic"     default="scan"/>
   <!--
-  <arg name="initial_pose_x" default="-0.638422714931"/>
-  <arg name="initial_pose_y" default="-0.196174353078"/>
-  <arg name="initial_pose_a" default="3.097740872"/>
-  -->
   <arg name="initial_pose_x" default="5.56863107588"/>
   <arg name="initial_pose_y" default="4.154874398"/>
   <arg name="initial_pose_a" default="2.65"/>
+  -->
+  <arg name="initial_pose_x" default="-0.223423328994"/>
+  <arg name="initial_pose_y" default="-0.204416568211"/>
+  <arg name="initial_pose_a" default="0.668531661"/>
   <!-- AMCL -->
   <node pkg="amcl" type="amcl" name="amcl">
 
