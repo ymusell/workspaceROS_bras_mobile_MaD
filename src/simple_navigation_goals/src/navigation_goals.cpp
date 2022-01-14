@@ -228,6 +228,8 @@ int main(int argc, char **argv)
 				goal.target_pose.pose.orientation.z = -0.846030728865;
 				goal.target_pose.pose.orientation.w = 0.533134134919;*/
 
+				//goal.target_pose.pose.position.x = salon.x
+
 				//Second etage chaire
 				goal.target_pose.pose.position.x = -2.92039651047;
 				goal.target_pose.pose.position.y = -1.89925655378;

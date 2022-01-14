@@ -1,0 +1,36 @@
+chaire_mad_etage:
+  salon: [-2.92039651047, -1.89925655378, 0.0, 0.0, 0.0, 0.515017165372, 0.857179864073]
+  chambre: [2.71108637355, 2.12715123202, 0.0, 0.0, 0.0, 0.224780800777, 0.974409355252]
+  dock: [
+    position_x: -0.223423328994,
+    position_y: -0.204416568211,
+    position_z: 0.0,
+    orientation_x: 0.0,
+    orientation_y: 0.0,
+    orientation_z: 0.328075724022,
+    orientation_w: 0.94465142741,]
+  # planDeTravail:
+  #   position_x: -0.737615257558
+  #   position_y: 3.09913915478
+  #   position_z: 0.0
+  #   orientation_x: 0.0
+  #   orientation_y: 0.0
+  #   orientation_z: 0.442213196557
+  #   orientation_w: 0.896909966937
+  # Table:
+  #   position_x: -0.737615257558
+  #   position_y: 3.09913915478
+  #   position_z: 0.0
+  #   orientation_x: 0.0
+  #   orientation_y: 0.0
+  #   orientation_z: 0.442213196557
+  #   orientation_w: 0.896909966937
+  # frigidaire:
+  #   position_x: -0.737615257558
+  #   position_y: 3.09913915478
+  #   position_z: 0.0
+  #   orientation_x: 0.0
+  #   orientation_y: 0.0
+  #   orientation_z: 0.442213196557
+  #   orientation_w: 0.896909966937
+

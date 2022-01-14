@@ -23,6 +23,10 @@ initModePublisher();
 mode = "rien";
 msgMode.data = mode;
 pubMode.publish(msgMode);
+initChoixPublisher();
+choix = 0;     //TODO change this value, corresponding to nothing
+msgChoix.data = choix;
+pubChoix.publish(msgChoix);
 
 // ROS functions
 
@@ -52,18 +56,42 @@ function initModePublisher() {
     pubMode.advertise();
 }
 
+function initChoixPublisher() {
+    // Init message with zero values.
+    msgChoix = new ROSLIB.Message({
+        data: 0
+    });
+    // Init topic object
+    pubChoix = new ROSLIB.Topic({
+        ros: ros,
+        name: '/interface/choix',
+        messageType: 'std_msgs/Int32'
+    });
+    // Register publisher within ROS system
+    pubChoix.advertise();
+}
+
 //Collapse gestion
 
 document.getElementById("boutonControleNiryo").addEventListener('click',function(event){
     if ($("#main_niryo").is(":visible")){
         mode = "rien";
+        document.getElementById('info_observation').style.display = 'none';
+        document.getElementById('info_default').style.display = 'block';
+        document.getElementById('message').innerText = "Menu du fonctionnement du Niryo One, veuillez sélectionner une action";
     }
     else if ($("#observation_niryo").is(":visible")){
         $("#observation_niryo").collapse('toggle');
         mode = "controle";
+        document.getElementById('info_observation').style.display = 'none';
+        document.getElementById('info_default').style.display = 'block';
+        document.getElementById('message').innerText = "Veuillez appuyer sur un bouton d'action";
     }
     else {
         mode = "controle";
+        document.getElementById('info_observation').style.display = 'none';
+        document.getElementById('info_default').style.display = 'block';
+        document.getElementById('message').innerText = "Veuillez appuyer sur un bouton d'action";
     }
     msgMode.data = mode;
     pubMode.publish(msgMode);
@@ -73,124 +101,170 @@ document.getElementById("boutonControleNiryo").addEventListener('click',function
 document.getElementById("boutonObservationNiryo").addEventListener('click',function(event){
     if ($("#observation_niryo").is(":visible")){
         mode = "rien";
+        document.getElementById('info_observation').style.display = 'none';
+        document.getElementById('info_default').style.display = 'block';
+        document.getElementById('message').innerText = "Menu du fonctionnement du Niryo One, veuillez sélectionner une action";
     }
     else if ($("#main_niryo").is(":visible")){
         $("#main_niryo").collapse('toggle');
         mode = "observation";
+        document.getElementById('info_observation').style.display = 'block';
+        document.getElementById('info_default').style.display = 'none';
     }
     else {
         mode = "observation";
+        document.getElementById('info_observation').style.display = 'block';
+        document.getElementById('info_default').style.display = 'none';
     }
     msgMode.data = mode;
     pubMode.publish(msgMode);
     console.log(mode);
 });
+//Gestion de la caméra
+function AllumeCamera(){
+    console.log("Travail du grand bouton");
+    video = document.getElementById('video_turtlebot');
+    // video.height = 308;
+    // video.width = 410;
+    // video.margin = 1;
 
-// console.log("estce visible");
-// console.log($("#main_niryo").is(":visible"));
+    // Source de la caméra (de l'image non compressée)
+    video.src = "http://" + PC_IP + ":8080/stream?topic=/niryo_one_vision/video_stream&type=mjpeg&quality=50"; 
+    video.onload = function () {
+        document.getElementById('message').innerText = "un début de la vidéo";
+    };   
+}
 
-// function initVelocityPublisher() {
-//     // Init message with zero values.
-//     twist = new ROSLIB.Message({
-//         linear: {
-//             x: 0,
-//             y: 0,
-//             z: 0
-//         },
-//         angular: {
-//             x: 0,
-//             y: 0,
-//             z: 0
-//         }
-//     });
-//     // Init topic object
-//     cmdVel = new ROSLIB.Topic({
-//         ros: ros,
-//         name: '/cmd_vel',
-//         messageType: 'geometry_msgs/Twist'
-//     });
-//     // Register publisher within ROS system
-//     cmdVel.advertise();
-// }
+function changePage(){
+    document.getElementById('message').innerText = document.URL;
+    window.location.href = "http://"+PC_IP+":"+port+"/pages/turtlebot_teleop.html";
+}
 
-// function initTeleopKeyboard() {
-//     // Use w, s, a, d keys to drive your robot
+//Partie controle par boutons
+// Bouton salon : qui publie la valeur 1 sur le topic /interface/choix afin d'avertir le robot qu'il doit aller au salon
+function Servir() {
+    choix = 1;    
+    msgChoix.data = choix;
+    pubChoix.publish(msgChoix);
+}
 
-//     // Check if keyboard controller was aready created
-//     if (teleop == null) {
-//         // Initialize the teleop.
-//         teleop = new KEYBOARDTELEOP.Teleop({
-//             ros: ros,
-//             topic: '/cmd_vel'
-//         });
-//     }
+function Pause_bras() {
+    choix = 2;    
+    msgChoix.data = choix;
+    pubChoix.publish(msgChoix);
+}
 
-//     // Add event listener for slider moves
-//     robotSpeedRange = document.getElementById("robot-speed");
-//     robotSpeedRange.oninput = function () {
-//         teleop.scale = robotSpeedRange.value / 100
-//     }
-// }
+function Reprise_bras() {
+    choix = 3;    
+    msgChoix.data = choix;
+    pubChoix.publish(msgChoix);
+}
+
+function Ranger() {
+    choix = 4;    
+    msgChoix.data = choix;
+    pubChoix.publish(msgChoix);
+}
+
+function Arret_action() {
+    choix = 5;    
+    msgChoix.data = choix;
+    pubChoix.publish(msgChoix);
+}
 
 window.onload = function () {
     // determine robot address automatically
     // robot_IP = location.hostname;
     // set robot address statically
-    console.log("la fenêtre du niryo est allumée")
+    console.log("la fenêtre du niryo est allumée");
+    document.getElementById('info_observation').style.display = 'none';
+    document.getElementById('message').innerText = "Menu du fonctionnement du Niryo One, veuillez sélectionner une action";
 }
 
-////Nouveau essai
-document.getElementById('message').innerText = "un essai";
-
+// Controle des boutons de l'observation
 function Up(){
-    document.getElementById('letterZ').style.color = 'red';
-    document.getElementById('up-img').
-    console.log("appuie touche Z")   
+    if (mode=="observation"){
+        document.getElementById('letterZ').style.color = 'red';
+        console.log("appuie touche Z");
+        choix = 1;    
+        msgChoix.data = choix;
+        pubChoix.publish(msgChoix); 
+    }
 }
 
 function UpRelease(){
-    document.getElementById('letterZ').style.color = 'black';
-    console.log("touche Z relachée"); 
+    if (mode=="observation"){
+        document.getElementById('letterZ').style.color = 'black';
+        console.log("touche Z relachée");
+    }
 }
 
 function Left(){
-    document.getElementById('letterQ').style.color = 'red';
-    console.log("appuie touche Q");   
+    if (mode=="observation"){
+        document.getElementById('letterQ').style.color = 'red';
+        console.log("appuie touche Q");
+        choix = 2;    
+        msgChoix.data = choix;
+        pubChoix.publish(msgChoix);
+    }
 }
 
 function LeftRelease(){
-    document.getElementById('letterQ').style.color = 'black';
-    console.log("touche Q relachée"); 
+    if (mode=="observation"){
+        document.getElementById('letterQ').style.color = 'black';
+        console.log("touche Q relachée"); 
+    }
 }
 
 function Center(){
-    document.getElementById('letterS').style.color = 'red';
-    console.log("appuie touche S");
+    if (mode=="observation"){
+        document.getElementById('letterS').style.color = 'red';
+        console.log("appuie touche S");
+        choix = 3;    
+        msgChoix.data = choix;
+        pubChoix.publish(msgChoix);
+    }
 }
 
 function CenterRelease(){
-    document.getElementById('letterS').style.color = 'black';
-    console.log("touche S relachée"); 
+    if (mode=="observation"){
+        document.getElementById('letterS').style.color = 'black';
+        console.log("touche S relachée"); 
+    }
 }
 
 function Right(){
-    document.getElementById('letterD').style.color = 'red';
-    console.log("appuie touche D");  
+    if (mode=="observation"){
+        document.getElementById('letterD').style.color = 'red';
+        console.log("appuie touche D");
+        choix = 4;    
+        msgChoix.data = choix;
+        pubChoix.publish(msgChoix);
+    }
 }
 
 function RightRelease(){
-    document.getElementById('letterD').style.color = 'black';
-    console.log("touche D relachée"); 
+    if (mode=="observation"){
+        document.getElementById('letterD').style.color = 'black';
+        console.log("touche D relachée"); 
+    }
 }
 
 function Down(){
-    document.getElementById('letterX').style.color = 'red';
-    console.log("appuie touche X");  
+    if (mode=="observation"){
+        document.getElementById('letterX').style.color = 'red';
+        console.log("appuie touche X");
+        choix = 5;    
+        msgChoix.data = choix;
+        pubChoix.publish(msgChoix);
+    }
 }
 
 function DownRelease(){
-    document.getElementById('letterX').style.color = 'black';
-    console.log("touche X relachée"); 
+    if (mode=="observation"){
+        document.getElementById('letterX').style.color = 'black';
+        console.log("touche X relachée"); 
+    }
 }
 
 document.addEventListener('keydown',function(event) {
@@ -237,21 +311,3 @@ document.addEventListener('keyup',function(event) {
     }
 });
 
-function AllumeCamera(){
-    console.log("Travail du grand bouton");
-    video = document.getElementById('video_turtlebot');
-    // video.height = 308;
-    // video.width = 410;
-    // video.margin = 1;
-
-    // Source de la caméra (de l'image non compressée)
-    video.src = "http://" + PC_IP + ":8080/stream?topic=/niryo_one_vision/video_stream&type=mjpeg&quality=50"; 
-    video.onload = function () {
-        document.getElementById('message').innerText = "un début de la vidéo";
-    };   
-}
-
-function changePage(){
-    document.getElementById('message').innerText = document.URL;
-    window.location.href = "http://"+PC_IP+":"+port+"/pages/turtlebot_teleop.html";
-}
