@@ -2,6 +2,7 @@ var twist;
 var cmdVel;
 var publishImmidiately = true;
 var mode;
+var windowName;
 var robot_IP;
 var manager;
 var teleop;
@@ -39,6 +40,20 @@ function moveAction(linear, angular) {
         twist.angular.z = 0;
     }
     cmdVel.publish(twist);
+}
+
+function initWindowPublisher(){
+    msgWindow = new ROSLIB.Message({
+        data: "rien"
+    });
+    // Init topic object
+    pubWindow = new ROSLIB.Topic({
+        ros: ros,
+        name: 'interface/window',
+        messageType: 'std_msgs/String'
+    });
+    // Register publisher within ROS system
+    pubWindow.advertise();
 }
 
 function initModePublisher() {
@@ -85,13 +100,13 @@ document.getElementById("boutonControleNiryo").addEventListener('click',function
         mode = "controle";
         document.getElementById('info_observation').style.display = 'none';
         document.getElementById('info_default').style.display = 'block';
-        document.getElementById('message').innerText = "Veuillez appuyer sur un bouton d'action";
+        document.getElementById('message').innerText = "Veuillez appuyer sur un bouton d'action, veuillez sélectionner une action, appuyez de nouveau sur l'action voulu après avoir appuyé sur le bouton de pause pour reprendre l'action";
     }
     else {
         mode = "controle";
         document.getElementById('info_observation').style.display = 'none';
         document.getElementById('info_default').style.display = 'block';
-        document.getElementById('message').innerText = "Veuillez appuyer sur un bouton d'action";
+        document.getElementById('message').innerText = "Veuillez appuyer sur un bouton d'action, veuillez sélectionner une action, appuyez de nouveau sur l'action voulu après avoir appuyé sur le bouton de pause pour reprendre l'action";
     }
     msgMode.data = mode;
     pubMode.publish(msgMode);
@@ -154,31 +169,27 @@ function Pause_bras() {
     pubChoix.publish(msgChoix);
 }
 
-function Reprise_bras() {
+function Ranger() {
     choix = 3;    
     msgChoix.data = choix;
     pubChoix.publish(msgChoix);
 }
 
-function Ranger() {
+function Arret_action() {
     choix = 4;    
     msgChoix.data = choix;
     pubChoix.publish(msgChoix);
 }
 
-function Arret_action() {
-    choix = 5;    
-    msgChoix.data = choix;
-    pubChoix.publish(msgChoix);
-}
-
 window.onload = function () {
-    // determine robot address automatically
-    // robot_IP = location.hostname;
-    // set robot address statically
     console.log("la fenêtre du niryo est allumée");
     document.getElementById('info_observation').style.display = 'none';
-    document.getElementById('message').innerText = "Menu du fonctionnement du Niryo One, veuillez sélectionner une action";
+    document.getElementById('message').innerText = "Menu du fonctionnement du Niryo One";
+    initWindowPublisher();
+    windowName = "niryoOne" 
+    msgWindow.data = windowName;
+    pubWindow.publish(msgWindow);
+    console.log(windowName);
 }
 
 // Controle des boutons de l'observation
@@ -194,8 +205,11 @@ function Up(){
 
 function UpRelease(){
     if (mode=="observation"){
-        document.getElementById('letterZ').style.color = 'black';
+        document.getElementById('letterZ').style.color = 'white';
         console.log("touche Z relachée");
+        choix = -1;    
+        msgChoix.data = choix;
+        pubChoix.publish(msgChoix); 
     }
 }
 
@@ -211,8 +225,11 @@ function Left(){
 
 function LeftRelease(){
     if (mode=="observation"){
-        document.getElementById('letterQ').style.color = 'black';
+        document.getElementById('letterQ').style.color = 'white';
         console.log("touche Q relachée"); 
+        choix = -1;    
+        msgChoix.data = choix;
+        pubChoix.publish(msgChoix);
     }
 }
 
@@ -228,8 +245,11 @@ function Center(){
 
 function CenterRelease(){
     if (mode=="observation"){
-        document.getElementById('letterS').style.color = 'black';
+        document.getElementById('letterS').style.color = 'white';
         console.log("touche S relachée"); 
+        choix = -1;    
+        msgChoix.data = choix;
+        pubChoix.publish(msgChoix);
     }
 }
 
@@ -245,8 +265,11 @@ function Right(){
 
 function RightRelease(){
     if (mode=="observation"){
-        document.getElementById('letterD').style.color = 'black';
+        document.getElementById('letterD').style.color = 'white';
         console.log("touche D relachée"); 
+        choix = -1;    
+        msgChoix.data = choix;
+        pubChoix.publish(msgChoix);
     }
 }
 
@@ -262,8 +285,11 @@ function Down(){
 
 function DownRelease(){
     if (mode=="observation"){
-        document.getElementById('letterX').style.color = 'black';
+        document.getElementById('letterX').style.color = 'white';
         console.log("touche X relachée"); 
+        choix = -1;    
+        msgChoix.data = choix;
+        pubChoix.publish(msgChoix);
     }
 }
 
@@ -310,4 +336,11 @@ document.addEventListener('keyup',function(event) {
             console.log("autre touche à saisir");
     }
 });
+
+//Fermeture de la fenetre
+// window.addEventListener('beforeunload', function (e) {
+//     pubWindow.unsubscribe();
+//     pubMode.unsubscribe();
+//     pubChoix.unsubscribe();
+// });
 

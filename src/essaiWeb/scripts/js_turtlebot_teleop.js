@@ -78,6 +78,20 @@ function MenuJoystick(){
 }
 
 //ROS part
+function initWindowPublisher(){
+    msgWindow = new ROSLIB.Message({
+        data: "rien"
+    });
+    // Init topic object
+    pubWindow = new ROSLIB.Topic({
+        ros: ros,
+        name: 'interface/window',
+        messageType: 'std_msgs/String'
+    });
+    // Register publisher within ROS system
+    pubWindow.advertise();
+}
+
 function initModePublisher() {
     // Init message with zero values.
     msgMode = new ROSLIB.Message({
@@ -154,14 +168,17 @@ battery.subscribe(function (level) {
     // Affichage et mise à jour de la barre de batterie
     battery_status.style = "width:" + level.data + "%" + ";background-color:#62cdff";
     battery_status.innerHTML = level.data + '%';
+    battery.unsubscribe();
 });
 
 //Gestion de la fenêtre
 window.onload = function () {
-    // determine robot address automatically
-    // robot_IP = location.hostname;
-    // set robot address statically
-    console.log("Lancement")
+    console.log("La fenêtre du turtle est allumée ")
+    initWindowPublisher();
+    windowName = "turtlebot" 
+    msgWindow.data = windowName;
+    pubWindow.publish(msgWindow);
+    console.log(windowName);
 }
 
 //Partie gestion de la camera
@@ -424,4 +441,12 @@ function createJoystick() {
         });
     }
 }
+
+//Fermeture de la fenetre
+// window.addEventListener('beforeunload', function (e) {
+//     // pubWindow.unsubscribe();
+//     // pubMode.unsubscribe();
+//     // pubChoix.unsubscribe();
+//     battery.unsubscribe();
+// });
 

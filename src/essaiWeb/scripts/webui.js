@@ -23,6 +23,20 @@ ros.on('error',function(){
     alert("Connection impossible avec ROS, veuillez lancer un roscore et rafraichissez la page");
 });
 
+function initWindowPublisher(){
+    msgWindow = new ROSLIB.Message({
+        data: "rien"
+    });
+    // Init topic object
+    pubWindow = new ROSLIB.Topic({
+        ros: ros,
+        name: 'interface/window',
+        messageType: 'std_msgs/String'
+    });
+    // Register publisher within ROS system
+    pubWindow.advertise();
+}
+
 var listener_turtle1 = new ROSLIB.Topic({
     ros : ros,
     name : '/turtlebot3_name',
@@ -33,7 +47,7 @@ listener_turtle1.subscribe(function(message) {
     // console.log(message);
     turtleBot_name = message.data;
     time_start_turtle1 = performance.now();
-    // listener_turtle1.unsubscribe();
+    listener_turtle1.unsubscribe();
 });
 
 var listener_niryo = new ROSLIB.Topic({
@@ -45,7 +59,7 @@ var listener_niryo = new ROSLIB.Topic({
 listener_niryo.subscribe(function(message) {
     // console.log(performance.now()-time_start_niryo);
     time_start_niryo = performance.now();
-    // listener_turtle1.unsubscribe();
+    listener_niryo.unsubscribe();
 });
 
 
@@ -76,12 +90,20 @@ function chargeRobot(){
     }
 }
 
+window.onload = function () {
+    initWindowPublisher();
+    windowName = "home";
+    msgWindow.data = windowName;
+    pubWindow.publish(msgWindow);
+    console.log(windowName);
+}
+
 function changePage(){
     document.getElementById('message').innerText = document.URL;
     window.location.href = "http://"+PC_IP+":"+port+"/turtlebot_teleop.html";
 }
 
-window.addEventListener('beforeunload', function (e) {
-    listener_turtle1.unsubscribe();
-    listener_niryo.unsubscribe();
-});
+// window.addEventListener('beforeunload', function (e) {
+//     // listener_niryo.unsubscribe();
+//     // listener_turtle1.unsubscribe();
+// });

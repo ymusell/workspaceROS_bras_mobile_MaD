@@ -31,4 +31,4 @@ Info, du -sh = 1.5M quand ça ne fonctionnait pas et 1.3M avant de lancer ce der
 Dans les logs, nous avons la ligne suivante: 
 [rosout][WARNING] 2021-11-18 12:08:09,039: Purging ROS log on startup !
 Mais il semble que rien ne se passe. Peut-être les autorisations en lançant le code en sudo? Le lancement de roslaunch en sudo ne fonctionne pas.
-Changerments effectuées ok. Dès que le launch est lancé on purge les anciens logs.
+Changements effectuées ok. Dès que le launch est lancé on purge les anciens logs.

@@ -1,0 +1,10 @@
+<launch>
+	<arg name="map_name" default="map" />
+	<include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch">
+		<arg name="map_name" value="$(arg map_name)" />
+	</include>
+	<node pkg="simple_navigation_goals" name="navigation_goals" type="navigation_goals" output="screen"/>
+		<!-- <rosparam command="load" file="$(find simple_navigation_goals)/positions_chaire/essai.yaml"/> 
+	</node> -->
+</launch>
+	

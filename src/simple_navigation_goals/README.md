@@ -19,12 +19,14 @@ Pour ce qui est de la position initiale du robot d'où on le lancera à chaque f
 
 ## Documentation utile
 Petit liste de tutos ROS utiles:  
-- Pour savoir utiliser les bases de la navigation utilisée ici : [Lien ici] (https://wiki.ros.org/navigation/Tutorials/SendingSimpleGoals "wiki ros")  
-- Pour l'utilisation d'actionlib: [Lien ici] (https://wiki.ros.org/actionlib "wiki ros")  
-- Pour utiliser la bibliothèque SimpleActionClient: [Lien ici] (https://wiki.ros.org/actionlib_tutorials/Tutorials/Writing%20a%20Callback%20Based%20Simple%20Action%20Client "wiki ros")  
+- Pour savoir utiliser les bases de la navigation utilisée ici : [Lien ici](https://wiki.ros.org/navigation/Tutorials/SendingSimpleGoals "wiki ros")  
+- Pour l'utilisation d'actionlib: [Lien ici](https://wiki.ros.org/actionlib "wiki ros")  
+- Pour utiliser la bibliothèque SimpleActionClient: [Lien ici](https://wiki.ros.org/actionlib_tutorials/Tutorials/Writing%20a%20Callback%20Based%20Simple%20Action%20Client "wiki ros")  
 
 ## TODO
-Faire le fichier de positions_Chaire. Chaque position doit être lié à sa map.  
-Faire un fichier .yaml  
+Finir le node robot_driver.cpp pour faire le lien entre l'interface web et les différents programmes de gestion des robots.
+https://www.delftstack.com/fr/howto/cpp/system-in-cpp/  
+Voir pourquoi la jonction ne se fait pas par moment sur le turtlebot (error cmd_vel)
+Erreur avec le Niryo: Error code 36 et error 32 (fils coincé?)?
 
 

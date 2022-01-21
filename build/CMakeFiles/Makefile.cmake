@@ -205,6 +205,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/home/yann/catkin_ws/src/niryo_one_ros/niryo_one_user_interface/setup.py"
   "/home/yann/catkin_ws/src/simple_navigation_goals/CMakeLists.txt"
   "/home/yann/catkin_ws/src/simple_navigation_goals/package.xml"
+  "/home/yann/catkin_ws/src/simple_navigation_goals/scripts/robot_driver_2.py"
   "/home/yann/catkin_ws/src/turtlebot3/turtlebot3/CMakeLists.txt"
   "/home/yann/catkin_ws/src/turtlebot3/turtlebot3/package.xml"
   "/home/yann/catkin_ws/src/turtlebot3/turtlebot3_bringup/CMakeLists.txt"

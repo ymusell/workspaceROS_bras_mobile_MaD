@@ -39,15 +39,15 @@ class Niryo_Listener_web:
 #Action si on a demande une pause ou un arret
 def pause(n,initial_order,order,rate):#Condition si la valeur d'interaction a changee, valeur de sortie possibles, 0: OK, 1:Pas bon, on return 
 	# global memo_pause
-	if order.obs == 0:		#Si nous avons une demande de mise en pause du programme dans le but de le continuer plus tard
+	if order.obs == 2:		#Si nous avons une demande de mise en pause du programme dans le but de le continuer plus tard
 		print("Action en pause")
-		while order.obs == 0:
+		while order.obs == 2:
 			n.wait(0.5)
 			message_pub.publish("action en attente de reprise, appuyer sur marche")
 		# memo_pause = 1
 		print("Reprise de l'action")
 		return False
-	if order.obs == 2:	#Bouton d'arret de l'action
+	if order.obs == 4:	#Bouton d'arret de l'action
 		n.move_joints([0.019, 0.101, -1.08, 0.06, -0.573, -2.556])
 		n.activate_learning_mode(True)
 		message_pub.publish("action arrete")
@@ -58,6 +58,8 @@ def pause(n,initial_order,order,rate):#Condition si la valeur d'interaction a ch
 		n.move_joints([0.019, 0.101, -1.08, 0.06, -0.573, -2.556])
 		n.activate_learning_mode(True)
 		return True
+	else:
+		return False
     
 
 # #Signale au node de controle que l'action est terminee et publie le message de fin
@@ -115,74 +117,64 @@ def servir(n,interaction,rate,tx,ty):
 	print("service de l'objet")
 	check_end = False
 	n.change_tool(TOOL_GRIPPER_3_ID)
-
-	check_end = pause(n,interaction,rate)
-	if check_end:
-		return
 	n.close_gripper(TOOL_GRIPPER_3_ID, 250)
-	check_end = pause(n,interaction,rate)
+	check_end = pause(n,1,order,rate)
 	if check_end:
 		return
 	n.move_joints([0.019, 0.101, -1.08, 0.06, -0.573, -2.556])
-	check_end = pause(n,interaction,rate)
+	check_end = pause(n,1,order,rate)
 	if check_end:
 		return
 	n.move_joints([1.016, 0.619, -0.914, 0.355, -0.473, 0.121])
-	check_end = pause(n,interaction,rate)
+	check_end = pause(n,1,order,rate)
 	if check_end:
 		return
 	n.open_gripper(TOOL_GRIPPER_3_ID, 250)
-	check_end = pause(n,interaction,rate)
+	check_end = pause(n,1,order,rate)
 	if check_end:
 		return
 
-	n.move_pose(*[-0.035 + 1.5*ty/1000.0, 0.191 + 1.5*tx/1000.0, 0.15, 0.992, 1.259, 1.772]) #Prise en compte de la translation pour saisir l'objet
-	check_end = pause(n,interaction,rate)
-	if check_end:
-		return
+	# n.move_pose(*[-0.035 + 1.5*ty/1000.0, 0.191 + 1.5*tx/1000.0, 0.15, 0.992, 1.259, 1.772]) #Prise en compte de la translation pour saisir l'objet
+	# check_end = pause(n,1,order,rate)
+	# if check_end:
+	# 	return
 
-	n.move_pose(*[1.74, -0.52, -0.788, 0.361, -0.028, 0.633])	#-0.034 + 1.5*ty/1000.0, 0.188 + 1.5*tx/1000.0, 0.135, 0.993, 1.333, 1.778
-	check_end = pause(n,interaction,rate)
+	n.move_joints([1.74, -0.52, -0.788, 0.361, -0.028, 0.633])	#0.013,0.059,-0.357,0.487,-0.275,-0.03 
+	check_end = pause(n,1,order,rate)
 	if check_end:
 		return
 
 	n.close_gripper(TOOL_GRIPPER_3_ID, 250)
-	check_end = pause(n,interaction,rate)
+	check_end = pause(n,1,order,rate)
 	if check_end:
 		return
-	n.move_joints([1.016, 0.619, -0.914, 0.355, -0.473, 0.121])
-	check_end = pause(n,interaction,rate)
-	if check_end:
-		return
+	# n.move_joints([1.016, 0.619, -0.914, 0.355, -0.473, 0.121])
+	# check_end = pause(n,1,order,rate)
+	# if check_end:
+	# 	return
 	n.move_joints([-0.027, 0.373, -0.203, 0.04, -1.576, -2.566])
-	check_end = pause(n,interaction,rate)
+	check_end = pause(n,1,order,rate)
 	if check_end:
 		return
 
-	n.move_pose(*[0.198, -0.02, 0.228, -0.078, 1.492, -0.073])
-	check_end = pause(n,interaction,rate)
+	n.move_joints([0.012, -0.5, -0.15, 0.035, -0.788, -2.556])
+	check_end = pause(n,1,order,rate)
 	if check_end:
 		return
 
 	n.open_gripper(TOOL_GRIPPER_3_ID, 250)
-	check_end = pause(n,interaction,rate)
-	if check_end:
-		return
-	n.move_joints([0.012, -0.5, -0.15, 0.035, -0.788, -2.556])
-	check_end = pause(n,interaction,rate)
+	check_end = pause(n,1,order,rate)
 	if check_end:
 		return
 	n.close_gripper(TOOL_GRIPPER_3_ID, 250)
-	check_end = pause(n,interaction,rate)
+	check_end = pause(n,1,order,rate)
 	if check_end:
 		return
 	n.move_joints([0.019, 0.101, -1.08, 0.06, -0.573, -2.556])
 
 	#Fin du programme
 	n.activate_learning_mode(True)
-
 	message_pub.publish("Le bras a depose l'objet sur la zone de depot")
-
 	#Fin de l'action
 	return
 
@@ -193,21 +185,21 @@ def ranger(n,interaction,rate,tx,ty):
 	check_end = False
 	n.change_tool(TOOL_GRIPPER_3_ID)
 
-	check_end = pause(n,interaction,rate)
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
 	n.close_gripper(TOOL_GRIPPER_3_ID, 250)
-	check_end = pause(n,interaction,rate)
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
 	n.move_joints([0.019, 0.101, -1.08, 0.06, -0.573, -2.556])
-	check_end = pause(n,interaction,rate)
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
 
 	#Deplacement a la position d'observation:
 	n.move_joints([-0.027, 0.373, -0.203, 0.04, -1.576, -2.566])
-	check_end = pause(n,interaction,rate)
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
 	test_vision = False
@@ -230,113 +222,94 @@ def ranger(n,interaction,rate,tx,ty):
 
 	#Si l'objet a ete repere, faire :
 	n.move_pose(*n.robot_state_msg_to_list(approach_pose))
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return  
-
 	n.open_gripper(TOOL_GRIPPER_3_ID, 250)
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
-
 	n.move_pose(*n.robot_state_msg_to_list(pick_pose))
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
-
 	n.close_gripper(TOOL_GRIPPER_3_ID, 250)
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return 
-
 	n.move_pose(*n.robot_state_msg_to_list(approach_pose))
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
 	n.move_joints([1.016, 0.619, -0.914, 0.355, -0.473, 0.121])
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
-
 	n.move_joints([1.74, -0.444, -0.788, 0.361, -0.028, 0.633])
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
-
 	n.move_joints([1.74, -0.52, -0.788, 0.361, -0.028, 0.633])
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
-
 	n.open_gripper(TOOL_GRIPPER_3_ID, 250)
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
-
 	n.move_joints([1.016, 0.619, -0.914, 0.355, -0.473, 0.121])
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
-
 	n.move_joints([-0.027, 0.373, -0.203, 0.04, -1.576, -2.566])
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
-
 	n.close_gripper(TOOL_GRIPPER_3_ID, 250)
+	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
-
 	n.move_joints([0.019, 0.101, -1.08, 0.06, -0.573, -2.556])
-
+	check_end = pause(n,3,order,rate)
+	if check_end:
+		return
 	#Fin du programme
 	n.activate_learning_mode(True)
-
 	message_pub.publish("Le bras a range l'objet dans le meuble")
-
 	return
 
 # OBSERVATION
 
-def move(n,order,angle_cam) : 
-	azimut_max = 2.5
-	pitch_max = 1.5
-
-	current_joint_state = n.get_joints()
-	current_joint_state[4] = angle_cam
-
-	if order.obs == 99 :
-		n.move_joints([0.019, 0.101, -1.08, 0.06, 1.0, -2.556])
-
-	if order.obs == 100 and current_joint_state[4] + 0.1 < pitch_max :
-		current_joint_state[4] += 0.1
-		n.move_joints(current_joint_state)
-
-	if order.obs == 101 and current_joint_state[0] + 0.15 < azimut_max :
-		current_joint_state[0] += 0.15
-		n.move_joints(current_joint_state)
-
-	if order.obs == 102 and current_joint_state[4] - 0.15 > -azimut_max :
-		current_joint_state[0] -= 0.15
-		n.move_joints(current_joint_state)
-
-	if order.obs == 103 and current_joint_state[4] - 0.1 > -pitch_max :
-		current_joint_state[4] -= 0.1
-		n.move_joints(current_joint_state)
-
-	return current_joint_state
-
-
-
-def observation(n,interaction,order,rate) :	#TODO
+def observation(n,interaction,order,rate):
 	print("Observation manuelle")
-
-	joint_state = [0.019, 0.101, -1.08, 0.06, 1.0, -2.556]
-	check_end = False
-
+	joint_state = joint_state_observation[:]
 	n.move_joints(joint_state)
+	azimut_max = 2.5
+	pitch_max = 1.3
 
-	while (True):		#TODO a changer
-		if order.obs == 10 or order.obs == 13 or order.obs == 14 :
-			interaction.ask = 2
-			check_end = pause(n,interaction,rate)
-			break
+	while (interaction.ask == "observation" and (not rospy.is_shutdown())):	
+		if order.obs == 3 :
+			joint_state = joint_state_observation[:]
+			n.move_joints(joint_state)
 
-		if order.obs > 98 :
-			joint_state = move(n,order,joint_state[4])
-			order.obs = -1
+		if order.obs == 1 and joint_state[4] + 0.1 < pitch_max :
+			joint_state[4] += 0.1
+			n.move_joints(joint_state)
+
+		if order.obs == 2 and joint_state[0] + 0.15 < azimut_max :
+			joint_state[0] += 0.15
+			print(joint_state[0])
+			n.move_joints(joint_state)
+
+		if order.obs == 4 and joint_state[0] - 0.15 > -azimut_max :
+			joint_state[0] -= 0.15
+			n.move_joints(joint_state)
+
+		if order.obs == 5 and joint_state[4] - 0.1 > -pitch_max :
+			joint_state[4] -= 0.1
+			n.move_joints(joint_state)
 
 		rate.sleep()
-
 	return
 
 
@@ -345,11 +318,14 @@ def observation(n,interaction,order,rate) :	#TODO
 
 ### Var strange
 # memo_pause = 0
-memo_action = 0
+# memo_action = 0
 
 workspace_ratio = 1.0
 check_workspace = 1
-angle = 10
+joint_state_observation = [0.019, 0.101, -1.08, 0.06, 1.0, -2.556] #Etat pour l'observation
+[-0.281, 0.101, -1.08, 0.06, 0.6000000000000001, -2.556]
+
+# angle = 10
 
 #Declaration du node
 rospy.init_node('actions_niryo')
@@ -436,7 +412,7 @@ print("translation en mm",tx,ty)
 
 
 if __name__ == '__main__':
-	print("Niryo driver ON")
+	print("Niryo driver launch")
 
 	while not rospy.is_shutdown():
 		print(interaction.ask)
@@ -446,31 +422,14 @@ if __name__ == '__main__':
 				memo_action = 11
 				servir(n,interaction,rate,tx,ty)
 				order.obs = -1
-			elif (order.obs == 4):
+			elif (order.obs == 3):
 				memo_action = 11
 				ranger(n,interaction,rate,tx,ty)
 				order.obs = -1
 		elif (interaction.ask == "observation"):
-			if (order.obs == 1):
-				print("valeur de 1")
-				order.obs = -1
-			if (order.obs == 2):
-				print("valeur de 2")
-				order.obs = -1
-			if (order.obs == 3):
-				print("valeur de 3")
-				order.obs = -1
-			if (order.obs == 4):
-				print("valeur de 4")
-				order.obs = -1
+			observation(n,interaction,order,rate)
 		else:
 			print("en attente de message")
 		rate.sleep()
 	# sys.exit()
 
-
-## TODO left
-# ajout des pauses
-# correction de pause
-# ajout des reprises
-# ajout de la fermeture du programme si l on n est plus sur la bonne fenetre

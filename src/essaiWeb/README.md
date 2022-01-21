@@ -19,17 +19,15 @@ Voir le fichier '.live-server.json' pour fixer les numéros de ports.
 ## Informations concernant la programmation de la page
 - Pour afficher les différentes fenêtres de controle du robot, dans le cas du turtlebot, on utilise des boutons qui modifient les propriétés avec style display. 
 - Pour l'affichage de la commande ou de l'observation du Niryo, un Collapse (de bootstrap) a été utilisé.  
-> A voir quelle méthode utiliser et changer les propriétés de l'autre  
+> A voir quelle méthode utiliser et changer les propriétés de l'autre si nécessaire  
 - Version de bootstrap utilisée 4.3.1
 
 
 # TODO 
-- Pouvoir voir quel robot est connecté sur le réseau.
-- Controler le turtlebot
-- Controler le Niryo One
 - Gestion du lien entre l'interface web et le Niryo faire un driver entre les 2.
-- Gestion de la communication oral pour savoir ce que fait le robot.
+- Gestion de la communication oral pour savoir ce que fait le robot. (affichage des messages)
 - Penser à l'esthétique de l'interface web, notamment la page d'accueil.
+- Client nombre qui augmente à chaque rafraichissement de page ou de changement de page. On à l'impression que le rosbridge n'est pas au courant des changements de clients.
 
 ## Documentation
 Création d'une jauge circulaire: https://nosmoking.developpez.com/demos/css/gauge_circulaire.html

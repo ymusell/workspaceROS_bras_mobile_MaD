@@ -19,6 +19,20 @@ function moveAction(linear, angular) {
     cmdVel.publish(twist);
 }
 
+function initWindowPublisher(){
+    msgWindow = new ROSLIB.Message({
+        data: "rien"
+    });
+    // Init topic object
+    pubWindow = new ROSLIB.Topic({
+        ros: ros,
+        name: 'interface/window',
+        messageType: 'std_msgs/String'
+    });
+    // Register publisher within ROS system
+    pubWindow.advertise();
+}
+
 function initVelocityPublisher() {
     // Init message with zero values.
     twist = new ROSLIB.Message({
@@ -74,6 +88,10 @@ window.onload = function () {
     });
 
     initVelocityPublisher();
+    initWindowPublisher();
+    windowName = "meuble";
+    msgWindow.data = windowName;
+    pubWindow.publish(msgWindow);
 }
 
 ////Nouveau essai

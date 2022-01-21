@@ -1,6 +1,6 @@
 set(_CATKIN_CURRENT_PACKAGE "simple_navigation_goals")
 set(simple_navigation_goals_VERSION "0.0.0")
-set(simple_navigation_goals_MAINTAINER "killian <killian@todo.todo>")
+set(simple_navigation_goals_MAINTAINER "yann <yann@todo.todo>")
 set(simple_navigation_goals_PACKAGE_FORMAT "2")
 set(simple_navigation_goals_BUILD_DEPENDS "actionlib" "move_base_msgs" "roscpp")
 set(simple_navigation_goals_BUILD_EXPORT_DEPENDS "actionlib" "move_base_msgs" "roscpp")

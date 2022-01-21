@@ -163,6 +163,9 @@ include_directories(
 #   scripts/my_python_script
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
+catkin_install_python(PROGRAMS scripts/robot_driver_2.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
@@ -209,3 +212,6 @@ add_executable(simple_navigation_goals src/simple_navigation_goals.cpp)
 target_link_libraries(simple_navigation_goals ${catkin_LIBRARIES})
 add_executable(navigation_goals src/navigation_goals.cpp)
 target_link_libraries(navigation_goals ${catkin_LIBRARIES})
+# add_executable(robot_driver src/robot_driver.cpp)
+# target_link_libraries(robot_driver ${catkin_LIBRARIES})
+
