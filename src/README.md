@@ -11,3 +11,6 @@ Les packages:
 	-`turtlebot3` permet la mise en place du turtlebot3, l'utilisation du SLAM, la navigation, le contrôle du robot à distance...
 	-`turtlebot3_applications` , ce package contient les programmes pour le parking du robot et d'autres petits programmes.
 	-`turtlebot3_applications_msgs`, il contient la définition des messages utilisés pour le turtlebot.
+
+Fichier des erreurs à trouver et a changer de place
+Erreur avec le Niryo: Error code 36 et error 32 (fils coincé?)? Pb d'overloading et de température pour 36

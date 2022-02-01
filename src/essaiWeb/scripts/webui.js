@@ -4,6 +4,7 @@ var robot_IP;
 var manager;
 var ros;
 var turtleBot_name;
+var learningMode;
 var port = window.location.port;
 PC_IP = location.hostname;
 
@@ -45,9 +46,11 @@ var listener_turtle1 = new ROSLIB.Topic({
 
 listener_turtle1.subscribe(function(message) {
     // console.log(message);
-    turtleBot_name = message.data;
+    if(turtleBot_name != message.data){
+        turtleBot_name = "turtle1";
+    }
     time_start_turtle1 = performance.now();
-    listener_turtle1.unsubscribe();
+    // listener_turtle1.unsubscribe();
 });
 
 var listener_niryo = new ROSLIB.Topic({
@@ -59,7 +62,7 @@ var listener_niryo = new ROSLIB.Topic({
 listener_niryo.subscribe(function(message) {
     // console.log(performance.now()-time_start_niryo);
     time_start_niryo = performance.now();
-    listener_niryo.unsubscribe();
+    // listener_niryo.unsubscribe();
 });
 
 
@@ -68,7 +71,9 @@ function chargeRobot(){
     // console.log($("#connection_turtlebot").is(":visible"));  
     var badge_turtle = document.getElementById('connection_turtlebot');
     var badge_niryo = document.getElementById('connection_niryo');
+    console.log()
     if ((turtleBot_name == "turtle1")&&(performance.now()-time_start_turtle1<200)){
+        turtleBot_name = ""
         badge_turtle.className = "badge badge-success";
         badge_turtle.innerText = "Connected";
         badge_turtle.parentElement.style.color = "green"

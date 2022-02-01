@@ -37,10 +37,11 @@ class Niryo_Listener_web:
 
 ############## Definition des fonctions ##############
 #Action si on a demande une pause ou un arret
-def pause(n,initial_order,order,rate):#Condition si la valeur d'interaction a changee, valeur de sortie possibles, 0: OK, 1:Pas bon, on return 
+def pause(n,initial_order,order,rate):#Condition si la valeur d'interaction a changer, valeur de sortie possibles, 0: OK, 1:Pas bon, on return 
 	# global memo_pause
 	if order.obs == 2:		#Si nous avons une demande de mise en pause du programme dans le but de le continuer plus tard
 		print("Action en pause")
+		n.activate_learning_mode(True)	# TODO, test the learning mode if we pause the action
 		while order.obs == 2:
 			n.wait(0.5)
 			message_pub.publish("action en attente de reprise, appuyer sur marche")
@@ -241,6 +242,7 @@ def ranger(n,interaction,rate,tx,ty):
 	check_end = pause(n,3,order,rate)
 	if check_end:
 		return
+	# Changer le fonctionnement pour que le bras reste en position
 	n.move_joints([1.016, 0.619, -0.914, 0.355, -0.473, 0.121])
 	check_end = pause(n,3,order,rate)
 	if check_end:
@@ -415,21 +417,27 @@ if __name__ == '__main__':
 	print("Niryo driver launch")
 
 	while not rospy.is_shutdown():
-		print(interaction.ask)
-		print(order.obs)
-		if (interaction.ask == "controle"):
-			if (order.obs == 1):
-				memo_action = 11
-				servir(n,interaction,rate,tx,ty)
-				order.obs = -1
-			elif (order.obs == 3):
-				memo_action = 11
-				ranger(n,interaction,rate,tx,ty)
-				order.obs = -1
-		elif (interaction.ask == "observation"):
-			observation(n,interaction,order,rate)
-		else:
-			print("en attente de message")
+		# print(interaction.ask)
+		# print(order.obs)
+		try:
+			if (interaction.ask == "fermeture"):
+				n.activate_learning_mode(True)
+			elif (interaction.ask == "controle"):
+				if (order.obs == 1):
+					memo_action = 11
+					servir(n,interaction,rate,tx,ty)
+					order.obs = -1
+				elif (order.obs == 3):
+					memo_action = 11
+					ranger(n,interaction,rate,tx,ty)
+					order.obs = -1
+			elif (interaction.ask == "observation"):
+				observation(n,interaction,order,rate)
+			else:
+				print("en attente de commande de l'utilisateur")
+		except:
+			print("interruption du fonctionnement du Niryo pour cause de changement de fenetre ou de valeur impossible")
 		rate.sleep()
 	# sys.exit()
 
+##En attente, ne rien pourvoir faire, griser les boutons,...

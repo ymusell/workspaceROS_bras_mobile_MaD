@@ -656,11 +656,41 @@ pluginlib_DIR:PATH=/opt/ros/kinetic/share/pluginlib/cmake
 //The directory containing a CMake configuration file for resource_retriever.
 resource_retriever_DIR:PATH=/opt/ros/kinetic/share/resource_retriever/cmake
 
+//Value Computed by CMake
+rosapi_BINARY_DIR:STATIC=/home/yann/catkin_ws/build/rosbridge_suite/rosapi
+
+//Value Computed by CMake
+rosapi_SOURCE_DIR:STATIC=/home/yann/catkin_ws/src/rosbridge_suite/rosapi
+
 //The directory containing a CMake configuration file for rosbag.
 rosbag_DIR:PATH=/opt/ros/kinetic/share/rosbag/cmake
 
 //The directory containing a CMake configuration file for rosbag_storage.
 rosbag_storage_DIR:PATH=/opt/ros/kinetic/share/rosbag_storage/cmake
+
+//Value Computed by CMake
+rosbridge_library_BINARY_DIR:STATIC=/home/yann/catkin_ws/build/rosbridge_suite/rosbridge_library
+
+//Value Computed by CMake
+rosbridge_library_SOURCE_DIR:STATIC=/home/yann/catkin_ws/src/rosbridge_suite/rosbridge_library
+
+//Value Computed by CMake
+rosbridge_msgs_BINARY_DIR:STATIC=/home/yann/catkin_ws/build/rosbridge_suite/rosbridge_msgs
+
+//Value Computed by CMake
+rosbridge_msgs_SOURCE_DIR:STATIC=/home/yann/catkin_ws/src/rosbridge_suite/rosbridge_msgs
+
+//Value Computed by CMake
+rosbridge_server_BINARY_DIR:STATIC=/home/yann/catkin_ws/build/rosbridge_suite/rosbridge_server
+
+//Value Computed by CMake
+rosbridge_server_SOURCE_DIR:STATIC=/home/yann/catkin_ws/src/rosbridge_suite/rosbridge_server
+
+//Value Computed by CMake
+rosbridge_suite_BINARY_DIR:STATIC=/home/yann/catkin_ws/build/rosbridge_suite/rosbridge_suite
+
+//Value Computed by CMake
+rosbridge_suite_SOURCE_DIR:STATIC=/home/yann/catkin_ws/src/rosbridge_suite/rosbridge_suite
 
 //The directory containing a CMake configuration file for rosconsole.
 rosconsole_DIR:PATH=/opt/ros/kinetic/share/rosconsole/cmake
@@ -978,7 +1008,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=44
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=49
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

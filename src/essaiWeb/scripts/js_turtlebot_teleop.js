@@ -151,10 +151,12 @@ function initVelocityPublisher() {
     cmdVel = new ROSLIB.Topic({
         ros: ros,
         name: '/cmd_vel',
-        messageType: 'geometry_msgs/Twist'
+        messageType: 'geometry_msgs/Twist',
+        latch:'true',
+        reconnect_on_close:'false'
     });
     // Register publisher within ROS system
-    cmdVel.advertise();
+    // cmdVel.advertise();
 }
 
 // Gestion du niveau de batterie
@@ -442,11 +444,43 @@ function createJoystick() {
     }
 }
 
+function chargeRobot(){ //Permet de savoir quels robots sont allumés
+    // console.log($("#connection_turtlebot").is(":visible"));  
+    var badge_turtle = document.getElementById('connection_turtlebot');
+    var badge_niryo = document.getElementById('connection_niryo');
+    console.log()
+    if ((turtleBot_name == "turtle1")&&(performance.now()-time_start_turtle1<200)){ //Pour détecter les présences, nous regardons, le temps entre la dernière réception d'un topic et le temps actuel
+        turtleBot_name = ""
+        badge_turtle.className = "badge badge-success";
+        badge_turtle.innerText = "Connected";
+        badge_turtle.parentElement.style.color = "green"
+    }
+    else{
+        badge_turtle.className = "badge badge-danger";
+        badge_turtle.innerText = "Not Connected";
+        badge_turtle.parentElement.style.color = "black"
+    }
+    if (performance.now()-time_start_niryo<1000){
+        badge_niryo.className = "badge badge-success";
+        badge_niryo.innerText = "Connected";
+        badge_niryo.parentElement.style.color = "green"
+    }
+    else{
+        badge_niryo.className = "badge badge-danger";
+        badge_niryo.innerText = "Not Connected";
+        badge_niryo.parentElement.style.color = "black"
+    }
+}
+
 //Fermeture de la fenetre
-// window.addEventListener('beforeunload', function (e) {
-//     // pubWindow.unsubscribe();
-//     // pubMode.unsubscribe();
-//     // pubChoix.unsubscribe();
-//     battery.unsubscribe();
-// });
+window.addEventListener('beforeunload', function (e) {
+    // pubWindow.unsubscribe();
+    // pubMode.unsubscribe();
+    // pubChoix.unsubscribe();
+    mode = 1;   // Le robot doit s'arreter quand on change de fenetre, on passe en mode clavier et la vitesse par défaut est de 0
+    msgMode.data = mode;
+    pubMode.publish(msgMode); 
+    // cmdVel.unadvertise();
+    battery.unsubscribe();
+});
 

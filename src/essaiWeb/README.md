@@ -27,7 +27,6 @@ Voir le fichier '.live-server.json' pour fixer les numéros de ports.
 - Gestion du lien entre l'interface web et le Niryo faire un driver entre les 2.
 - Gestion de la communication oral pour savoir ce que fait le robot. (affichage des messages)
 - Penser à l'esthétique de l'interface web, notamment la page d'accueil.
-- Client nombre qui augmente à chaque rafraichissement de page ou de changement de page. On à l'impression que le rosbridge n'est pas au courant des changements de clients.
 
 ## Documentation
 Création d'une jauge circulaire: https://nosmoking.developpez.com/demos/css/gauge_circulaire.html

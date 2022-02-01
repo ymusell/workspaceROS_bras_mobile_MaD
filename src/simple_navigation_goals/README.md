@@ -26,7 +26,9 @@ Petit liste de tutos ROS utiles:
 ## TODO
 Finir le node robot_driver.cpp pour faire le lien entre l'interface web et les différents programmes de gestion des robots.
 https://www.delftstack.com/fr/howto/cpp/system-in-cpp/  
-Voir pourquoi la jonction ne se fait pas par moment sur le turtlebot (error cmd_vel)
-Erreur avec le Niryo: Error code 36 et error 32 (fils coincé?)?
+Voir pourquoi la jonction ne se fait pas par moment sur le turtlebot (error cmd_vel):
+https://github.com/RobotWebTools/rosbridge_suite/issues/298
+Peut être déclanchée via un launch sans le niryo.
+
 
 

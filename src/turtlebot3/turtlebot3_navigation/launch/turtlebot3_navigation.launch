@@ -7,6 +7,9 @@
   <arg name="move_forward_only" default="false"/>
   <arg name="filtering" default="false"/>
   <arg name="scan_topic" default="scan_filtered"/>
+  <arg name="initial_pose_x" default="-0.223423328994"/>
+  <arg name="initial_pose_y" default="-0.204416568211"/>
+  <arg name="initial_pose_a" default="0.668531661"/>
 
   <!-- Turtlebot3 -->
   <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
@@ -26,6 +29,9 @@
     <group if="$(arg filtering)"> 
       <remap from="scan"  to="$(arg scan_topic)"/>
     </group>
+	  <arg name="initial_pose_x" value="$(arg initial_pose_x)" />
+	  <arg name="initial_pose_y" value="$(arg initial_pose_y)" />
+	  <arg name="initial_pose_a" value="$(arg initial_pose_a)" />
   </include>
 
   <!-- move_base -->
