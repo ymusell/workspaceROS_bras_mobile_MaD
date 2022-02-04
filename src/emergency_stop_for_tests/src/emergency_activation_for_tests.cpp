@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
     ros::Publisher client_pub = nh.advertise<std_msgs::String>("client", 1);
 
-    // Publication sur le topic /motor_power sur lequel le noeud va publier l'information oour arrêter les moteurs dynamixel
+    // Publication sur le topic /motor_power sur lequel le noeud va publier l'information pour arrêter les moteurs dynamixel
     ros::Publisher activ_pub = nh.advertise<std_msgs::Bool>("motor_power", 1);
 
     ros::Rate loop_rate(10);

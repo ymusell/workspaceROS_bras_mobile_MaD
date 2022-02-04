@@ -5,5 +5,6 @@ Some of the parameters have been changed in order to match to the environment of
 All the map will be saved in the file ~/catkin_ws/src/turtlebot3/turtlebot3_navigation/maps.  
 They will be used for the navigation part.
 
-#The launch:  
-the files finishing with _stage are for the Slam with another stage on the top of the turtlebot, thus all the lidar's data are filtered (only available for gmapping (for the moment, feel free to add it if you want to)).
+#The launch finishing with _stage:  
+the files finishing with _stage are for the Slam with another stage on the top of the turtlebot, thus all the lidar's data are filtered (only available for gmapping (for the moment, feel free to add it if you want to)).  
+The parameters settings for the filtering part are defined in the file /config/scan_data_filter.yaml.
