@@ -220,24 +220,24 @@ int main(int argc, char **argv)
 				//test_case = 1;
 				// Coordonnées du salon :
 
-				/*goal.target_pose.pose.position.x = 5.17235301551;
-				goal.target_pose.pose.position.y = 3.11603336181;
-				goal.target_pose.pose.position.z = 0;
-				goal.target_pose.pose.orientation.x = 0;
-				goal.target_pose.pose.orientation.y = 0;
-				goal.target_pose.pose.orientation.z = -0.846030728865;
-				goal.target_pose.pose.orientation.w = 0.533134134919;*/
-
 				//goal.target_pose.pose.position.x = salon.x
 
 				//Second etage chaire
-				goal.target_pose.pose.position.x = -2.92039651047;
+				/*goal.target_pose.pose.position.x = -2.92039651047;
 				goal.target_pose.pose.position.y = -1.89925655378;
 				goal.target_pose.pose.position.z = 0;
 				goal.target_pose.pose.orientation.x = 0;
 				goal.target_pose.pose.orientation.y = 0;
 				goal.target_pose.pose.orientation.z = 0.515017165372;
-				goal.target_pose.pose.orientation.w = 0.857179864073;
+				goal.target_pose.pose.orientation.w = 0.857179864073;*/
+
+				goal.target_pose.pose.position.x = 3.99855891731;
+				goal.target_pose.pose.position.y = 2.12360505602;
+				goal.target_pose.pose.position.z = 0;
+				goal.target_pose.pose.orientation.x = 0;
+				goal.target_pose.pose.orientation.y = 0;
+				goal.target_pose.pose.orientation.z = 0.751943247594;
+				goal.target_pose.pose.orientation.w = 0.659227845588;
 
 				ac.sendGoal(goal, &doneCb); //Envoi de la commande et attente de la fin de la navigation pour déclencher donecb
 				std::cout << " \n Objectif envoye\n";
@@ -281,6 +281,13 @@ int main(int argc, char **argv)
 						choice_listener.choix = -1;
 						test = 1;
 						//break;
+
+						//Le robot va ensuite tourner sur lui-même jusqu'à voir le code de son dock, puis va rejoindre le dock :
+						system("gnome-terminal -x roslaunch turtlebot3_automatic_parking_vision turtlebot3_automatic_parking_vision_allInOne.launch");
+						std::cout << " \n Le robot est dock du salon\n";
+						message.data = "Le robot est au dock du salon";
+						client_pub.publish(message);
+						choice_listener.choix = -1;
 					}
 				}
 				break;
@@ -294,22 +301,22 @@ int main(int argc, char **argv)
 				test_case = 2;
 				// Coordonnées de la chambre :
 		
-				/*goal.target_pose.pose.position.x = 7.38073386966;
-				goal.target_pose.pose.position.y = 2.08008514513;
-				goal.target_pose.pose.position.z = 0;
-				goal.target_pose.pose.orientation.x = 0;
-				goal.target_pose.pose.orientation.y = 0;
-				goal.target_pose.pose.orientation.z = -0.98944214492;
-				goal.target_pose.pose.orientation.w = 0.144928402518;*/
-
 				//Second etage chaire
-				goal.target_pose.pose.position.x = 2.71108637355;
+				/*goal.target_pose.pose.position.x = 2.71108637355;
 				goal.target_pose.pose.position.y = 2.12715123202;
 				goal.target_pose.pose.position.z = 0;
 				goal.target_pose.pose.orientation.x = 0;
 				goal.target_pose.pose.orientation.y = 0;
 				goal.target_pose.pose.orientation.z = 0.224780800777;
-				goal.target_pose.pose.orientation.w = 0.974409355252;
+				goal.target_pose.pose.orientation.w = 0.974409355252;*/
+
+				goal.target_pose.pose.position.x = 7.50810395049;
+				goal.target_pose.pose.position.y = -2.07917984571;
+				goal.target_pose.pose.position.z = 0;
+				goal.target_pose.pose.orientation.x = 0;
+				goal.target_pose.pose.orientation.y = 0;
+				goal.target_pose.pose.orientation.z = 0.38437632949;
+				goal.target_pose.pose.orientation.w = 0.923176493054;
 
 				ac.sendGoal(goal, &doneCb);
 				std::cout << " \n Objectif envoye\n";
@@ -364,22 +371,23 @@ int main(int argc, char **argv)
 				test_case = 3;
 				// Position proche du dock
 				
-				/*goal.target_pose.pose.position.x = 5.56863107588;
-				goal.target_pose.pose.position.y = 4.154874398;
-				goal.target_pose.pose.position.z = 0;
-				goal.target_pose.pose.orientation.x = 0;
-				goal.target_pose.pose.orientation.y = 0;
-				goal.target_pose.pose.orientation.z = 0.993903984118;
-				goal.target_pose.pose.orientation.w = 0.110249128588;*/
 
 				//Second etage chaire
-				goal.target_pose.pose.position.x = -0.223423328994;
+				/*goal.target_pose.pose.position.x = -0.223423328994;
 				goal.target_pose.pose.position.y = -0.204416568211;
 				goal.target_pose.pose.position.z = 0;
 				goal.target_pose.pose.orientation.x = 0;
 				goal.target_pose.pose.orientation.y = 0;
 				goal.target_pose.pose.orientation.z = 0.328075724022;
-				goal.target_pose.pose.orientation.w = 0.94465142741;
+				goal.target_pose.pose.orientation.w = 0.94465142741;*/
+
+				goal.target_pose.pose.position.x = 0.0483354713851;
+				goal.target_pose.pose.position.y = -0.00872909076323;
+				goal.target_pose.pose.position.z = 0;
+				goal.target_pose.pose.orientation.x = 0;
+				goal.target_pose.pose.orientation.y = 0;
+				goal.target_pose.pose.orientation.z = 0.00260716566913;
+				goal.target_pose.pose.orientation.w = 0.999996601338;
 
 				ac.sendGoal(goal, &doneCb);
 				std::cout << " \n Objectif envoye\n";
@@ -439,24 +447,23 @@ int main(int argc, char **argv)
 				test_case = 4;
 
 				// Coordonnées du plan de travail :
-				
-				/*goal.target_pose.pose.position.x = 5.8910502669;
-				goal.target_pose.pose.position.y = 1.57074158932;
-				goal.target_pose.pose.position.z = 0;
-				goal.target_pose.pose.orientation.x = 0;
-				goal.target_pose.pose.orientation.y = 0;
-				goal.target_pose.pose.orientation.z = -0.807062046261;
-				goal.target_pose.pose.orientation.w = 0.590466640451;*/
 
 				//Second etage chaire
-				goal.target_pose.pose.position.x = -0.737615257558;
+				/*goal.target_pose.pose.position.x = -0.737615257558;
 				goal.target_pose.pose.position.y = 3.09913915478;
 				goal.target_pose.pose.position.z = 0;
 				goal.target_pose.pose.orientation.x = 0;
 				goal.target_pose.pose.orientation.y = 0;
 				goal.target_pose.pose.orientation.z = 0.442213196557;
-				goal.target_pose.pose.orientation.w = 0.896909966937;
+				goal.target_pose.pose.orientation.w = 0.896909966937;*/
 
+				goal.target_pose.pose.position.x = 2.5655038932;
+				goal.target_pose.pose.position.y = 0.325981593664;
+				goal.target_pose.pose.position.z = 0;
+				goal.target_pose.pose.orientation.x = 0;
+				goal.target_pose.pose.orientation.y = 0;
+				goal.target_pose.pose.orientation.z = -0.162809121556;
+				goal.target_pose.pose.orientation.w = 0.986657584949;
 
 				ac.sendGoal(goal, &doneCb);
 				std::cout << " \n Objectif envoye\n";
@@ -497,6 +504,12 @@ int main(int argc, char **argv)
 						}
 						ros::Duration(2).sleep();
 						test = 1;
+						system("gnome-terminal -x roslaunch turtlebot3_automatic_parking_vision turtlebot3_automatic_parking_vision_allInOne.launch");
+						std::cout << " \n Le robot est dock du plan de travail\n";
+						message.data = "Le robot est au dock du plan de travail";
+						client_pub.publish(message);
+						choice_listener.choix = -1;
+
 						//break;
 					}
 					/*ros::Duration(0.5).sleep();*/
@@ -509,22 +522,23 @@ int main(int argc, char **argv)
 				test_case = 5;
 
 				// Coordonnées de la table :
-				/*goal.target_pose.pose.position.x = -0.11775260212;
-				goal.target_pose.pose.position.y = 0.355234211892;
-				goal.target_pose.pose.position.z = 0;
-				goal.target_pose.pose.orientation.x = 0;
-				goal.target_pose.pose.orientation.y = 0;
-				goal.target_pose.pose.orientation.z = 0.762233304106;
-				goal.target_pose.pose.orientation.w = 0.647302394644;*/
 
 				//Second etage chaire
-				goal.target_pose.pose.position.x = -0.737615257558;
+				/*goal.target_pose.pose.position.x = -0.737615257558;
 				goal.target_pose.pose.position.y = 3.09913915478;
 				goal.target_pose.pose.position.z = 0;
 				goal.target_pose.pose.orientation.x = 0;
 				goal.target_pose.pose.orientation.y = 0;
 				goal.target_pose.pose.orientation.z = 0.442213196557;
-				goal.target_pose.pose.orientation.w = 0.896909966937;
+				goal.target_pose.pose.orientation.w = 0.896909966937;*/
+
+				goal.target_pose.pose.position.x = 1.82365997413;
+				goal.target_pose.pose.position.y = -0.382142002783;
+				goal.target_pose.pose.position.z = 0;
+				goal.target_pose.pose.orientation.x = 0;
+				goal.target_pose.pose.orientation.y = 0;
+				goal.target_pose.pose.orientation.z = -0.575924812877;
+				goal.target_pose.pose.orientation.w = 0.817502666609;
 
 				ac.sendGoal(goal, &doneCb);
 				std::cout << " \n Objectif envoye\n";
@@ -577,22 +591,23 @@ int main(int argc, char **argv)
 				test_case = 6;
 
 				// Coordonnées du du frigidaire :
-				/*goal.target_pose.pose.position.x = -0.796167706192;
-				goal.target_pose.pose.position.y = -0.736104374785;
-				goal.target_pose.pose.position.z = 0;
-				goal.target_pose.pose.orientation.x = 0;
-				goal.target_pose.pose.orientation.y = 0;
-				goal.target_pose.pose.orientation.z = -0.973813470984;
-				goal.target_pose.pose.orientation.w =  0.227348463223;*/
 
 				//Second etage chaire
-				goal.target_pose.pose.position.x = -0.737615257558;
+				/*goal.target_pose.pose.position.x = -0.737615257558;
 				goal.target_pose.pose.position.y = 3.09913915478;
 				goal.target_pose.pose.position.z = 0;
 				goal.target_pose.pose.orientation.x = 0;
 				goal.target_pose.pose.orientation.y = 0;
 				goal.target_pose.pose.orientation.z = 0.442213196557;
-				goal.target_pose.pose.orientation.w = 0.896909966937;
+				goal.target_pose.pose.orientation.w = 0.896909966937;*/
+
+				goal.target_pose.pose.position.x = 1.82365997413;
+				goal.target_pose.pose.position.y = -0.382142002783;
+				goal.target_pose.pose.position.z = 0;
+				goal.target_pose.pose.orientation.x = 0;
+				goal.target_pose.pose.orientation.y = 0;
+				goal.target_pose.pose.orientation.z = -0.575924812877;
+				goal.target_pose.pose.orientation.w = 0.817502666609;
 
 				ac.sendGoal(goal, &doneCb);
 				std::cout << " \n Objectif envoye\n";

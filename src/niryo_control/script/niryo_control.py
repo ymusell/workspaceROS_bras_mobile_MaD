@@ -3,10 +3,10 @@
 from niryo_one_python_api.niryo_one_api import *
 import rospy
 import math
+import sys
 # import random
 # import logging
 # import threading
-# import sys
 # import time
 import numpy as np
 import cv2
@@ -325,12 +325,14 @@ def observation(n,interaction,order,rate):
 workspace_ratio = 1.0
 check_workspace = 1
 joint_state_observation = [0.019, 0.101, -1.08, 0.06, 1.0, -2.556] #Etat pour l'observation
-[-0.281, 0.101, -1.08, 0.06, 0.6000000000000001, -2.556]
+# [-0.281, 0.101, -1.08, 0.06, 0.6000000000000001, -2.556]
 
 # angle = 10
 
 #Declaration du node
 rospy.init_node('actions_niryo')
+print("hello")
+print(sys.argv)
 
 #Creation des publishers
 pub = rospy.Publisher('reponse', Int32, queue_size=10)

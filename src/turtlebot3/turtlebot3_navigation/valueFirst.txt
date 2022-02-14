@@ -1,0 +1,64 @@
+initiale:
+position: 
+      position: 
+      x: 0.0483354713851
+      y: -0.00872909076323
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: 0.00260716566913
+      w: 0.999996601338
+
+
+
+Salon:
+pose: 
+     position: 
+      x: 3.99855891731
+      y: 2.12360505602
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: 0.751943247594
+      w: 0.659227845588
+
+Chambre:
+pose: 
+    position: 
+      x: 7.50810395049
+      y: -2.07917984571
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: 0.38437632949
+      w: 0.923176493054
+
+Cuisine/poste de travail:
+pose: 
+    position: 
+      x: 2.5655038932
+      y: 0.325981593664
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: -0.162809121556
+      w: 0.986657584949
+
+
+Cuisine:
+pose: 
+    position: 
+      x: 1.82365997413
+      y: -0.382142002783
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: -0.575924812877
+      w: 0.817502666609
+
+

@@ -59,7 +59,7 @@ Par ailleurs, il faudra également télécharger le package rosbridge_suite et c
 
 # Partie pour le Niryo
 
-Pour mettre en place le Niryo, je vous conseille de suivre le github du Niryo ([lien vers le github](https://github.com/NiryoRobotics/niryo_one_ros "lien github niryo one")) ou de trouver la documentation de déploiment qui est pour le moment indisponible. Télécharger le logiciel lié au niryo peut être utile au démarrage pour prendre en main le bras ([lien NiryoOneStudio](https://niryo.com/fr/telechargement/ "lien NiryoOneStudio")).  
+Pour mettre en place le Niryo, je vous conseille de suivre la documentation du Niryo ([lien vers la documentation du  Niryo One](https://niryo.com/docs/niryo-one/ "lien documentation niryo one")) ou de regarder le github du Niryo. Télécharger le logiciel lié au niryo peut être utile au démarrage pour prendre en main le bras ([lien NiryoOneStudio](https://niryo.com/fr/telechargement/ "lien NiryoOneStudio")).  
 Maintenant, le niryo tourne sous un rosmaster local au robot et le bringup se fait automatiquement via un service. Pour pouvoir être controler sur l'ordinateur du rosmaster, on peut soit changer le service et mettre l'adresse ip du rosmaster, ce qui est un peu long pour trouver tous les fichiers de configuration ou nous pouvons désactiver le service. C'est cette méthode que je vais présenter ici, il faudra également changer le fichier de bringup du Niryo. 
 
 ## Changement de rosmaster
@@ -80,6 +80,15 @@ Avec les IP correspondantes du PC rosmaster et celui du Niryo. Il faut ensuite s
 L'environnement du Niryo est maintenant prêt, il suffit maintenant de lancer le bringup comme pour le turtlebot. Pour ce faire, la commande est la suivante:  
 
     $ roslaunch niryo_one_bringup rpi_setup.launch
+
+## Création de nouveaux workspace
+Avoir un le workspace version papier, (TODO, mettre un lien).  
+Positionner le workspace sous forme de carré, penser à prendre le ratio du workspace.  
+Penser à prendre la pointe pour le niryo   
+Avoir une position d'observation approximative et la lancer via un programme.  
+Prendre une photo du workspace en position d'observation.  
+Calculer la position des valeurs témoins (avec la fonction d'observation précédente).  
+IL faut que la caméra soit parallèle au workspace pour que la fonction de détection fonctionne.
 
 # Partie jonction et interface web
 Pour cette dernière partie, il y a de la documentation dans le dossier "/essaiWeb".  

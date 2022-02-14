@@ -130,25 +130,26 @@ class AutomaticParkingVision():
             self.is_sequence_finished = self.fnSeqSearchingGoal()
 
             if self.is_sequence_finished == True:
-                print "Finished 1"
+                print ("Finished 1")
                 self.current_parking_sequence = self.ParkingSequence.changing_direction.value
                 self.is_sequence_finished = False
 
-        elif self.current_parking_sequence == self.ParkingSequence.changing_direction.value:
-            print "changing_direction"
+        elif self.current_parking_sequence == self.ParkingSequence.changing_direction.value:        #Permet au turtlebot de viser le marquer AR
+            # print ("changing_direction")
             self.is_sequence_finished = self.fnSeqChangingDirection()
 
             if self.is_sequence_finished == True:
-                print "Finished 2"
+                print ("Finished 2")
                 self.current_parking_sequence = self.ParkingSequence.moving_nearby_parking_lot.value
                 self.is_sequence_finished = False
+                # rospy.sleep(5)
 
         elif self.current_parking_sequence == self.ParkingSequence.moving_nearby_parking_lot.value:
-            print "moving_nearby_parking_lot"
+            # print ("moving_nearby_parking_lot")
             self.is_sequence_finished = self.fnSeqMovingNearbyParkingLot()
 
             if self.is_sequence_finished == True:
-                print "Finished 3"
+                print ("Finished 3")
                 self.current_parking_sequence = self.ParkingSequence.parking.value
                 self.is_sequence_finished = False
 
@@ -161,11 +162,10 @@ class AutomaticParkingVision():
                     self.marker_2d_pose_y - 0, self.marker_2d_pose_x - 0)  # ATTENTION !!!!!!!!!!!!!!!!!!!! FIN DE DOCKING placement en face du marker
                 self.fnGoDocking(desired_angle_turn)
                 rospy.sleep(2)
-                print(self.initial_marker_pose_theta)
-                self.current_parking_sequence = self.ParkingSequence.stop.value
+                self.current_parking_sequence = self.ParkingSequence.stop.value #Les deux qui suivent sont la vrai suite
                 self.is_sequence_finished = False
-                self.fnPostDocking()
-                rospy.sleep(2)
+                # self.fnPostDocking()
+                # rospy.sleep(2)
 
         elif self.current_parking_sequence == self.ParkingSequence.stop.value:
             self.fnStop()
@@ -173,7 +173,8 @@ class AutomaticParkingVision():
             self.current_parking_sequence = self.ParkingSequence.finished.value
 
             #os.system('rosnode kill ar_track_alvar')
-            os.system('rosnode kill rviz')
+            # TODO changer le kill de rviz, pour ne pas avoir a le declarer au debut et ne pas le kill maintenant
+            # os.system('rosnode kill rviz')
             #os.system('rosnode kill joint_state_publisher_gui')
             #os.system('rosnode kill robot_state_publisher')
             #os.system('rosnode kill camera_rgb_optical_frame_to_cam')
@@ -191,8 +192,7 @@ class AutomaticParkingVision():
             return True
 
     def fnSeqChangingDirection(self):
-        desired_angle_turn = -1. * \
-            math.atan2(self.marker_2d_pose_y - 0, self.marker_2d_pose_x - 0)
+        desired_angle_turn = -1. * math.atan2(self.marker_2d_pose_y - 0, self.marker_2d_pose_x - 0)
 
         # rospy.loginfo("desired_angle_turn %f self.marker_2d_pose_x %f self.marker_2d_pose_y %f"
         # , desired_angle_turn, self.marker_2d_pose_x, self.marker_2d_pose_y)
@@ -238,8 +238,7 @@ class AutomaticParkingVision():
             dist_from_start = self.fnCalcDistPoints(
                 self.initial_robot_pose_x, self.robot_2d_pose_x, self.initial_robot_pose_y, self.robot_2d_pose_y)
 
-            desired_dist = self.initial_marker_pose_x * \
-                abs(math.cos((math.pi / 2.) - self.initial_marker_pose_theta))
+            desired_dist = self.initial_marker_pose_x * abs(math.cos((math.pi / 2.) - self.initial_marker_pose_theta))
             remained_dist = desired_dist - dist_from_start
             # rospy.loginfo("remained_dist %f desired_dist %f dist_from_start %f", remained_dist, desired_dist, dist_from_start)
 
@@ -274,12 +273,12 @@ class AutomaticParkingVision():
         return False
 
     def fnSeqParking(self):
-        desired_angle_turn = math.atan2(
-            self.marker_2d_pose_y - 0, self.marker_2d_pose_x - 0)
+        print("valeur de marker pose y: ",self.marker_2d_pose_y)
+        desired_angle_turn = math.atan2(self.marker_2d_pose_y - 0, self.marker_2d_pose_x - 0)
         self.fnTrackMarker(-desired_angle_turn)
 
-        print self.marker_2d_pose_x
-        if abs(self.marker_2d_pose_x) < 0.29:   #0.22
+        print (self.marker_2d_pose_x)
+        if abs(self.marker_2d_pose_x) < 0.22:   #0.29, 0.22 de base
             self.fnStop()
             return True
         else:
@@ -324,7 +323,7 @@ class AutomaticParkingVision():
         angular_z = Kp * theta
 
         twist = Twist()
-        twist.linear.x = 0.25
+        twist.linear.x = 0.1   #0.25
         twist.linear.y = 0
         twist.linear.z = 0
         twist.angular.x = 0

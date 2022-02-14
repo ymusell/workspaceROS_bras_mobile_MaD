@@ -104,17 +104,28 @@ class Window_Listener:
 		#print(data.data)
 		self.name = data.data
 
+class Turtlebot_Listener:
+	def __init__(self):
+		self.sub = rospy.Subscriber("messages",String,self.callback,queue_size=1)
+		self.message = "home"
+		self.pose = ""
+	def callback(self,data):
+		#print(data.data)
+		self.message = data.data
+		self.pose = self.message.split()[-1]		#Temporaire
+
 
 #Declaration du node
 rospy.init_node('robot_driver')
 
 #Creation des objets d'observation
 window = Window_Listener() 
+turtleListener = Turtlebot_Listener()
 # turtlebot_listener = TurtlePosition_Listener()
 rate = rospy.Rate(10) # 10hz
 
 #Creation des processus
-processus_turtlebot_navigation = Process("turtlebot_navigation","roslaunch simple_navigation_goals turtlebot_control.launch", ["map_name:=chaire_mad_etage","filtering:=true"])  #roslaunch turtlebot3_navigation turtlebot3_navigation.launch
+processus_turtlebot_navigation = Process("turtlebot_navigation","roslaunch simple_navigation_goals turtlebot_control.launch", ["map_name:=chaire_mad","filtering:=true"])  #chaire_mad_etage#roslaunch turtlebot3_navigation turtlebot3_navigation.launch
 # processus_turtlebot_navigation_goals = Process("turtlebot_navigation_goals","rosrun simple_navigation_goals navigation_goals") 
 processus_niryo = Process("niryoOne","rosrun niryo_control niryo_control.py")
 
@@ -146,6 +157,11 @@ if __name__ == '__main__':
 				# processus_turtlebot_navigation_goals.start()
 				# rospy.loginfo("le pid du nouveau processus est de : %d" % processus_turtlebot_navigation_goals.process.pid)
 			elif (current_window == "niryoOne"):
+				print("la valeur recherche est ",turtleListener.pose)
+				if ((turtleListener.pose == "travail") or (turtleListener.pose == "salon")):
+					processus_niryo.args = [turtleListener.pose]
+				else:
+					processus_niryo.args = []
 				processus_niryo.start()
 				# rospy.loginfo("le pid du nouveau processus du niryo est de : %d" % processus_niryo.process.pid)
 			else:
@@ -158,4 +174,3 @@ processus_turtlebot_navigation.stop()
 
 # TODO left
 # Tester avec le fonctionnement du Niryo
-# RQT pour voir les dependances

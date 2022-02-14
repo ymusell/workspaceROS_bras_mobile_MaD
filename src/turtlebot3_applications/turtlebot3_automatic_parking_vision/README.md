@@ -14,3 +14,5 @@ Il faut aussi ajouter un nouveau package (joint_state_publisher_gui) car le gui 
 Donc installation via la commande suivante:
 sudo apt update
 sudo apt install ros-kinetic-joint-state-publisher-gui 
+
+Il faut régler la taille des markers dans le fichier launch.
