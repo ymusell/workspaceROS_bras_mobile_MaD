@@ -15,3 +15,23 @@
 }
 
 .right {float: right;}
+
+#servir-salon-btn:hover {
+    background-image: none;
+    background-color: green;
+}
+
+#servir-plan-travail-btn:hover {
+    background-image: none;
+    background-color: red;
+}
+
+#ranger-salon-btn:hover {
+    background-image: none;
+    background-color: red;
+}
+
+#ranger-plan-travail-btn:hover {
+    background-image: none; 
+    background-color: blueviolet;
+}

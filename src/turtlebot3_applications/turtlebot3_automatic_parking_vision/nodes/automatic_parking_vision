@@ -120,6 +120,9 @@ class AutomaticParkingVision():
                     self.is_marker_pose_received = True
 
                 pos_x, pos_y, theta = self.fnGet2DMarkerPose(marker_odom_msg)
+                # Concernant la valeur de l angle theta, a la suite de problemes de localisation des markers, 
+                # il a fallut decaler le repere de la camera, ce qui change celui du marker d environ 19 degres soit 0.345 rad
+                theta-=0.345
 
                 self.marker_2d_pose_x = pos_x
                 self.marker_2d_pose_y = pos_y
@@ -140,7 +143,7 @@ class AutomaticParkingVision():
 
             if self.is_sequence_finished == True:
                 print ("Finished 2")
-                self.current_parking_sequence = self.ParkingSequence.moving_nearby_parking_lot.value
+                self.current_parking_sequence = self.ParkingSequence.parking.value    #self.ParkingSequence.moving_nearby_parking_lot.value
                 self.is_sequence_finished = False
                 # rospy.sleep(5)
 
@@ -160,8 +163,8 @@ class AutomaticParkingVision():
                 print ("Finished 4")
                 desired_angle_turn = math.atan2(
                     self.marker_2d_pose_y - 0, self.marker_2d_pose_x - 0)  # ATTENTION !!!!!!!!!!!!!!!!!!!! FIN DE DOCKING placement en face du marker
-                self.fnGoDocking(desired_angle_turn)
-                rospy.sleep(2)
+                # self.fnGoDocking(desired_angle_turn)
+                # rospy.sleep(2)
                 self.current_parking_sequence = self.ParkingSequence.stop.value #Les deux qui suivent sont la vrai suite
                 self.is_sequence_finished = False
                 # self.fnPostDocking()
@@ -235,8 +238,7 @@ class AutomaticParkingVision():
                 self.is_triggered = False
 
         elif self.current_nearby_sequence == self.NearbySequence.go_straight.value:
-            dist_from_start = self.fnCalcDistPoints(
-                self.initial_robot_pose_x, self.robot_2d_pose_x, self.initial_robot_pose_y, self.robot_2d_pose_y)
+            dist_from_start = self.fnCalcDistPoints(self.initial_robot_pose_x, self.robot_2d_pose_x, self.initial_robot_pose_y, self.robot_2d_pose_y)
 
             desired_dist = self.initial_marker_pose_x * abs(math.cos((math.pi / 2.) - self.initial_marker_pose_theta))
             remained_dist = desired_dist - dist_from_start
@@ -278,7 +280,7 @@ class AutomaticParkingVision():
         self.fnTrackMarker(-desired_angle_turn)
 
         print (self.marker_2d_pose_x)
-        if abs(self.marker_2d_pose_x) < 0.22:   #0.29, 0.22 de base
+        if abs(self.marker_2d_pose_x) < 0.2:   #0.29, 0.22 de base
             self.fnStop()
             return True
         else:
@@ -344,7 +346,7 @@ class AutomaticParkingVision():
 
 
     def fnTrackMarker(self, theta):
-        Kp = 1.2
+        Kp = 1.2 #3
 
         angular_z = Kp * theta
 

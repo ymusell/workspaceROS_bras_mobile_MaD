@@ -157,6 +157,7 @@ if __name__ == '__main__':
 				# processus_turtlebot_navigation_goals.start()
 				# rospy.loginfo("le pid du nouveau processus est de : %d" % processus_turtlebot_navigation_goals.process.pid)
 			elif (current_window == "niryoOne"):
+				print("la valeur recherche est ",turtleListener.pose)
 				if ((turtleListener.pose == "travail") or (turtleListener.pose == "salon")):
 					processus_niryo.args = [turtleListener.pose]
 				else:
@@ -173,4 +174,3 @@ processus_turtlebot_navigation.stop()
 
 # TODO left
 # Tester avec le fonctionnement du Niryo
-# RQT pour voir les dependances

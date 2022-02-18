@@ -157,24 +157,49 @@ function changePage(){
 
 //Partie controle par boutons
 // Bouton salon : qui publie la valeur 1 sur le topic /interface/choix afin d'avertir le robot qu'il doit aller au salon
+//Partie des services
 function Servir() {
     choix = 1;    
     msgChoix.data = choix;
     pubChoix.publish(msgChoix);
 }
 
+function ServirSalon() {
+    choix = 5;
+    msgChoix.data = choix;
+    pubChoix.publish(msgChoix);
+}
+
+function ServirPlanTravail() {
+    choix = 6;
+    msgChoix.data = choix;
+    pubChoix.publish(msgChoix);
+}
+//Bouton de pause
 function Pause_bras() {
     choix = 2;    
     msgChoix.data = choix;
     pubChoix.publish(msgChoix);
 }
-
+//Partie des rangements
 function Ranger() {
     choix = 3;    
     msgChoix.data = choix;
     pubChoix.publish(msgChoix);
 }
 
+function RangerSalon() {
+    choix = 7;    
+    msgChoix.data = choix;
+    pubChoix.publish(msgChoix);
+}
+
+function RangerPlanTravail() {
+    choix = 8;    
+    msgChoix.data = choix;
+    pubChoix.publish(msgChoix);
+}
+//Bouton d'arrêt
 function Arret_action() {
     choix = 4;    
     msgChoix.data = choix;

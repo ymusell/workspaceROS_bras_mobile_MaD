@@ -5,6 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/style.css"/>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -99,12 +100,34 @@
                 <div class="col-md-0"></div>
                 <div class="col-md-0" style="margin:auto;display:block">
                     <br>
-                    <button type="button" onclick="Servir()" class="btn text-white btn-sm" id="servir-btn"
-                        style="background-color:#3dc0c0">Servir</button>
+                    <div class="btn-group">
+                        <button type="button" onclick="Servir()" class="btn text-white dropdown-toggle btn-sm" id="servir-btn" 
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:#3dc0c0">
+                            Servir
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="servir-btn" style="background-color:#3dc0c0">
+                            <button class="dropdown-item  text-white" type="button" onclick="ServirSalon()" id="servir-salon-btn">
+                                Salon</button>
+                            <button class="dropdown-item  text-white" type="button" onclick="ServirPlanTravail()" id="servir-plan-travail-btn">
+                                Plan de travail</button>
+                        </div>
+                    </div>
                     <button type="button" onclick="Pause_bras()" class="btn text-white btn-sm" id="pause-btn"
-                        style="background-color:#808080"><b>Pause</b></button>
-                    <button type="button" onclick="Ranger()" class="btn text-white btn-sm" id="ranger-btn"
-                        style="background-color:#3dc0c0">Ranger</button>
+                        style="background-color:#808080">
+                        <b>
+                            Pause
+                        </b>
+                    </button>
+                    <div class="btn-group">
+                        <button type="button" onclick="Ranger()" class="btn text-white dropdown-toggle btn-sm" id="ranger-btn" 
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:#3dc0c0">Ranger</button>
+                        <div class="dropdown-menu" aria-labelledby="ranger-btn" style="background-color:#3dc0c0">
+                            <button class="dropdown-item  text-white" type="button" onclick="RangerSalon()" id="ranger-salon-btn">
+                                Salon</button>
+                            <button class="dropdown-item  text-white" type="button" onclick="RangerPlanTravail()" id="ranger-plan-travail-btn">
+                                Plan de travail3</button>
+                        </div>
+                    </div>
                     <br>
                 </div>
                 <div class="col-md-0"></div>

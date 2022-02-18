@@ -200,7 +200,7 @@ while abs(angle) > 0.3 :
   # ly = ly/4.0
   # print("lx et ly: ",lx,ly)
 
-  # mx = (gap_marker/1000)/(abs(temoin[0][0]-temoin[1][0])) #Il y a 172mm entre le centre de deux marqueurs, 172.0/215.0/1.5
+  # mx = (gap_marker/1000)/(abs(temoin[0][0]-temoin[1][0]))
   # my = (gap_marker/1000)/(abs(temoin[1][1]-temoin[2][1]))
   # print ("mm : ",mx)
 

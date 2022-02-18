@@ -160,6 +160,7 @@ if __name__ == '__main__':
 				print("la valeur recherche est ",turtleListener.pose)
 				if ((turtleListener.pose == "travail") or (turtleListener.pose == "salon")):
 					processus_niryo.args = [turtleListener.pose]
+					print("turtleListener.pose : ",turtleListener.pose)
 				else:
 					processus_niryo.args = []
 				processus_niryo.start()

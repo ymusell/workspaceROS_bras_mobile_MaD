@@ -165,7 +165,7 @@ Visualization Manager:
       Frames:
         All Enabled: false
         ar_marker_0:
-          Value: true
+          Value: false
         ar_marker_1:
           Value: true
         ar_marker_11:
@@ -177,9 +177,9 @@ Visualization Manager:
         ar_marker_17:
           Value: true
         ar_marker_243:
-          Value: true
+          Value: false
         ar_marker_255:
-          Value: true
+          Value: false
         ar_marker_3:
           Value: true
         ar_marker_32:
@@ -264,7 +264,7 @@ Visualization Manager:
     - Class: rviz/Camera
       Enabled: true
       Image Rendering: background and overlay
-      Image Topic: /raspicam_node/image_rect_color
+      Image Topic: /raspicam_node/image
       Name: Camera
       Overlay Alpha: 0.5
       Queue Size: 2

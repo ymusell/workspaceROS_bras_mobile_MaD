@@ -235,8 +235,7 @@ class AutomaticParkingVision():
                 self.is_triggered = False
 
         elif self.current_nearby_sequence == self.NearbySequence.go_straight.value:
-            dist_from_start = self.fnCalcDistPoints(
-                self.initial_robot_pose_x, self.robot_2d_pose_x, self.initial_robot_pose_y, self.robot_2d_pose_y)
+            dist_from_start = self.fnCalcDistPoints(self.initial_robot_pose_x, self.robot_2d_pose_x, self.initial_robot_pose_y, self.robot_2d_pose_y)
 
             desired_dist = self.initial_marker_pose_x * abs(math.cos((math.pi / 2.) - self.initial_marker_pose_theta))
             remained_dist = desired_dist - dist_from_start
@@ -344,7 +343,7 @@ class AutomaticParkingVision():
 
 
     def fnTrackMarker(self, theta):
-        Kp = 1.2
+        Kp = 1.2 #3
 
         angular_z = Kp * theta
 
