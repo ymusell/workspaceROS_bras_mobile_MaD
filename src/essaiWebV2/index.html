@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="fr+en">
+  <head>
+    <title>Chaire-robots</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="pictures/logoOnglet_transparent.png">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/style.css"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body class="bg" style="background-color:#ffffff">
+
+    <!-- Bandeau -->
+    <header>
+        <div id='bandeau'>
+            <nav class="navbar navbar-expand navbar-light" style="background-color:#62cdff">    <!-- "navbar navbar-dark" -->
+                <b>
+                    <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/logo_MaD_light.png"
+                        width="80" height="50" class="d-inline-block" alt="">
+                </b>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> 
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle dropup" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Robots
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="turtlebot_teleop.html">Turtlebot3</a>
+                                <a class="dropdown-item" href="niryo_one.html">Niryo One</a>
+                                <a class="dropdown-item" href="meuble.html">Meuble</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle dropup" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Scénarios
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="scenario.html">Essai de scénario</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+                <li class="nav-item dropdown">
+                    <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" onclick="chargeRobot()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Connections
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
+                        <a class="dropdown-item" href="turtlebot_teleop.html">Turtlebot3
+                            <span id="connection_turtlebot" class="badge badge-danger">Not connected</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="niryo_one.html">Niryo One
+                            <span id="connection_niryo" class="badge badge-danger">Not connected</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="meuble.html">Meuble
+                            <span id="connection_meuble" class="badge badge-danger">Not connected</span>
+                        </a>
+                    </div>
+                </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- <div class="alert alert-success alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&micro;</button>
+        <strong>Success!</strong> Indicates a successful or positive action.
+    </div> -->
+
+    <!-- Carousel -->
+    <div class="row my-4">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators bottom">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="pictures/sombre.jpg" height="400" width="200" alt="First slide">
+                        <div class="container">
+                            <div class="carousel-caption d-lg-block d-none">
+                              <h1>Turtlebot3</h1>
+                              <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+                              <p><a href="turtlebot_teleop.html" class="btn btn-large btn-outline-primary">Cliquer ici</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="pictures/niryo_one.png" height="400" width="200" alt="Second slide">
+                        <div class="container">
+                            <div class="carousel-caption d-lg-block d-none">
+                              <h1>Niryo One</h1>
+                              <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+                              <p><a href="niryo_one.html" class="btn btn-large btn-outline-primary">Cliquer ici</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="pictures/meuble_temp.jpg" height="400" width="200" alt="Third slide">
+                        <div class="container">
+                            <div class="carousel-caption d-lg-block d-none">
+                              <h1>Meuble</h1>
+                              <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+                              <p><a href="meuble.html" class="btn btn-large btn-outline-primary">Cliquer ici</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style="background: rgb(240, 240, 240);">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next" style="background: rgb(240, 240, 240);">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    
+    
+    <!-- Bouton essai -->
+    <!-- <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="changePage()">bouton changement de page<a href="turtlebot_teleop.html">ici essai</a></button>
+            </div>
+        </div>
+    </div> -->
+
+
+    <!-- Bandeau des informations -->
+
+    <div class="row my-4">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="alert" style="background-color:#5de2c1">
+                <h5 class="alert-heading"><b>Informations :</b></h5>
+                <style type='text/css'>
+                    body {
+                        color: #ffffff;
+                    }
+                </style>
+                <h6 id="message">Bienvenue au menu de démarrage pour le contrôle des robots de la Chaire M@D</h6>
+                <a style="color: red">Coucou</a>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    
+
+</div>
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+    <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+    <!-- <script src="https://static.robotwebtools.org/keyboardteleopjs/current/keyboardteleop.min.js"></script>
+    <script src="//yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js"></script> -->
+    <script src="scripts/webui.js"></script>
+</body>
+</html>

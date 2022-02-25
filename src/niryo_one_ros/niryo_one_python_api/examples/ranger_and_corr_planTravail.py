@@ -184,31 +184,38 @@ while abs(angle) > 0.3 :
     lx += temoin[i][1]-test[i][1]
     print(temoin[i][0]-test[i][0],temoin[i][1]-test[i][1])
 
-  lx = lx/4.0
-  ly = ly/4.0
-    
-
-  print("-----------------------------")
-  print("translation en px",lx,ly)
-
-  mm = 172.0/215.0/1.5 #Il y a 172mm entre le centre de deux marqueurs
-
-  tx = (mm*lx/100.0)-0.2
-  ty = mm*ly/100.0
-  # A developper
   # lx = lx/4.0
   # ly = ly/4.0
-  # print("lx et ly: ",lx,ly)
+    
 
-  # mx = (gap_marker/1000)/(abs(temoin[0][0]-temoin[1][0]))
+  # print("-----------------------------")
+  # print("translation en px",lx,ly)
+
+  # mm = 172.0/215.0/1.5 #Il y a 172mm entre le centre de deux marqueurs
+
+  # tx = (mm*lx/100.0)-0.2
+  # ty = mm*ly/100.0
+
+  # 2nd version sans gain qui sort de nul part.
+  lx = lx/4.0  #Decalage en pixel
+  ly = ly/4.0
+  print("lx et ly encore: ",lx,ly)
+  # mx = (gap_marker/1000)/(abs(temoin[0][0]-temoin[1][0])) 
   # my = (gap_marker/1000)/(abs(temoin[1][1]-temoin[2][1]))
-  # print ("mm : ",mx)
+  # print(temoin[0][0]-temoin[1][0])
+  # print(abs(temoin[0][0]-temoin[1][0]))
+  mx = 1.0/(abs(temoin[0][0]-temoin[1][0]))   #Convertion du decalage d un pixel en coordonnees relatives
+  my = 1.0/(abs(temoin[1][1]-temoin[2][1]))
+  print("valeur de mx : ",mx)
+  print("valeur de my : ",my)
 
-  # ty = mx*lx
-  # tx = my*ly
+  tx = lx*mx #- 0.2
+  ty = ly*my - 0.2  #le 0.2 est un decalage lors de la creation du workspace
+  print("valeur de tx2 : ",tx)
+  print("valeur de ty2 : ",ty)
 
-  print("-----------------------------")
-  print("translation en mm",tx,ty)
+  # print("-----------------------------")
+  # print("translation en mm",tx,ty)
 
 
   v_ws = [test[2][0]-test[3][0], test[2][1]-test[3][1]] #vecteur des deux marqueurs gauche du workspace
@@ -247,8 +254,8 @@ while not (test_vision):
   n.wait(1)
   #pause(n,interaction,rate)
 
-rel_pose.x -= ty
-rel_pose.y -= tx
+rel_pose.x -= tx
+rel_pose.y -= ty
 
 #Parametres du vision pick
 height_offset = -0.002

@@ -1,0 +1,56 @@
+.carousel-indicators .active {
+    background-color: #0051ff;
+}
+
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%230051ff' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+}
+/* pour le noir %23ff, le 23 est a oublier */
+.carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%230051ff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
+
+.essai {
+    text-align: center;
+}
+
+.right {float: right;}
+
+#servir-salon-btn:hover {
+    background-image: none;
+    background-color: green;
+}
+
+#servir-plan-travail-btn:hover {
+    background-image: none;
+    background-color: red;
+}
+
+#ranger-salon-btn:hover {
+    background-image: none;
+    background-color: red;
+}
+
+#ranger-plan-travail-btn:hover {
+    background-image: none; 
+    background-color: blueviolet;
+}
+
+#navbarSupportedContent .navbar-nav .active > a{ 
+    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+    font-weight: bold;
+    color: #5E005C ;
+}
+
+#navbarSupportedContent .navbar-nav a{ 
+    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+    color: #142B35 ;
+}
+
+#navbarSupportedContent .navbar-nav :not(.active) a:hover{ 
+    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+    font-weight: bold;
+    color: #5E005C ;
+}
+
+/* #142B35 */

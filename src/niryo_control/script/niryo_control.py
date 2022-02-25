@@ -127,9 +127,9 @@ def get_offset(list_good_candidates,temoin):	#Calcule la valeur des decalages du
 	lx = 0
 	ly = 0
 
-	for i in range (0,4) :
-		ly += temoin[i][0]-test[i][0]   #Les x et y du workspace sont differents des x que nous calculions avant
-		lx += temoin[i][1]-test[i][1]
+	for i in range (4) :
+		lx += temoin[i][0]-test[i][0]   #Les x et y du workspace sont differents des x que nous calculions avant
+		ly += temoin[i][1]-test[i][1]
 
 	lx = lx/4.0
 	ly = ly/4.0
@@ -219,7 +219,6 @@ def servir(n,interaction,rate):
 	return
 
 def servir_salon(n,interaction,rate): #valeur de 5 dans les choix
-	#TODO ici
 	print("partie rangement")
 	n.move_joints([0.05, 0.531, -1.396, -0.008, -0.507, 0.542])  #Position 1 de l echainement pour aller en position d observation du salon
 	check_end = pause(n,5,order,rate)
@@ -416,17 +415,20 @@ def ranger_salon(n,interaction,rate):
 	check_workspace,list_good_candidates = find_markers()
 
 	print("Les marqueurs sont presents : ",check_workspace)
-	temoin = [[215, 121],[411, 122],[407, 320],[210, 315]]
+	temoin = [[302, 115],[496, 133],[480, 325],[284, 312]]
 
 	lx,ly = get_offset(list_good_candidates,temoin)
 
 	print("-----------------------------")
 	print("translation en px",lx,ly)
 
-	mm = 172.0/215.0/1.5 #Il y a 172mm entre le centre de deux marqueurs
-	tx = (mm*lx/100.0)-0.2
-	ty = mm*ly/100.0
+	mx = 1.0/(abs(temoin[0][0]-temoin[1][0]))   #Convertion du decalage d un pixel en coordonnees relatives
+	my = 1.0/(abs(temoin[1][1]-temoin[2][1]))
+	print("valeur de mx : ",mx)
+	print("valeur de my : ",my)
 
+	tx = lx*mx - 0.2  #le 0.2 est un decalage lors de la creation du workspace
+	ty = ly*my - 0.2
 	print("-----------------------------")
 	print("translation en mm",tx,ty)
 
@@ -440,8 +442,8 @@ def ranger_salon(n,interaction,rate):
 		n.wait(1)
 		#pause(n,interaction,rate)
 
-	rel_pose.x -= ty
-	rel_pose.y -= tx
+	rel_pose.x -= tx
+	rel_pose.y -= ty
 
 	#Parametres du vision pick
 	height_offset = -0.002
@@ -507,15 +509,17 @@ def ranger_plan_travail(n,interaction,rate):
 	temoin = [[225, 76],[452, 81],[463, 315],[208, 311]]
 
 	lx,ly = get_offset(list_good_candidates,temoin)
-	#TODO, avoir lx et ly automatiquement
 
 	print("-----------------------------")
 	print("translation en px",lx,ly)
 
-	mm = 172.0/215.0/1.5 #Il y a 172mm entre le centre de deux marqueurs
+	mx = 1.0/(abs(temoin[0][0]-temoin[1][0]))   #Convertion du decalage d un pixel en coordonnees relatives
+	my = 1.0/(abs(temoin[1][1]-temoin[2][1]))
+	print("valeur de mx : ",mx)
+	print("valeur de my : ",my)
 
-	tx = (mm*lx/100.0)-0.2
-	ty = mm*ly/100.0
+	tx = lx*mx 
+	ty = ly*my - 0.2  #le 0.2 est un decalage lors de la creation du workspace
 
 	print("-----------------------------")
 	print("translation en mm",tx,ty)
@@ -530,8 +534,8 @@ def ranger_plan_travail(n,interaction,rate):
 		check_end = pause(n,8,order,rate)
 	if check_end:
 		return
-	rel_pose.x -= ty
-	rel_pose.y -= tx
+	rel_pose.x -= tx
+	rel_pose.y -= ty
 
 	#Parametres du vision pick
 	height_offset = -0.002
@@ -567,7 +571,7 @@ def ranger_plan_travail(n,interaction,rate):
 	check_end = pause(n,8,order,rate)
 	if check_end:
 		return
-	n.move_joints([-0.038, 0.621, -0.873, 0.063, -1.289, 0.365])  #Position 2 de l echainement pour aller en position d observation
+	n.move_joints([-0.089,0.623,-1.206,0.138,-0.912,0.435])  #TODO changement de valeur#Position 2 de l echainement pour aller en position d observation #[-0.038, 0.621, -0.873, 0.063, -1.289, 0.365]
 	check_end = pause(n,8,order,rate)
 	if check_end:
 		return	n.move_joints([-0.038, 0.404, -1.286, 0.058, -0.642, 0.42])  #Position 1 de l echainement pour aller en position d observation
@@ -583,12 +587,13 @@ def ranger_plan_travail(n,interaction,rate):
 	message_pub.publish("Le bras a range l'objet dans le meuble")
 	return
 
-	# talker(rate)
 
 # OBSERVATION
 
 def observation(n,interaction,order,rate):
 	print("Observation manuelle")
+	n.move_joints([-0.038, 0.404, -1.286, 0.058, -0.642, 0.42])  #Position 1 de l echainement pour aller en position d observation
+	n.move_joints([-0.038, 0.621, -0.873, 0.063, -1.289, 0.365])  #Position 2 de l echainement pour aller en position d observation
 	joint_state = joint_state_observation[:]
 	n.move_joints(joint_state)
 	azimut_max = 2.5
@@ -635,7 +640,8 @@ joint_state_observation = [0.019, 0.101, -1.08, 0.06, 1.0, -2.556] #Etat pour l'
 rospy.init_node('actions_niryo')
 #Test automatisation service et rangement
 print("hello")
-print(sys.argv)
+if (len(sys.argv)>1):
+	print(sys.argv[-1])
 
 #Creation des publishers
 pub = rospy.Publisher('reponse', Int32, queue_size=10)

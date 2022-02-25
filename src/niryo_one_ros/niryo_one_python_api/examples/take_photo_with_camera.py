@@ -29,7 +29,7 @@ try:
     n.activate_learning_mode(False)
 
     print "Go to observation position"
-    n.move_joints([-0.038, 0.435, -0.154, 0.066, -1.603, -2.556]) #Avoir la bonne valeur de position pour la position d'observation
+    n.move_joints([-0.036, -0.128, 0.307, 0.115, -1.734, -2.556]) #Avoir la bonne valeur de position pour la position d'observation
     # observation_pose = [0.12, 0.002, 0.35, 0, 1.57, 0]
     # n.move_pose(*observation_pose)
 
@@ -37,7 +37,7 @@ try:
     img = n.get_compressed_image()
     img = f(img)
 
-    filename = 'planTravailWorkspace.jpg' #Changer le nom de l'image de sauvegarde, cette image sert si l on oublie de garder la valeur des centres des marqueurs
+    filename = 'salonWorkspace.jpg' #Changer le nom de l'image de sauvegarde, cette image sert si l on oublie de garder la valeur des centres des marqueurs
     cv2.imwrite(filename, img)
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)

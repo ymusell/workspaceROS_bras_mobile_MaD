@@ -133,14 +133,8 @@ while abs(angle) > 0.3 :
   img = n.get_compressed_image()
   img = f(img)
 
-  # filename = '/home/niryo/catkin_ws/src/niryo_one_python_api/examples/testImage.jpg'
+  # filename = 'test.jpg' #Changer le nom de l'image de sauvegarde, cette image sert si l on oublie de garder la valeur des centres des marqueurs
   # cv2.imwrite(filename, img)
-
-
-  #################################################################################################
-
-  # Reading an image in default mode
-  # img = cv2.imread(filename)
 
   gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -164,8 +158,7 @@ while abs(angle) > 0.3 :
 
   print("Les marqueurs sont presents : ",check_workspace)
 
-  temoin = [[215, 121],[411, 122],[407, 320],[210, 315]]
-
+  temoin = [[302, 115],[496, 133],[480, 325],[284, 312]]
 
   test = []
 
@@ -180,35 +173,47 @@ while abs(angle) > 0.3 :
   ly = 0
 
   for i in range (0,4) :
-    ly += temoin[i][0]-test[i][0]   #Les x et y du workspace sont differents des x que nous calculions avant
-    lx += temoin[i][1]-test[i][1]
+    lx += temoin[i][0]-test[i][0]   #Les x et y du workspace sont differents des x que nous calculions avant
+    ly += temoin[i][1]-test[i][1]
     print(temoin[i][0]-test[i][0],temoin[i][1]-test[i][1])
 
-  lx = lx/4.0
+  # lx_init = lx
+  # ly_init = ly
+  # # Premiere version
+  # ly = lx/4.0
+  # lx = ly/4.0
+
+  # print("-----------------------------")
+  # print("translation en px",lx,ly)
+
+  # mm = 172.0/215.0/1.5 #Il y a 172mm entre le centre de deux marqueurs
+  # print("valeur de mm pif : ",mm)
+
+  # tx1 = (mm*lx/100.0)-0.9
+  # ty1 = mm*ly/100.0
+  # print("-----------------------------")
+  # print("valeurs de tx1 et ty1 : ",tx1,ty1)
+
+  # 2nd version sans gain qui sort de nul part.
+  lx = lx/4.0  #Decalage en pixel
   ly = ly/4.0
-    
-
-  print("-----------------------------")
-  print("translation en px",lx,ly)
-
-  mm = 172.0/215.0/1.5 #Il y a 172mm entre le centre de deux marqueurs
-
-  tx = (mm*lx/100.0)-0.2
-  ty = mm*ly/100.0
-  # A developper
-  # lx = lx/4.0
-  # ly = ly/4.0
-  # print("lx et ly: ",lx,ly)
-
-  # mx = (gap_marker/1000)/(abs(temoin[0][0]-temoin[1][0])) #Il y a 172mm entre le centre de deux marqueurs, 172.0/215.0/1.5
+  print("lx et ly encore: ",lx,ly)
+  # mx = (gap_marker/1000)/(abs(temoin[0][0]-temoin[1][0])) 
   # my = (gap_marker/1000)/(abs(temoin[1][1]-temoin[2][1]))
-  # print ("mm : ",mx)
+  # print(temoin[0][0]-temoin[1][0])
+  # print(abs(temoin[0][0]-temoin[1][0]))
+  mx = 1.0/(abs(temoin[0][0]-temoin[1][0]))   #Convertion du decalage d un pixel en coordonnees relatives
+  my = 1.0/(abs(temoin[1][1]-temoin[2][1]))
+  print("valeur de mx : ",mx)
+  print("valeur de my : ",my)
 
-  # ty = mx*lx
-  # tx = my*ly
+  tx = lx*mx - 0.2
+  ty = ly*my - 0.2  #le 0.2 est un decalage lors de la creation du workspace
+  print("valeur de tx2 : ",tx)
+  print("valeur de ty2 : ",ty)
 
-  print("-----------------------------")
-  print("translation en mm",tx,ty)
+  # print("-----------------------------")
+  # print("translation en mm",tx,ty)
 
 
   v_ws = [test[2][0]-test[3][0], test[2][1]-test[3][1]] #vecteur des deux marqueurs gauche du workspace
@@ -246,12 +251,12 @@ while not (test_vision):
   test_vision,rel_pose,obj_shape,obj_color = n.detect_object(workspace, "CIRCLE", "BLUE")
   n.wait(1)
   #pause(n,interaction,rate)
-
-rel_pose.x -= ty
-rel_pose.y -= tx
+rel_pose.x -= tx
+rel_pose.y -= ty
 
 #Parametres du vision pick
 height_offset = -0.002
+# print(n.get_target_pose_from_cam(workspace, height_offset, "CIRCLE", "BLUE"))
 pick_pose = n.get_target_pose_from_rel(workspace, height_offset, rel_pose.x, rel_pose.y, rel_pose.yaw)
 approach_pose = n.get_target_pose_from_rel(workspace, height_offset + 0.05, rel_pose.x, rel_pose.y, rel_pose.yaw)
 
@@ -259,10 +264,6 @@ approach_pose = n.get_target_pose_from_rel(workspace, height_offset + 0.05, rel_
 # print("position2 : ",n.robot_state_msg_to_list(approach_pose))
 positionApproche = n.robot_state_msg_to_list(approach_pose)
 positionPick = n.robot_state_msg_to_list(pick_pose)
-# positionApproche[0]-=tx
-# positionApproche[1]-=ty
-# positionPick[0]-=tx
-# positionPick[1]-=ty 
 
 n.move_pose(*positionApproche)  #*n.robot_state_msg_to_list(approach_pose)
 #pause(n,interaction,rate)  
@@ -293,8 +294,8 @@ n.move_joints([-0.026, 0.01, -1.347, 0.0, -0.002, 0.552]) #Position basse pour l
 #pause(n,interaction,rate)
 # n.close_gripper(TOOL_GRIPPER_3_ID, 250)
 
-#Fin du programme
-# n.activate_learning_mode(True)
+# Fin du programme
+n.activate_learning_mode(True)
 
 talker(rate)
 

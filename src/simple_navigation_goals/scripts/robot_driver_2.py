@@ -113,6 +113,7 @@ class Turtlebot_Listener:
 		#print(data.data)
 		self.message = data.data
 		self.pose = self.message.split()[-1]		#Temporaire
+		print(self.pose)
 
 
 #Declaration du node
