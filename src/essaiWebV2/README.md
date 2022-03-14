@@ -29,6 +29,8 @@ Voir le fichier '.live-server.json' pour fixer les numéros de ports, nous les a
 # TODO 
 - Création d'une interface plus ergonomique
 - Affichage des messages sur l'interface web de type notification
+- Penser à mettre une photo de l'interface terminé pour savoir à quoi s'attendre quand l'on lance l'interface web
+- Penser à peut-être créer un fichier .css pour chaque fenêtre?
 
 ## Documentation
 Création d'une jauge circulaire: https://nosmoking.developpez.com/demos/css/gauge_circulaire.html  

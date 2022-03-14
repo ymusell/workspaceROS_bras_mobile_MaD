@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="72mm" height="72mm" version="1.1" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+ <g stroke="#00f">
+  <rect x="1.5084" y="1.3821" width="69.187" height="69.187" rx="12.231" ry="15.877" fill="#fff" fill-rule="evenodd" stroke-width=".81265"/>
+  <rect x="8.8135" y="40.798" width="24.17" height="22.453" fill="#00f" stroke-width="2.1391"/>
+  <g>
+   <path d="m13.647 37.202 15.173-24.036 8.7281 4.9683-8.4595 19.336z" fill="#00f" stroke-width=".26458px"/>
+   <ellipse cx="21.449" cy="41.78" rx="8.7209" ry="8.7209" fill="#fff" stroke-width="2.7969"/>
+   <path d="m38.857 16.366 7.3502 2.9094 5.3072-5.3072-17.12-6.5818z" fill="#00f" stroke-width=".26458px"/>
+   <ellipse cx="34.393" cy="13.099" rx="5.7122" ry="5.7122" fill="#fff" stroke-width="1.832"/>
+   <ellipse cx="51.514" cy="19.276" rx="5.3072" ry="5.3072" fill="#fff" stroke-width="1.7021"/>
+   <path d="m56.476 22.186-2.968 1.3523 2.6791 4.0634-0.87016 1.1823-0.9542 5.2344 4.1807 3.2957 1.3715-0.57838-3.0032-3.4159 0.35524-3.8578 1.9112-0.92388 3.7669 2.0476 0.43221 4.6424 1.2072-0.49807 0.54354-5.4845-5.3685-2.6142-1.5556 0.33652z" fill="#00f" stroke-width=".22551px"/>
+  </g>
+ </g>
+</svg>
