@@ -44,6 +44,14 @@ De plus, une fois tous les robots configurés, il faudra lancer le roscore sur l
 
     $ roscore
 
+## Installation de ce projet Git
+Il faut installer ce projet git dans un dossier via la commande suivante:
+
+    $ git clone https://github.com/ymusell/workspaceROS_bras_mobile_MaD.git
+
+Après avoir installé ce package, il faudra prendre le contenu du dossier "/src" et le copier dans le dossier "/src" de votre workspace ros.  
+**Attention :** Il faudra vérifier que les différentes autorisations d'exécution soient bien passées pour que les programmes s'exécutent bien. Si ce n'est pas le cas, utilisez la commande `sudo chmod +x ..(Le nom du fichier)..` pour chaque fichier.
+
 # Partie pour le Turtlebot
 Pour la configuration du turtlebot, je vous renvoie vers la documentations faite par robotis: [lien documentation pour la mise en place et l'utilisation du turtlebot](https://emanual.robotis.com/docs/en/platform/turtlebot3/quick-start/#pc-setup "lien mise en place turtlebot").  
 
@@ -53,9 +61,12 @@ Un nouveau launch a été créé pour le lancement du turtlebot qui contient ég
 
 Il faudra installer le package de détection de tag AR: "ar_track_alvar_msgs" sur le rosmaster. On se place dans catkin_ws/src puis faire:
 
-    $ git clone -branch kinetic-devel https://github.com/ros-perception/ar_track_alvar.git
+    $ git clone --branch kinetic-devel https://github.com/ros-perception/ar_track_alvar.git
   
-Par ailleurs, il faudra également télécharger le package rosbridge_suite et commenter les lignes décrites dans le lien suivant: [lien résolution rosbridge](https://github.com/RobotWebTools/rosbridge_suite/issues/298 "lien résolution"). Cela permettra de contourner les erreurs dues à la fonction unregister() entre ros et le web. Globalement, il accéder au code source du package et commenter les lignes 322-324 du code 'rosbridge_library/src/rosbridge_library/internal.publishers.py'.
+Par ailleurs, il faudra également télécharger le package rosbridge_suite (voir ci-dessous) et commenter les lignes décrites dans le lien suivant: [lien résolution rosbridge](https://github.com/RobotWebTools/rosbridge_suite/issues/298 "lien résolution"). Cela permettra de contourner les erreurs dues à la fonction unregister() entre ros et le web. Globalement, il accéder au code source du package et commenter les lignes 322-324 du code "rosbridge_library/src/rosbridge_library/internal.publishers.py".  
+La ligne de commande à taper pour télécharger le package est la suivante:
+
+    $ git clone --branch ros1 https://github.com/RobotWebTools/rosbridge_suite.git
 
 # Partie pour le Niryo
 
@@ -81,7 +92,7 @@ L'environnement du Niryo est maintenant prêt, il suffit maintenant de lancer le
 
     $ roslaunch niryo_one_bringup rpi_setup.launch
 
-## Création de nouveaux workspace
+## Création de nouveaux workspace pour le Niryo
 Avoir un le workspace version papier, (TODO, mettre un lien).  
 Positionner le workspace sous forme de carré, penser à prendre le ratio du workspace.  
 Penser à prendre la pointe pour le niryo   
@@ -91,12 +102,30 @@ Calculer la position des valeurs témoins (avec la fonction d'observation préc�
 IL faut que la caméra soit parallèle au workspace pour que la fonction de détection fonctionne.
 
 # Partie jonction et interface web
-Pour cette dernière partie, il y a de la documentation dans le dossier "/essaiWeb".  
-Mais pour lancer l'interface web, il faut faire les commandes suivantes (ces commandes sont détaillées dans le dossier):  
+Pour cette dernière partie, il y a de la documentation supplémentaire dans le dossier "/essaiWeb".  
+Pour l'interface web, il faut avoir la bonne version de nodejs (la version 4.X.X ne fonctionnant pas, ma version actuelle de node js est la 12). Il faudra également installer live-server (voir plus bas). Voyons maintenant comment mettre à jour/installer nodejs (c'est la méthode que j'ai utilisé mais vous pouvez le faire autrement si vous voulez), voici les lignes de commandes ([plus d'informations si nécessaire ici](https://practicalprogramming.fr/tuto-install-nodejs-ubuntu "Info concernant l'installation de nodejs")):
+- Installation de curl si ce n'est pas déjà la cas:  
+
+        $ sudo apt-get install curl
+
+- Installation du dépot NodeSource pour avoir la version que vous désirez (ici la version 12.x):  
+
+        $ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+
+- Installation de nodejs:  
+
+        $ sudo apt-get install nodejs
+
+Pour lancer l'interface web, il faut faire les commandes suivantes (ces commandes sont détaillées dans le dossier):  
 
     $ roslaunch simple_navigation_goals web.launch
-Et dans une autre fenêtre, pour lancer le serveur local:
+Et dans une autre fenêtre, il faut lancer le serveur local:
 
     $ live-server .
-Pour afficher l'interface web, ouvrez votre navigateur web et entrez l'URL suivante:
+
+Si liver-server n'est pas installé il faut exécuter la commande suivante:  
+
+    $ npm install -g live-server
+    
+Enfin, pour afficher l'interface web, ouvrez votre navigateur web et entrez l'URL suivante:
 [http://IP_ROSMASTER:5500](http://IP_ROSMASTER:5500 "lien interface web")  avec IP_ROSMASTER, l'adresse ip du l'ordinateur du rosmaster.

@@ -6,7 +6,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/styleTurtlebot.css"/>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -16,17 +16,17 @@
     <!-- Bandeau -->
     <header>
         <div id='bandeau'>
-            <nav class="navbar navbar-expand navbar-light" style="background-color:#62cdff">    <!-- "navbar navbar-dark" -->
-                <b>
-                    <a href="index.html">
-                        <img src="pictures/logo_MaD_light.png"
-                        width="80" height="50" class="d-inline-block" alt="logo de la chaire">
-                    </a>
-                </b>
+            <nav class="navbar navbar-expand-md navbar-light" style="background-color:#62cdff">    <!-- "navbar navbar-dark" -->
+                <a class="navbar-brand" href="index.html">
+                    <img src="pictures/logo_MaD_light.png" width="80" height="50" class="d-inline-block" alt="logo de la chaire">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="index.html">Accueil <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item active dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -69,17 +69,13 @@
 
     <!-- Informations générales -->
 
-    <div class="row my-2" id="info_gene">
-        <div class="col-md-1"></div>
-        <div class="col-md-4">
-            <h6 style="color: black;">Informations générales</h6>
+    <div class="row my-2" id="info_gene" style="margin-right: 0px;">
+        <div class="col-md-4" style="margin-left: 6%;">
+            <h6 style="color: black;">Informations générales :</h6>
             <div class="container" style="background-color: #CFE6FF;">
                 <div class="row my-2">
-                    <div class="col-md-2">
-                        <p style="color: black;width: 420px;">Statut : </p>
-                    </div>
-                    <div class="col-md-4">
-                        <p style="background-color: red;text-align: center;color: white;" id="statut_turtlebot"> non connecté</p>
+                    <div class="col-md-5">
+                        <p style="color: black;width: 420px;margin-bottom: 0%;">Statut : <span style="background-color: red;text-align: center;color: white; padding: 1px 5px;" id="statut_turtlebot"> non connecté</span></p>
                     </div>
                 </div>
                 <div class="row my-2">
@@ -98,38 +94,10 @@
         </div>
     </div>
 
-    <!--Partie sur le niveau de batterie et les boutons urgence et activation-->
-    <!-- <div id='batterie_urgence'>
-        <div class="container">
-            <br>
-            <h5 style="color:#888888"><b>Niveau de Batterie :</b></h5>
-            <div class="progress">
-
-                <div id="battery_status" class="progress-bar progress-bar-striped progress-bar-animated"
-                role="progressbar" style="width:50%; background-color:#62cdff" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                50%</div>
-
-            </div>
-        </div>
-
-        <div class="row my-2">
-            <div class="col-md-0"></div>
-            <div class="col-md-0" style="margin:auto;display:block">
-                <br>
-                <button type="button" onclick="Urgence()" class="btn btn-outline-danger" id="urgence-btn" disabled><b>Arrêt
-                        d'urgence</b></button>
-                <img src="pictures/warning.png"
-                    width="50" height="50" class="d-inline-block" alt="">
-                <button type="button" onclick="Reactivation()" class="btn btn-outline-success"
-                    id="reactivation-btn" disabled><b>Réactivation</b></button>
-                <br>
-            </div>
-            <div class="col-md-0"></div>
-        </div>
-    </div> -->
-
     <!-- Actions -->
-    <div class="container" id="actions" style="background-color: #CFE6FF;">
+    <h6 style="color: black; margin-left: 6%;">Actions :</h6>
+
+    <div class="container" id="actions" style="background-color: #CFE6FF;margin-left: 6%;">
         <div class="row my-2">
             <div class="col-md-3">
                 <p>Positions pré-enregistrés</p>
@@ -149,80 +117,86 @@
                 <p>Déplacer le robot vers:</p>
             </div>
             <div class="col-md-3">
-                <input type="checkbox" id="chambre" name="positions">
-                <label for="chambre">La chambre</label>
+                <label class="containerRadio">La chambre
+                    <input type="radio" name="position" checked="unchecked">
+                    <span class="checkmark"></span>
+                </label>
             </div>
             <div class="col-md-3">
-                <input type="checkbox" id="cuisine_plan" name="positions">
-                <label for="cuisine_plan">La cuisine (plan de travail)</label>
+                <label class="containerRadio">La cuisine (plan de travail)
+                    <input type="radio" name="position" checked="unchecked">
+                    <span class="checkmark"></span>
+                </label>
             </div>
             <div class="col-md-3">
-                <input type="checkbox" id="cuisine_frigo" name="positions">
-                <label for="cuisine_frigo">La cuisine (frigidaire)</label>
-            </div>
-        </div>
-        <div class="row my-2">
-            <div class="col-md-3"></div>
-            <div class="col-md-3">
-                <input type="checkbox" id="salon" name="positions">
-                <label for="salon">Le salon</label>
-            </div>
-            <div class="col-md-3">
-                <input type="checkbox" id="cuisine_table" name="positions">
-                <label for="cuisine_table">La cuisine (table)</label>
-            </div>
-            <div class="col-md-3">
-                <label class="containerRadio">La base
-                    <input type="checkbox" checked="checked">
+                <label class="containerRadio">La cuisine (frigidaire)
+                    <input type="radio" name="position" checked="unchecked">
                     <span class="checkmark"></span>
                 </label>
             </div>
         </div>
         <div class="row my-2">
-            <div class="col-md-6"></div>
-            <div class="col-md-4">
-                <button type="button" class="btn btn-info" onclick="gestionNavigation()">Lancer la navigation</button>
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <label class="containerRadio">Le salon
+                    <input type="radio" name="position" checked="unchecked">
+                    <span class="checkmark"></span>
+                </label>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
+                <label class="containerRadio">La cuisine (table)
+                    <input type="radio" name="position" checked="unchecked">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="col-md-3">
+                <label class="containerRadio">La base
+                    <input type="radio" name="position" checked="unchecked">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col-0 col-md-6"></div>
+            <div class="col-6 col-md-4">
+                <button id="bouton_navigation" type="button" class="btn btn-info" onclick="gestionNavigation()">
+                    <img src="pictures/play-circle.svg" alt="défilement vers le bas" width="18px" height="18px"/>
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-play-circle" viewBox="0 0 20 20">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
+                    </svg> -->
+                    <span>Lancer la navigation</span>
+                </button>
+            </div>
+            <div class="col-4 col-md-2">
                 <p id="etat_commande_position" style="background-color: gray; color: white; border-radius: 5px; text-align: center;margin-top: 10px;" >En attente</p>
             </div>
         </div>
     </div>
 
-    <!-- Essai de stylisation de check button -->
-    <div class="row">
-        <div class="col-3"></div>
-        <div class="col-2">
-            <!-- Rounded switch -->
-            <label class="switch">
-                <input type="checkbox"/>
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <div class="col"></div>
-    </div>
-
     <!-- controle manuel -->
-    <div class="col-md-3" >
-        <!-- <p onclick="">Essai <img src="pictures/cross_icon.svg" alt="essai de bonjour" width="20px" height="20px"/></p> -->
-        <button id="boutonControleManuel" class="btn" type="button" data-toggle="collapse" data-target="#main_controle" aria-expanded="false" aria-controls="main_controle">
-            Contrôles Manuels
-        </button>
-    </div>
-    <div class="collapse container" id="main_controle" style="background-color: #CFE6FF;">
-        <div class="row my-2">
-            <div class="col-md-2">
-                <p>Caméra : Activé</p>
+    <button id="boutonControleManuel" class="btn" type="button" data-toggle="collapse" onclick="gestionControleManuel()" data-target="#main_controle" aria-expanded="false" aria-controls="main_controle" style="margin-left: 6%;padding-bottom: 1px;padding-top: 1px;">
+        Contrôles Manuels <img src="pictures/flecheBas.svg" alt="défilement vers le bas" width="20px" height="20px"/>
+    </button>
+    <div class="collapse container" id="main_controle" style="background-color: #CFE6FF;margin-left: 6%;">
+        <div class="row my-2" style="margin-bottom: 5px;">
+            <div class="col-sm-7">
+                <p style="margin-bottom: 0px;">Caméra : <span id="camera_status" style="background-color: red;text-align: center;color: white; padding: 1px 5px;">Désactivé</span>
+                    <label class="switch" style="margin-top: 2px;vertical-align: middle;">
+                        <input type="checkbox" id="camera_button"/>
+                        <span class="slider round"></span>
+                    </label>
+                </p>
             </div>
-            <div class="col-md-2">
+            <!-- <div class="col-sm-2">
                 <label class="switch" style="margin-top: 2px;">
                     <input type="checkbox"/>
                     <span class="slider round"></span>
                 </label>
-            </div>
+            </div> -->
         </div>
-        <div class="row my">
-            <div class="col-md-12">           
+        <div class="row">
+            <div class="d-none d-lg-flex col-md-12">     
                 <div class="tab">
                     <button class="tablinks active" onclick="openControle(event, 'controle_clavier')">Clavier</button>
                     <button class="tablinks" onclick="openControle(event, 'controle_joystick')">Joystick</button>
@@ -292,14 +266,14 @@
                             <div class="col-md"></div>
                         </div>
                     </div>
-                    <div class="col-md-7" id='affichage_video' style="padding: 0px;">
+                    <div class="col-md-7" id='affichage_video' style="padding: 0px;margin: auto;">
                         <div class="col d-flex justify-content-center" style="margin: 5px;">
-                            <img src="" style="margin:auto;display:block;margin:1" height="500" width="480" class="p-1 bg-dark" alt="flux video" id="video_turtlebot" />
+                            <img src="pictures/camera.svg" style="margin:auto;display:block" height="90%" width="90%" class="p-1 bg-dark" alt="flux video" id="video_turtlebot" />
                         </div>
                     </div>
                 </div>    
                 
-                <div id="controle_joystick" class="tabcontent" style="background-color: #8EC4FF;">
+                <div id="controle_joystick" class="tabcontent" style="background-color: #8EC4FF;display: none;">
                     <div class="col-md-5" style="padding-left: 1px;background-color: #F6F8E1;margin: 5px;">
                         <h4 class="alert-heading">Instructions: </h4>
                         <p style="margin-bottom: 1px;">Pour diriger le robot, vous pouvez utiliser le joystick: </p>
@@ -315,10 +289,26 @@
                     </div>
                     <div class="col-md-7" id='affichage_video' style="padding: 0px;">
                         <div class="col d-flex justify-content-center" style="margin: 5px;">
-                            <img src="" style="margin:auto;display:block;margin:1" height="500" width="480" class="p-1 bg-dark" alt="flux video" id="video_turtlebot" />
+                            <img src="pictures/camera.svg" style="margin:auto;display:block" height="90%" width="90%" class="p-1 bg-dark" alt="flux video" id="video_turtlebot" />
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="d-block d-lg-none px-0 col-md-12"> 
+                <div class="row" style="margin: auto; display: flex">
+                    <img src="pictures/camera.svg" style="margin:auto;display:block" height="300px" width="300px" class="p-1 bg-dark" alt="flux video" id="video_turtlebot_2" />
+                </div>
+                <div class="row m-2 " style="background-color: #F6F8E1;">
+                    <div class="col-6">
+                        <h4 class="alert-heading">Instructions: </h4>
+                        <p style="margin-bottom: 1px;">Pour diriger le robot, vous pouvez utiliser le joystick: </p>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex justify-content-center" style="width: 150px; height: 150px;">
+                            <div id="joystickSmall"></div>
+                        </div>
+                    </div>
+                </div>   
             </div>
         </div>
     </div>

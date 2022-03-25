@@ -5,6 +5,7 @@ var robot_IP;
 var manager;
 var teleop;
 var choix;
+var robot_connected;
 var ros;
 var port = window.location.port;
 var sound;
@@ -17,9 +18,10 @@ ros = new ROSLIB.Ros({
     url: "ws://" + PC_IP + ":9090"
 });
 
-ros.on('error',function(){
-    alert("Connection impossible avec ROS, veuillez lancer un roscore et rafraichissez la page");
-});
+robot_connected = true;
+// ros.on('error',function(){
+//     alert("Connection impossible avec ROS, veuillez lancer un roscore et rafraichissez la page");
+// });
 
 sound = new Audio();
 soundReady = true;
@@ -58,74 +60,6 @@ function initWindowPublisher(){
     pubWindow.advertise();
 }
 
-// function moveAction(linear, angular) {
-//     if (linear !== undefined && angular !== undefined) {
-//         twist.linear.x = linear;
-//         twist.angular.z = angular;
-//     } else {
-//         twist.linear.x = 0;
-//         twist.angular.z = 0;
-//     }
-//     cmdVel.publish(twist);
-// }
-
-// function initWindowPublisher(){
-//     msgWindow = new ROSLIB.Message({
-//         data: "rien"
-//     });
-//     // Init topic object
-//     pubWindow = new ROSLIB.Topic({
-//         ros: ros,
-//         name: 'interface/window',
-//         messageType: 'std_msgs/String'
-//     });
-//     // Register publisher within ROS system
-//     pubWindow.advertise();
-// }
-
-// function initVelocityPublisher() {
-//     // Init message with zero values.
-//     twist = new ROSLIB.Message({
-//         linear: {
-//             x: 0,
-//             y: 0,
-//             z: 0
-//         },
-//         angular: {
-//             x: 0,
-//             y: 0,
-//             z: 0
-//         }
-//     });
-//     // Init topic object
-//     cmdVel = new ROSLIB.Topic({
-//         ros: ros,
-//         name: '/cmd_vel',
-//         messageType: 'geometry_msgs/Twist'
-//     });
-//     // Register publisher within ROS system
-//     cmdVel.advertise();
-// }
-
-// function initTeleopKeyboard() {
-//     // Use w, s, a, d keys to drive your robot
-
-//     // Check if keyboard controller was aready created
-//     if (teleop == null) {
-//         // Initialize the teleop.
-//         teleop = new KEYBOARDTELEOP.Teleop({
-//             ros: ros,
-//             topic: '/cmd_vel'
-//         });
-//     }
-
-//     // Add event listener for slider moves
-//     robotSpeedRange = document.getElementById("robot-speed");
-//     robotSpeedRange.oninput = function () {
-//         teleop.scale = robotSpeedRange.value / 100
-//     }
-// }
-
 window.onload = function () {
     // initVelocityPublisher();
     initWindowPublisher();
@@ -133,146 +67,37 @@ window.onload = function () {
     msgWindow.data = windowName;
     pubWindow.publish(msgWindow);
     console.log(windowName);
+    time_start_meuble = performance.now(); //Pour la présence du turtlebot
+    meuble_connection_timer = setInterval(meuble_connection,1000);
 }
 
-////Bontons pour les flèches du clavier
-// function Up(){
-//     document.getElementById('letterZ').style.color = 'red';
-//     document.getElementById('up-img').
-//     console.log("appuie touche Z")   
-// }
-
-// function UpRelease(){
-//     document.getElementById('letterZ').style.color = 'black';
-//     console.log("touche Z relachée"); 
-// }
-
-// function Left(){
-//     document.getElementById('letterQ').style.color = 'red';
-//     console.log("appuie touche Q");   
-// }
-
-// function LeftRelease(){
-//     document.getElementById('letterQ').style.color = 'black';
-//     console.log("touche Q relachée"); 
-// }
-
-// function Center(){
-//     document.getElementById('letterS').style.color = 'red';
-//     console.log("appuie touche S");
-// }
-
-// function CenterRelease(){
-//     document.getElementById('letterS').style.color = 'black';
-//     console.log("touche S relachée"); 
-// }
-
-// function Right(){
-//     document.getElementById('letterD').style.color = 'red';
-//     console.log("appuie touche D");  
-// }
-
-// function RightRelease(){
-//     document.getElementById('letterD').style.color = 'black';
-//     console.log("touche D relachée"); 
-// }
-
-// function Down(){
-//     document.getElementById('letterX').style.color = 'red';
-//     console.log("appuie touche X");  
-// }
-
-// function DownRelease(){
-//     document.getElementById('letterX').style.color = 'black';
-//     console.log("touche X relachée"); 
-// }
-
-// document.addEventListener('keydown',function(event) {
-//     switch(event.key){
-//         case 'z':
-//             Up();
-//             break;
-//         case 'q':
-//             Left();
-//             break;
-//         case 's':
-//             Center();
-//             break;
-//         case 'd':
-//             Right();
-//             break;
-//         case 'x':
-//             Down();
-//             break;
-//         default:
-//             console.log("autre touche à saisir");
-//     }
-// });
-
-// document.addEventListener('keyup',function(event) {
-//     switch(event.key){
-//         case 'z':
-//             UpRelease();
-//             break;
-//         case 'q':
-//             LeftRelease();
-//             break;
-//         case 's':
-//             CenterRelease();
-//             break;
-//         case 'd':
-//             RightRelease();
-//             break;
-//         case 'x':
-//             DownRelease();
-//             break;
-//         default:
-//             console.log("autre touche à saisir");
-//     }
-// });
-
-// Fonction pour afficher la camera
-function Try(){
-    console.log("Travail du grand bouton");
-    video = document.getElementById('video_turtlebot');
-    video.height = 308;
-    video.width = 410;
-    video.margin = 1;
-
-    // Source de la caméra (de l'image non compressée)
-    video.src = "http://" + PC_IP + ":8080/stream?topic=/raspicam_node/image&type=mjpeg&quality=50";
-    video.onload = function () {
-        document.getElementById('message').innerText = "un début de la vidéo";
-    };   
-}
-/// Fonctions de tests
-function chargeRobot(){
-    // console.log($("#connection_turtlebot").is(":visible"));  
-    var badge_turtle = document.getElementById('connection_turtlebot');
-    var badge_niryo = document.getElementById('connection_niryo');
-    console.log()
-    if ((turtleBot_name == "turtle1")&&(performance.now()-time_start_turtle1<200)){
-        turtleBot_name = ""
-        badge_turtle.className = "badge badge-success";
-        badge_turtle.innerText = "Connected";
-        badge_turtle.parentElement.style.color = "green"
+//Gestion de la présence des robots et de leurs affichage
+function meuble_connection(){
+    // console.log("Inside");  
+    if (performance.now()-time_start_meuble<1000){      //Il faudra ajouter la condition pour savoir si le meuble est présent
+        robot_connected = true;
+        allow_display(true);
     }
     else{
-        badge_turtle.className = "badge badge-danger";
-        badge_turtle.innerText = "Not Connected";
-        badge_turtle.parentElement.style.color = "black"
-    }
-    if (performance.now()-time_start_niryo<1000){
-        badge_niryo.className = "badge badge-success";
-        badge_niryo.innerText = "Connected";
-        badge_niryo.parentElement.style.color = "green"
-    }
-    else{
-        badge_niryo.className = "badge badge-danger";
-        badge_niryo.innerText = "Not Connected";
-        badge_niryo.parentElement.style.color = "black"
+        robot_connected = false;    
+        allow_display(true);        //TODO à changer à la fin de la création de l'interface
     }
 }
+function allow_display(allow){
+    status_meuble = document.getElementById("statut_meuble");
+    if (allow == true){
+        status_meuble.style.backgroundColor = '#0DAC44';
+        status_meuble.innerText = "Connecté";
+        // $("#boutonControleManuel").prop("disabled",false); 
+    }
+    else{
+        status_meuble.style.backgroundColor = 'red';
+        status_meuble.innerText = "Non connecté";
+        // $("#boutonControleManuel").prop("disabled",true);
+    }
+}
+
+// Pour le controle du son
 sound.addEventListener('ended',function(){
     soundReady = true;
 });

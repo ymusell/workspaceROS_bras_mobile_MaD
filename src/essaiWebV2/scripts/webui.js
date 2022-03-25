@@ -38,17 +38,32 @@ function initWindowPublisher(){
     pubWindow.advertise();
 }
 
-var listener_turtle1 = new ROSLIB.Topic({
+// Version avec un seul turtlebot
+var listener_turtle = new ROSLIB.Topic({
     ros : ros,
     name : '/turtlebot3_name',
     messageType : 'std_msgs/String'
 });
 
-listener_turtle1.subscribe(function(message) {
+listener_turtle.subscribe(function(message) {
     // console.log(message);
     if(turtleBot_name != message.data){
-        turtleBot_name = "turtle1";
+        turtleBot_name = "turtlebot1";
     }
+    time_start_turtle1 = performance.now();
+    // listener_turtle1.unsubscribe();
+});
+
+// Version sans topic nommé /turtlebot3_name
+var listener_turtle1 = new ROSLIB.Topic({
+    ros : ros,
+    name : '/turtlebot1/imu',
+    messageType : 'sensor_msgs/Imu'
+});
+
+listener_turtle1.subscribe(function(message) {
+    // console.log(message);
+    turtleBot_name = "turtlebot1";
     time_start_turtle1 = performance.now();
     // listener_turtle1.unsubscribe();
 });
@@ -104,7 +119,7 @@ window.onload = function () {
     msgWindow.data = windowName;
     pubWindow.publish(msgWindow);
     console.log(windowName);
-    display_turtlebot(false);
+    display_turtlebot1(false);
     display_niryo(false);
     display_meuble(false);
     robot_connection_timer = setInterval(robot_connection,1000);
@@ -113,11 +128,11 @@ window.onload = function () {
 //Gestion de la présence des robots et de leurs affichage
 function robot_connection(){
     console.log("Inside");  
-    if ((turtleBot_name == "turtle1")&&(performance.now()-time_start_turtle1<200)){
-        display_turtlebot(true);
+    if ((turtleBot_name == "turtlebot1")&&(performance.now()-time_start_turtle1<200)){
+        display_turtlebot1(true);
     }
     else{
-        display_turtlebot(false);
+        display_turtlebot1(false);
     }
     if (performance.now()-time_start_niryo<1000){
         display_niryo(true);
@@ -127,14 +142,14 @@ function robot_connection(){
     }
 }
 
-function changePage(){
-    document.getElementById('message').innerText = document.URL;
-    window.location.href = "http://"+PC_IP+":"+port+"/turtlebot_teleop.html";
-}
+// function changePage(){
+//     document.getElementById('message').innerText = document.URL;
+//     window.location.href = "http://"+PC_IP+":"+port+"/turtlebot_teleop.html";
+// }
 
 //Affichage des robots
 
-function display_turtlebot(value){
+function display_turtlebot1(value){
     if (value == true){
         document.getElementById('turtlebot_card_available').style.display = 'flex';
         document.getElementById('turtlebot_card_unavailable').style.display = 'none';

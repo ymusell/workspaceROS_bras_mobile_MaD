@@ -173,6 +173,3 @@ if __name__ == '__main__':
 		rate.sleep()
 processus_turtlebot_navigation.stop()
 
-
-# TODO left
-# Tester avec le fonctionnement du Niryo

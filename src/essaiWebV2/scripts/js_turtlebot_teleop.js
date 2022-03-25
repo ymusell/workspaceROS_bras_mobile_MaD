@@ -5,18 +5,22 @@ var pubMode;
 var msgMode;
 var mode;
 var robot_IP;
+var robot_connected;
 var manager;
 var teleop;
 var ros;
 var linSpeed;
 var angSpeed;
 var port = window.location.port;
+var controleManuelDisplayed;
+var navigationRunning;
 PC_IP = location.hostname;
 
 ros = new ROSLIB.Ros({
     url: "ws://" + PC_IP + ":9090"
 });
 
+robot_connected = true;
 // TODO, il faudra décommenter le texte suivant pour afficher les erreurs liées à la connexion ROS
 // ros.on('error',function(){
 //     alert("Connection impossible avec ROS, veuillez lancer un roscore et rafraichissez la page");
@@ -25,58 +29,59 @@ ros = new ROSLIB.Ros({
 ////////////////////////////// Display part ////////////////////////////////
 
 //Initialisation de l'affichage
-document.getElementById('keyboard').style.display="none";
-document.getElementById('joystickCommand').style.display="none";
+// document.getElementById('keyboard').style.display="none";
+// document.getElementById('joystickCommand').style.display="none";
 initModePublisher();
-mode = 0;
+mode = "attente";
 msgMode.data = mode;
 pubMode.publish(msgMode);
 initChoixPublisher();
 choix = 10;     //TODO change this value, corresponding to nothing
 msgChoix.data = choix;
 pubChoix.publish(msgChoix);
+turtleBot_name = "rien"
 
 
 
 //Affichage
-function MenuBoutons() {
-    document.getElementById('button').style.display="block";
-    document.getElementById('keyboard').style.display="none";
-    document.getElementById('joystickCommand').style.display="none";
-    mode = 0;
-    msgMode.data = mode;
-    pubMode.publish(msgMode);
-    console.log("appuie sur le bouton de Boutons");
-}
+// function MenuBoutons() {
+//     // document.getElementById('button').style.display="block";
+//     // document.getElementById('keyboard').style.display="none";
+//     // document.getElementById('joystickCommand').style.display="none";
+//     mode = 0;
+//     msgMode.data = mode;
+//     pubMode.publish(msgMode);
+//     console.log("appuie sur le bouton de Boutons");
+// }
 
-function MenuClavier(){
-    document.getElementById('button').style.display="none";
-    document.getElementById('keyboard').style.display="block";
-    document.getElementById('joystickCommand').style.display="none";
-    mode = 1;
-    msgMode.data = mode;
-    pubMode.publish(msgMode);
-    msgChoix.data = 10;
-    pubChoix.publish(msgChoix);
-    initVelocityPublisher();
-    linSpeed = 0;
-    angSpeed = 0;
-    console.log("appuie sur le bouton de clavier");
-}
+// function MenuClavier(){
+//     // document.getElementById('button').style.display="none";
+//     // document.getElementById('keyboard').style.display="block";
+//     // document.getElementById('joystickCommand').style.display="none";
+//     mode = 1;
+//     msgMode.data = mode;
+//     pubMode.publish(msgMode);
+//     msgChoix.data = 10;
+//     pubChoix.publish(msgChoix);
+//     initVelocityPublisher();
+//     linSpeed = 0;
+//     angSpeed = 0;
+//     console.log("appuie sur le bouton de clavier");
+// }
 
-function MenuJoystick(){
-    document.getElementById('button').style.display="none";
-    document.getElementById('keyboard').style.display="none";
-    document.getElementById('joystickCommand').style.display="block";
-    mode = 2;
-    msgMode.data = mode;
-    pubMode.publish(msgMode);
-    msgChoix.data =10;
-    pubChoix.publish(msgChoix);
-    initVelocityPublisher();
-    createJoystick();
-    console.log("appuie sur le bouton de Joystick");
-}
+// function MenuJoystick(){
+//     // document.getElementById('button').style.display="none";
+//     // document.getElementById('keyboard').style.display="none";
+//     // document.getElementById('joystickCommand').style.display="block";
+//     mode = 2;
+//     msgMode.data = mode;
+//     pubMode.publish(msgMode);
+//     msgChoix.data =10;
+//     pubChoix.publish(msgChoix);
+//     initVelocityPublisher();
+//     createJoystick();
+//     console.log("appuie sur le bouton de Joystick");
+// }
 
 //ROS part
 function initWindowPublisher(){
@@ -96,13 +101,13 @@ function initWindowPublisher(){
 function initModePublisher() {
     // Init message with zero values.
     msgMode = new ROSLIB.Message({
-        data: 0
+        data: "rien"
     });
     // Init topic object
     pubMode = new ROSLIB.Topic({
         ros: ros,
         name: '/interface/turtlebotMode',
-        messageType: 'std_msgs/Int32'
+        messageType: 'std_msgs/String'
     });
     // Register publisher within ROS system
     pubMode.advertise();
@@ -111,7 +116,7 @@ function initModePublisher() {
 function initChoixPublisher() {
     // Init message with zero values.
     msgChoix = new ROSLIB.Message({
-        data: 0
+        data: "rien"
     });
     // Init topic object
     pubChoix = new ROSLIB.Topic({
@@ -174,6 +179,24 @@ battery.subscribe(function (level) {
     battery.unsubscribe();
 });
 
+//Présence du turtlebot
+var listener_turtle1 = new ROSLIB.Topic({
+    ros : ros,
+    name : '/turtlebot3_name',
+    messageType : 'std_msgs/String'
+});
+
+listener_turtle1.subscribe(function(message) {
+    // console.log(message);
+    if(turtleBot_name != message.data){
+        turtleBot_name = "turtle1";
+    }
+    time_start_turtle1 = performance.now();
+    // listener_turtle1.unsubscribe();
+});
+
+///// Fin de la partie ROS
+
 //Gestion de la fenêtre
 window.onload = function () {
     console.log("La fenêtre du turtle est allumée ")
@@ -182,6 +205,40 @@ window.onload = function () {
     msgWindow.data = windowName;
     pubWindow.publish(msgWindow);
     console.log(windowName);
+    $("#camera_button").prop("checked", false); //Initialisation du bouton de la caméra
+    time_start_turtle1 = performance.now(); //Pour la présence du turtlebot
+    turtlebot_connection_timer = setInterval(turtlebot_connection,1000);
+    createJoystickSmall();
+    controleManuelDisplayed = false;
+    navigationRunning = false;
+}
+//Gestion de la présence du turtlebot et de son affichage
+function turtlebot_connection(){
+    // console.log("Inside");  
+    if ((turtleBot_name == "turtle1")&&(performance.now()-time_start_turtle1<200)){
+        robot_connected = true;
+        allow_display(true);
+    }
+    else{
+        robot_connected = true;
+        allow_display(true);       ///TODO, changer la valeur pour le bon fonctionnement final 
+    }
+}
+function allow_display(allow){
+    if (allow == true){
+        status_turtlebot = document.getElementById("statut_turtlebot");
+        status_turtlebot.style.backgroundColor = '#0DAC44';
+        status_turtlebot.innerText = "Connecté";
+        $("#boutonControleManuel").prop("disabled",false); 
+        $("#bouton_navigation").prop("disabled",false);
+    }
+    else{
+        status_turtlebot = document.getElementById("statut_turtlebot");
+        status_turtlebot.style.backgroundColor = 'red';
+        status_turtlebot.innerText = "Non connecté";
+        $("#boutonControleManuel").prop("disabled",true);
+        $("#bouton_navigation").prop("disabled",true);
+    }
 }
 
 //Partie gestion de la camera
@@ -194,9 +251,19 @@ function AllumeCamera(){
 
     // Source de la caméra (de l'image non compressée)
     video.src = "http://" + PC_IP + ":8080/stream?topic=/raspicam_node/image&type=mjpeg&quality=50";
-    video.onload = function () {
-        document.getElementById('message').innerText = "un début de la vidéo";
-    };   
+    // video.onload = function () {
+    //     document.getElementById('message').innerText = "un début de la vidéo"; //TODO ajouter une nouvelle alerte
+    // };   
+}
+function EteinsCamera(){
+    console.log("Fermeture du flux vidéo");
+    var video = document.getElementById('video_turtlebot');
+    $("#video_turtlebot").css("width", "90%");
+    $("#video_turtlebot").css("height", "90%");
+    video.margin = "auto";
+    video.display = "block";
+    video.class = "p-1 bg-dark";
+    video.src = "pictures/camera.svg";
 }
 
 //Partie controle par boutons
@@ -390,10 +457,6 @@ document.addEventListener('keyup',function(event) {
     }
 });
 
-function changePage(){
-    document.getElementById('message').innerText = document.URL;
-    window.location.href = "http://"+PC_IP+":"+port+"/pages/turtlebot_teleop.html";
-}
 
 //Partie pour la creation du joystick
 function createJoystick() {
@@ -445,47 +508,160 @@ function createJoystick() {
     }
 }
 
-function chargeRobot(){ //Permet de savoir quels robots sont allumés
-    // console.log($("#connection_turtlebot").is(":visible"));  
-    var badge_turtle = document.getElementById('connection_turtlebot');
-    var badge_niryo = document.getElementById('connection_niryo');
-    console.log()
-    if ((turtleBot_name == "turtle1")&&(performance.now()-time_start_turtle1<200)){ //Pour détecter les présences, nous regardons, le temps entre la dernière réception d'un topic et le temps actuel
-        turtleBot_name = ""
-        badge_turtle.className = "badge badge-success";
-        badge_turtle.innerText = "Connected";
-        badge_turtle.parentElement.style.color = "green"
-    }
-    else{
-        badge_turtle.className = "badge badge-danger";
-        badge_turtle.innerText = "Not Connected";
-        badge_turtle.parentElement.style.color = "black"
-    }
-    if (performance.now()-time_start_niryo<1000){
-        badge_niryo.className = "badge badge-success";
-        badge_niryo.innerText = "Connected";
-        badge_niryo.parentElement.style.color = "green"
-    }
-    else{
-        badge_niryo.className = "badge badge-danger";
-        badge_niryo.innerText = "Not Connected";
-        badge_niryo.parentElement.style.color = "black"
+// Création du joystick pour le petit écran
+function createJoystickSmall() {
+    // Check if joystick was aready created and if there is enough battery
+    if (manager == null) {
+        joystickContainer = document.getElementById('joystickSmall');
+        // joystck configuration, if you want to adjust joystick, refer to:
+        // https://yoannmoinet.github.io/nipplejs/
+        var options = {
+            zone: joystickContainer,
+            position: { left: 50 + '%', top: 70 + 'px' },
+            mode: 'static',
+            size: 105,
+            color: '#0066ff',
+            restJoystick: true,
+        };
+
+        manager = nipplejs.create(options);
+        // event listener for joystick move
+        manager.on('move', function (evt, nipple) {
+            fadeTime: 0;
+            // nipplejs returns direction is screen coordiantes
+            // we need to rotate it, that dragging towards screen top will move robot forward
+            var direction = nipple.angle.degree - 90;
+            // console.log(nipple);
+            if (direction > 180) {
+                direction = -(450 - nipple.angle.degree);
+            }
+            // convert angles to radians and scale linear and angular speed
+            // adjust if you want robot to drive faster or slower
+            var lin = Math.cos(direction / 57.29) * nipple.distance * 0.005;
+            var ang = Math.sin(direction / 57.29) * nipple.distance * 0.05;
+            // nipplejs is triggering events when joystic moves each pixel
+            // we need delay between consecutive message publications to 
+            // prevent system from being flooded by messages
+            // events triggered earlier than 50ms after last publication will be dropped 
+            if (publishImmidiately) {
+                publishImmidiately = false;
+                moveAction(lin, ang);
+                setTimeout(function () {
+                    publishImmidiately = true;
+                }, 50);
+            }
+        });
+        // event listener for joystick release, always send stop message
+        manager.on('end', function () {
+            moveAction(0, 0);
+        });
     }
 }
 
-//Fermeture de la fenetre
-window.addEventListener('beforeunload', function (e) {
-    // pubWindow.unsubscribe();
-    // pubMode.unsubscribe();
-    // pubChoix.unsubscribe();
-    mode = 1;   // Le robot doit s'arreter quand on change de fenetre, on passe en mode clavier et la vitesse par défaut est de 0
-    msgMode.data = mode;
-    pubMode.publish(msgMode); 
-    // cmdVel.unadvertise();
-    battery.unsubscribe();
-});
 
-// ICI
+// function chargeRobot(){ //Permet de savoir quels robots sont allumés TODO, plus besoins de cette fonction
+//     console.log($("#connection_turtlebot").is(":visible"));  
+//     var badge_turtle = document.getElementById('connection_turtlebot');
+//     var badge_niryo = document.getElementById('connection_niryo');
+//     console.log()
+//     if ((turtleBot_name == "turtle1")&&(performance.now()-time_start_turtle1<200)){ //Pour détecter les présences, nous regardons, le temps entre la dernière réception d'un topic et le temps actuel
+//         turtleBot_name = ""
+//         badge_turtle.className = "badge badge-success";
+//         badge_turtle.innerText = "Connected";
+//         badge_turtle.parentElement.style.color = "green"
+//     }
+//     else{
+//         badge_turtle.className = "badge badge-danger";
+//         badge_turtle.innerText = "Not Connected";
+//         badge_turtle.parentElement.style.color = "black"
+//     }
+//     if (performance.now()-time_start_niryo<1000){
+//         badge_niryo.className = "badge badge-success";
+//         badge_niryo.innerText = "Connected";
+//         badge_niryo.parentElement.style.color = "green"
+//     }
+//     else{
+//         badge_niryo.className = "badge badge-danger";
+//         badge_niryo.innerText = "Not Connected";
+//         badge_niryo.parentElement.style.color = "black"
+//     }
+// }
+
+//Gestion des boutons de navigation
+function gestionNavigation(){
+    console.log("Appui du bouton de lancement de position");
+    navigationRunning = !navigationRunning;
+    bouton_navigation = document.getElementById("bouton_navigation");
+    etat_commande_position = document.getElementById("etat_commande_position");
+    console.log(etat_commande_position);
+    // console.log(bouton_navigation.children[1]);
+    if (navigationRunning == true){
+        //Partie ros
+        mode = "navigation";
+        msgMode.data = mode;
+        pubMode.publish(msgMode);
+        msgChoix.data = checkButtonValue();
+        pubChoix.publish(msgChoix);
+        console.log(msgChoix.data);
+        //Autre partie
+        bouton_navigation.children[0].src = "pictures/pause-circle.svg";
+        bouton_navigation.children[1].textContent = "Arrêter la navigation";
+        bouton_navigation.style.backgroundColor = "#FF0202";
+        griserCheckBox(true);
+        etat_commande_position.innerText = "En déplacement"
+        //Ajouter en déplacement et la partie en lien avec ROS
+    }
+    else{
+        //Partie ros
+        mode = "attente";
+        msgMode.data = mode;
+        pubMode.publish(msgMode);
+        msgChoix.data = 1;
+        pubChoix.publish(msgChoix);
+        console.log(msgChoix.data);
+        //Autre partie
+        bouton_navigation.children[0].src = "pictures/play-circle.svg";
+        bouton_navigation.children[1].textContent = "Lancer la navigation";
+        bouton_navigation.style.backgroundColor = "#17A2B8";
+        griserCheckBox(false);
+        etat_commande_position.innerText = "En attente"
+    }
+}
+
+function checkButtonValue(){
+    //TODO afficher la valeur des checkbuttons
+}
+
+function griserCheckBox(griser){
+    checkButtonList = document.getElementsByClassName("containerRadio");
+    if (griser == true){
+        for (i = 0; i < checkButtonList.length; i++) {
+            console.log(checkButtonList[i]);
+            checkButtonList[i].children[0].disabled = true;
+        } 
+    }
+    else {
+        for (i = 0; i < checkButtonList.length; i++) {
+            console.log(checkButtonList[i]);
+            checkButtonList[i].children[0].disabled = false;
+        } 
+    }
+}
+
+//Gestion du bouton de controle manuel 
+function gestionControleManuel(){
+    console.log("Appui du bouton de lancement de position");
+    controleManuelDisplayed = !controleManuelDisplayed;
+    image_bouton = document.getElementById("boutonControleManuel").lastElementChild;
+    if (controleManuelDisplayed == true){
+        image_bouton.src = "pictures/flecheHaut.svg";
+    }
+    else {
+        image_bouton.src = "pictures/flecheBas.svg";
+    }
+}
+
+// Ouverture du controle manuel
 function openControle(evt, nameWindow) {
     // Declare all variables
     var i, tabcontent, tablinks;
@@ -508,4 +684,43 @@ function openControle(evt, nameWindow) {
     if (nameWindow == "controle_joystick"){
         createJoystick();
     }
-} 
+}
+
+/////////////////////////// FIN DES FONCTIONS ///////////////////////////////////////
+
+//Fermeture de la fenetre
+window.addEventListener('beforeunload', function (e) {
+    // pubWindow.unsubscribe();
+    // pubMode.unsubscribe();
+    // pubChoix.unsubscribe();
+    mode = "fermeture";   // Le robot doit s'arreter quand on change de fenetre, on passe en mode clavier et la vitesse par défaut est de 0
+    msgMode.data = mode;
+    pubMode.publish(msgMode); 
+    // cmdVel.unadvertise();
+    battery.unsubscribe();
+});
+
+document.getElementById("camera_button").addEventListener('change', function (e){
+    console.log("au moins on rentre dedans");
+    console.log(robot_connected);
+    if (robot_connected == true){
+        var camera_status = document.getElementById("camera_status");
+        if (!document.getElementById("camera_button").checked){
+            camera_status.style.backgroundColor = 'red';
+            camera_status.innerText = "Désactivé";
+            EteinsCamera();
+            console.log("1");
+
+        }
+        else{
+            camera_status.style.backgroundColor = '#0DAC44';
+            camera_status.innerText = "Activé";
+            AllumeCamera();
+            console.log("2");
+        }
+    }
+    else {
+        alert
+    }
+});
+

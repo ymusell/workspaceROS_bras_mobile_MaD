@@ -22,11 +22,13 @@
     <!-- Bandeau -->
     <header>
         <div id='bandeau'>
-            <nav class="navbar navbar-expand navbar-light" style="background-color:#62cdff">    <!-- "navbar navbar-dark" -->
-                <b>
-                    <img src="https://raw.githubusercontent.com/Anton1B/Base_mobile_MaD/main/src_web/pictures/logo_MaD_light.png"
-                        width="80" height="50" class="d-inline-block" alt="">
-                </b>
+            <nav class="navbar navbar-expand-md navbar-light" style="background-color:#62cdff">    <!-- "navbar navbar-dark" -->
+                <a class="navbar-brand" href="index.html">
+                    <img src="pictures/logo_MaD_light.png" width="80" height="50" class="d-inline-block" alt="logo de la chaire">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
@@ -74,10 +76,10 @@
 
     <!-- Bandeau d'acceuil -->
 
-    <div class="row row_adjust">
+    <div class="row mr-0">
         <div class="col-md-1"></div>
         <div class="col-md-10">
-            <h3 id="message" style="color: #323E2E;border: inset;border-radius: 5px;text-align: center;border-color: #62cdff;font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+            <h3 id="message" style="color: #323E2E;border: 3px #62cdff inset;border-radius: 20px;text-align: center;font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
                 Bienvenue au menu de démarrage pour le contrôle des robots de la Chaire M@D</h3>
         </div>
         <div class="col-md-1"></div>
@@ -85,7 +87,7 @@
 
     <!-- group card pour les robots connectés -->
 
-    <div class="row row_adjust">
+    <div class="row mr-0">
         <div class="col-md-1"></div>
         <div class="col-md-10">
             <h3>Robot(s) connecté(s):</h3>
@@ -94,7 +96,7 @@
                     <a href="turtlebot_teleop.html">
                         <img src="pictures/dessin_turtlebot_bleu.svg" alt="lien vers la page du turtlebot" />
                     </a>
-                    <h5><strong>Turtlebot</strong></h5>
+                    <h5><strong>Turtlebot1</strong></h5>
                     <!-- <p><small class="text-muted">Statut:  Connecté</small><img src="pictures/validate_icon.svg" alt="validate icon" height="20px" width="20px"></p> -->
                     <p class="connection_status">Statut:  Connecté <img src="pictures/validate_icon.svg" alt="validate icon"/></p>
                 </div>
@@ -120,23 +122,23 @@
 
     <!-- group card pour les robots non connecté -->
 
-    <div class="row row_adjust">
+    <div class="row mr-0">
         <div class="col-md-1"></div>
         <div class="col-md-10">
             <h3>Robot(s) non connecté(s):</h3>
             <div class="row flex-row flex-nowrap  overflow-auto" style="margin-left: 25px;">
                 <div class="carte" id="turtlebot_card_unavailable">
-                    <img src="pictures/dessin_turtlebot_gris.svg" alt="lien vers la page du turtlebot" width="125px" height="125px"/>
-                    <h5><strong>Turtlebot</strong></h5>
+                    <img src="pictures/dessin_turtlebot_gris.svg" alt="lien vers la page du turtlebot" width="120px" height="120px"/>
+                    <h5><strong>Turtlebot1</strong></h5>
                     <p class="connection_status">Statut: Déconnecté <img src="pictures/cross_icon.svg" alt="cross icon"/></p>
                 </div>
                 <div class="carte" id="niryo_card_unavailable">
-                    <img src="pictures/dessin_niryo_gris.svg" alt="lien vers la page du niryo"/>
+                    <img src="pictures/dessin_niryo_gris.svg" alt="lien vers la page du niryo" width="120px" height="120px"/>
                     <h5><strong>Niryo One</strong></h5>
                     <p class="connection_status">Statut: Déconnecté <img src="pictures/cross_icon.svg" alt="cross icon"/></p>
                 </div>
                 <div class="carte" id="meuble_card_unavailable">
-                    <img src="pictures/dessin_meuble_gris.svg" alt="lien vers la page du meuble"/>
+                    <img src="pictures/dessin_meuble_gris.svg" alt="lien vers la page du meuble" width="120px" height="120px"/>
                     <h5><strong>Meuble</strong></h5>
                     <p class="connection_status">Statut: Déconnecté <img src="pictures/cross_icon.svg" alt="cross icon"/></p>
                 </div>
