@@ -113,6 +113,7 @@ class Turtlebot_Listener:
 		#print(data.data)
 		self.message = data.data
 		self.pose = self.message.split()[-1]		#Temporaire
+		print(self.pose)
 
 
 #Declaration du node
@@ -125,7 +126,7 @@ turtleListener = Turtlebot_Listener()
 rate = rospy.Rate(10) # 10hz
 
 #Creation des processus
-processus_turtlebot_navigation = Process("turtlebot_navigation","roslaunch simple_navigation_goals turtlebot_control.launch", ["map_name:=chaire_mad","filtering:=true"])  #chaire_mad_etage#roslaunch turtlebot3_navigation turtlebot3_navigation.launch
+processus_turtlebot_navigation = Process("turtlebot_navigation","roslaunch simple_navigation_goals turtlebot_control.launch", ["map_name:=chaire_mad_etage","filtering:=true"])  #chaire_mad #roslaunch turtlebot3_navigation turtlebot3_navigation.launch
 # processus_turtlebot_navigation_goals = Process("turtlebot_navigation_goals","rosrun simple_navigation_goals navigation_goals") 
 processus_niryo = Process("niryoOne","rosrun niryo_control niryo_control.py")
 
@@ -160,6 +161,7 @@ if __name__ == '__main__':
 				print("la valeur recherche est ",turtleListener.pose)
 				if ((turtleListener.pose == "travail") or (turtleListener.pose == "salon")):
 					processus_niryo.args = [turtleListener.pose]
+					print("turtleListener.pose : ",turtleListener.pose)
 				else:
 					processus_niryo.args = []
 				processus_niryo.start()
@@ -171,6 +173,3 @@ if __name__ == '__main__':
 		rate.sleep()
 processus_turtlebot_navigation.stop()
 
-
-# TODO left
-# Tester avec le fonctionnement du Niryo

@@ -20,12 +20,13 @@
 # Authors: Leon Jung
 
 import rospy
-import os #Ajout pour system()
+# import os #Ajout pour system()
 import numpy as np
 import tf
 from enum import Enum
 from nav_msgs.msg import Odometry
 from ar_track_alvar_msgs.msg import AlvarMarkers
+from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Int32 #Pour le flag
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
@@ -34,6 +35,12 @@ import time
 import sys
 
 MARKER_ID_DETECTION = 17
+
+# Lidar parking params
+gap_wanted_angle = 10*(math.pi/180)
+wanted_angle = math.pi/2
+min_dist = 0.168    #Valeur de distance minimale
+
 
 #Signale au node de controle que l'action est terminee et publie le message de fin
 #def talker():
@@ -48,7 +55,7 @@ MARKER_ID_DETECTION = 17
 #        count = count + 1
 #        rate.sleep()
 
-class AutomaticParkingVision():
+class AutomaticParkingVisionLidar():
     def __init__(self):
         self.sub_odom_robot = rospy.Subscriber(
             '/odom', Odometry, self.cbGetRobotOdom, queue_size=1)
@@ -58,7 +65,7 @@ class AutomaticParkingVision():
         self.pub_cmd_vel = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
 
         self.ParkingSequence = Enum(
-            'ParkingSequence', 'searching_parking_lot changing_direction moving_nearby_parking_lot parking stop finished')
+            'ParkingSequence', 'searching_parking_lot changing_direction moving_nearby_parking_lot parking_vision parking_lidar stop finished')
         self.NearbySequence = Enum(
             'NearbySequence', 'initial_turn go_straight turn_right parking')
         self.current_nearby_sequence = self.NearbySequence.initial_turn.value
@@ -74,6 +81,9 @@ class AutomaticParkingVision():
         self.previous_robot_2d_theta = .0
         self.total_robot_2d_theta = .0
         self.is_triggered = False
+
+        #Some part for the lidar part
+        self.msg = LaserScan()
 
         self.is_sequence_finished = False
 
@@ -120,6 +130,9 @@ class AutomaticParkingVision():
                     self.is_marker_pose_received = True
 
                 pos_x, pos_y, theta = self.fnGet2DMarkerPose(marker_odom_msg)
+                # Concernant la valeur de l angle theta, a la suite de problemes de localisation des markers, 
+                # il a fallut decaler le repere de la camera, ce qui change celui du marker d environ 19 degres soit 0.345 rad
+                theta-=0.345
 
                 self.marker_2d_pose_x = pos_x
                 self.marker_2d_pose_y = pos_y
@@ -140,44 +153,45 @@ class AutomaticParkingVision():
 
             if self.is_sequence_finished == True:
                 print ("Finished 2")
-                self.current_parking_sequence = self.ParkingSequence.moving_nearby_parking_lot.value
+                self.current_parking_sequence = self.ParkingSequence.parking_vision.value    #self.ParkingSequence.moving_nearby_parking_lot.value
                 self.is_sequence_finished = False
                 # rospy.sleep(5)
 
-        elif self.current_parking_sequence == self.ParkingSequence.moving_nearby_parking_lot.value:
-            # print ("moving_nearby_parking_lot")
-            self.is_sequence_finished = self.fnSeqMovingNearbyParkingLot()
+        # elif self.current_parking_sequence == self.ParkingSequence.moving_nearby_parking_lot.value:   #Nous ne rentrons temporairement plus dedans
+        #     # print ("moving_nearby_parking_lot")
+        #     self.is_sequence_finished = self.fnSeqMovingNearbyParkingLot()
 
-            if self.is_sequence_finished == True:
-                print ("Finished 3")
-                self.current_parking_sequence = self.ParkingSequence.parking.value
-                self.is_sequence_finished = False
+        #     if self.is_sequence_finished == True:
+        #         print ("Finished 3")
+        #         self.current_parking_sequence = self.ParkingSequence.parking_vision.value
+        #         self.is_sequence_finished = False
 
-        elif self.current_parking_sequence == self.ParkingSequence.parking.value:
+        elif self.current_parking_sequence == self.ParkingSequence.parking_vision.value:
             self.is_sequence_finished = self.fnSeqParking()
 
             if self.is_sequence_finished == True:
-                print ("Finished 4")
+                print ("Finished 3")
                 desired_angle_turn = math.atan2(
                     self.marker_2d_pose_y - 0, self.marker_2d_pose_x - 0)  # ATTENTION !!!!!!!!!!!!!!!!!!!! FIN DE DOCKING placement en face du marker
-                self.fnGoDocking(desired_angle_turn)
-                rospy.sleep(2)
-                self.current_parking_sequence = self.ParkingSequence.stop.value #Les deux qui suivent sont la vrai suite
+                # self.fnGoDocking(desired_angle_turn)
+                # rospy.sleep(2)
+                self.current_parking_sequence = self.ParkingSequence.parking_lidar.value #Les deux qui suivent sont la vrai suite
                 self.is_sequence_finished = False
                 # self.fnPostDocking()
                 # rospy.sleep(2)
+
+        elif self.current_parking_sequence == self.ParkingSequence.parking_lidar.value: #Nouveaute
+            self.is_sequence_finished = self.lidarSeqParking() 
+
+            if self.is_sequence_finished == True:
+                print ("Finished 4")
+                self.current_parking_sequence = self.ParkingSequence.stop.value #Les deux qui suivent sont la vrai suite
+                self.is_sequence_finished = False
 
         elif self.current_parking_sequence == self.ParkingSequence.stop.value:
             self.fnStop()
             print ("Finished 5")
             self.current_parking_sequence = self.ParkingSequence.finished.value
-
-            #os.system('rosnode kill ar_track_alvar')
-            # TODO changer le kill de rviz, pour ne pas avoir a le declarer au debut et ne pas le kill maintenant
-            # os.system('rosnode kill rviz')
-            #os.system('rosnode kill joint_state_publisher_gui')
-            #os.system('rosnode kill robot_state_publisher')
-            #os.system('rosnode kill camera_rgb_optical_frame_to_cam')
 
             sys.exit()
 
@@ -276,12 +290,86 @@ class AutomaticParkingVision():
         desired_angle_turn = math.atan2(self.marker_2d_pose_y - 0, self.marker_2d_pose_x - 0)
         self.fnTrackMarker(-desired_angle_turn)
 
-        print (self.marker_2d_pose_x)
-        if abs(self.marker_2d_pose_x) < 0.22:   #0.29, 0.22 de base
+        print ("valeur de marker pose x: ",self.marker_2d_pose_x)
+        if abs(self.marker_2d_pose_x) < 0.2:   #0.29, 0.22 de base
             self.fnStop()
             return True
         else:
             return False
+
+    # Lidar functions 
+    def get_angle_distance(self,angle):
+        distance = self.msg.ranges[int(angle)]
+        if self.msg.ranges[int(angle)] is not None and distance is not 0:
+            angle = int(angle)
+            distance = distance
+        return angle, distance
+
+    def get_point(self,start_angle_distance):
+        angle = start_angle_distance[0]
+        angle = np.deg2rad(angle - 180)
+        distance = start_angle_distance[1]
+
+        if angle >= 0 and angle < math.pi / 2:
+            x = distance * math.cos(angle) * -1
+            y = distance * math.sin(angle) * -1
+        elif angle >= math.pi / 2 and angle < math.pi:
+            x = distance * math.cos(angle) * -1
+            y = distance * math.sin(angle) * -1
+        elif angle >= -math.pi / 2 and angle < 0:
+            x = distance * math.cos(angle) * -1
+            y = distance * math.sin(angle) * -1
+        else:
+            x = distance * math.cos(angle) * -1
+            y = distance * math.sin(angle) * -1
+
+        return [x, y]
+
+    def get_list_spot(self, center_angle, start_angle, end_angle): #Avoir la position des points
+        # print("scan wall spot done!")
+        list_spot = []
+        list_distance = []
+        for k in range(start_angle,center_angle-1,-1):
+            angle_distance = self.get_angle_distance(k)
+            if(angle_distance[1]!=0):
+                list_spot.append(self.get_point(angle_distance))
+                list_distance.append(angle_distance[1])
+        for k in range(359,end_angle-1,-1):
+            angle_distance = self.get_angle_distance(k)
+            if(angle_distance[1]!=0):
+                list_spot.append(self.get_point(angle_distance))
+                list_distance.append(angle_distance[1])
+        print("valeur mini : ",min(list_distance))
+        # print(list_spot)
+        # print("out")
+        print("list_distance : ",list_distance)
+        find_spot = False
+        if len(list_spot)>=2:
+            find_spot = True
+        return find_spot,list_spot,list_distance
+
+    def lidarSeqParking(self):
+        self.msg = rospy.wait_for_message("/scan", LaserScan)
+        scan_done, center_angle, start_angle, end_angle = True, 0, 5, 355
+
+        find_spot,list_spot,list_distance = self.get_list_spot(center_angle, start_angle, end_angle)
+        if (find_spot): #On peut calculer theta car plus de deux valeurs
+            theta = np.arctan2(list_spot[0][1] - list_spot[-1][1], list_spot[0][0] - list_spot[-1][0])
+            find_spot = False
+        print("test")
+        print("theta : ",np.rad2deg(theta))
+        if (min(list_distance) >= min_dist):
+            if(abs(wanted_angle-theta)<gap_wanted_angle):
+                print("tout droit")
+                self.fnDocking(0)
+            else:
+                print("nous tournons")
+                print("theta-wanted_angle : ",theta-wanted_angle)
+                self.fnDocking(theta-wanted_angle)
+            return False
+        else:
+            self.fnStop()
+            return True
 
     def fnStop(self):
         twist = Twist()
@@ -317,7 +405,7 @@ class AutomaticParkingVision():
         twist.angular.z = 0
         self.pub_cmd_vel.publish(twist)
 
-    def fnGoDocking(self, theta): #Derniere avancee avant fin du docking
+    def fnGoDocking(self, theta): #Avance vers la fin de la vision
         Kp = 1.2
         angular_z = Kp * theta
 
@@ -329,6 +417,19 @@ class AutomaticParkingVision():
         twist.angular.y = 0
         twist.angular.z = angular_z
         self.pub_cmd_vel.publish(twist)
+
+    def fnDocking(self, theta): #fin de docking jusqu a la position finale
+        Kp = 0.5    #1.2
+        angular_z = Kp * theta
+
+        twist = Twist()
+        twist.linear.x = 0.07   #0.25 0.1
+        twist.linear.y = 0
+        twist.linear.z = 0
+        twist.angular.x = 0
+        twist.angular.y = 0
+        twist.angular.z = angular_z
+        self.pub_cmd_vel.publish(twist)   
 
     def fnPostDocking(self): #Recul apres le docking
 
@@ -410,7 +511,7 @@ class AutomaticParkingVision():
 
 if __name__ == '__main__':
     rospy.init_node('automatic_parking_vision')
-    node = AutomaticParkingVision()
+    node = AutomaticParkingVisionLidar()
     node.main()
     #talker() #Publication du message de fin
     print("Fin du programme")

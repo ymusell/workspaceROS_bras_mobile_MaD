@@ -203,7 +203,7 @@
                 </div>
                 
                 <div id="controle_clavier" class="tabcontent" style="background-color: #8EC4FF;">
-                    <div class="col-md-5" style="padding-left: 1px;background-color: #F6F8E1;margin: 5px;">
+                    <div class="col-md-5" style="padding-left: 1px;background-color: #F6F8E1;margin: 5px;" onclick="modeChange('clavier')">
                         <h4 class="alert-heading">Instructions: </h4>
                         <p style="margin-bottom: 1px;">Pour diriger le robot, vous pouvez: </p>
                         <ul style="padding-left: 25px;margin-bottom: 10px;">
@@ -268,13 +268,13 @@
                     </div>
                     <div class="col-md-7" id='affichage_video' style="padding: 0px;margin: auto;">
                         <div class="col d-flex justify-content-center" style="margin: 5px;">
-                            <img src="pictures/camera.svg" style="margin:auto;display:block" height="90%" width="90%" class="p-1 bg-dark" alt="flux video" id="video_turtlebot" />
+                            <img src="pictures/camera.svg" style="margin:auto;display:block" height="90%" width="90%" class="p-1 bg-dark video_turtlebot" alt="flux video"/>
                         </div>
                     </div>
                 </div>    
                 
                 <div id="controle_joystick" class="tabcontent" style="background-color: #8EC4FF;display: none;">
-                    <div class="col-md-5" style="padding-left: 1px;background-color: #F6F8E1;margin: 5px;">
+                    <div class="col-md-5" style="padding-left: 1px;background-color: #F6F8E1;margin: 5px;" onclick="modeChange('joystick')">
                         <h4 class="alert-heading">Instructions: </h4>
                         <p style="margin-bottom: 1px;">Pour diriger le robot, vous pouvez utiliser le joystick: </p>
                         <div id='joystickCommande'>
@@ -289,14 +289,14 @@
                     </div>
                     <div class="col-md-7" id='affichage_video' style="padding: 0px;">
                         <div class="col d-flex justify-content-center" style="margin: 5px;">
-                            <img src="pictures/camera.svg" style="margin:auto;display:block" height="90%" width="90%" class="p-1 bg-dark" alt="flux video" id="video_turtlebot" />
+                            <img src="pictures/camera.svg" style="margin:auto;display:block" height="90%" width="90%" class="p-1 bg-dark video_turtlebot" alt="flux video"/>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="d-block d-lg-none px-0 col-md-12"> 
+            <div class="d-block d-lg-none px-0 col-md-12" onclick="modeChange('joystick')"> 
                 <div class="row" style="margin: auto; display: flex">
-                    <img src="pictures/camera.svg" style="margin:auto;display:block" height="300px" width="300px" class="p-1 bg-dark" alt="flux video" id="video_turtlebot_2" />
+                    <img src="pictures/camera.svg" style="margin:auto;display:block" height="300px" width="300px" class="p-1 bg-dark video_turtlebot" alt="flux video"/>
                 </div>
                 <div class="row m-2 " style="background-color: #F6F8E1;">
                     <div class="col-6">

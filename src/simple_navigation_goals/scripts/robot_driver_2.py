@@ -126,7 +126,7 @@ turtleListener = Turtlebot_Listener()
 rate = rospy.Rate(10) # 10hz
 
 #Creation des processus
-processus_turtlebot_navigation = Process("turtlebot_navigation","roslaunch simple_navigation_goals turtlebot_control.launch", ["map_name:=chaire_mad","filtering:=true"])  #chaire_mad_etage#roslaunch turtlebot3_navigation turtlebot3_navigation.launch
+processus_turtlebot_navigation = Process("turtlebot_navigation","roslaunch simple_navigation_goals turtlebot_control.launch", ["map_name:=chaire_mad_etage","filtering:=true"])  #chaire_mad #roslaunch turtlebot3_navigation turtlebot3_navigation.launch
 # processus_turtlebot_navigation_goals = Process("turtlebot_navigation_goals","rosrun simple_navigation_goals navigation_goals") 
 processus_niryo = Process("niryoOne","rosrun niryo_control niryo_control.py")
 

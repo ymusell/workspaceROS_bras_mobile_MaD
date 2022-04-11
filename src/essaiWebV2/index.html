@@ -39,7 +39,7 @@
                                 Robots
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="turtlebot_teleop.html">Turtlebot3</a>
+                                <a class="dropdown-item" href="turtlebot_teleop.html" onclick="turtlebotName('')">Turtlebot3</a>
                                 <a class="dropdown-item" href="niryo_one.html">Niryo One</a>
                                 <a class="dropdown-item" href="meuble.html">Meuble</a>
                             </div>
@@ -92,11 +92,19 @@
         <div class="col-md-10">
             <h3>Robot(s) connecté(s):</h3>
             <div class="row flex-row flex-nowrap overflow-auto" style="margin-left: 25px;">      <!--  overflow_auto pour pouvoir scroller -->
-                <div class="carte" id="turtlebot_card_available">
-                    <a href="turtlebot_teleop.html">
+                <div class="carte" id="turtlebot1_card_available">
+                    <a href="turtlebot_teleop.html" onclick="turtlebotName('turtlebot1')">
                         <img src="pictures/dessin_turtlebot_bleu.svg" alt="lien vers la page du turtlebot" />
                     </a>
                     <h5><strong>Turtlebot1</strong></h5>
+                    <!-- <p><small class="text-muted">Statut:  Connecté</small><img src="pictures/validate_icon.svg" alt="validate icon" height="20px" width="20px"></p> -->
+                    <p class="connection_status">Statut:  Connecté <img src="pictures/validate_icon.svg" alt="validate icon"/></p>
+                </div>
+                <div class="carte" id="turtlebot2_card_available">
+                    <a href="turtlebot_teleop.html" onclick="turtlebotName('turtlebot2')">
+                        <img src="pictures/dessin_turtlebot_bleu.svg" alt="lien vers la page du turtlebot" />
+                    </a>
+                    <h5><strong>Turtlebot2</strong></h5>
                     <!-- <p><small class="text-muted">Statut:  Connecté</small><img src="pictures/validate_icon.svg" alt="validate icon" height="20px" width="20px"></p> -->
                     <p class="connection_status">Statut:  Connecté <img src="pictures/validate_icon.svg" alt="validate icon"/></p>
                 </div>
@@ -127,9 +135,14 @@
         <div class="col-md-10">
             <h3>Robot(s) non connecté(s):</h3>
             <div class="row flex-row flex-nowrap  overflow-auto" style="margin-left: 25px;">
-                <div class="carte" id="turtlebot_card_unavailable">
+                <div class="carte" id="turtlebot1_card_unavailable">
                     <img src="pictures/dessin_turtlebot_gris.svg" alt="lien vers la page du turtlebot" width="120px" height="120px"/>
                     <h5><strong>Turtlebot1</strong></h5>
+                    <p class="connection_status">Statut: Déconnecté <img src="pictures/cross_icon.svg" alt="cross icon"/></p>
+                </div>
+                <div class="carte" id="turtlebot2_card_unavailable">
+                    <img src="pictures/dessin_turtlebot_gris.svg" alt="lien vers la page du turtlebot" width="120px" height="120px"/>
+                    <h5><strong>Turtlebot2</strong></h5>
                     <p class="connection_status">Statut: Déconnecté <img src="pictures/cross_icon.svg" alt="cross icon"/></p>
                 </div>
                 <div class="carte" id="niryo_card_unavailable">

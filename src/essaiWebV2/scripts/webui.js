@@ -1,4 +1,5 @@
 var time_start_turtle1;
+var time_start_turtle2;
 var time_start_niryo;
 var ros;
 var turtleBot_name;
@@ -68,6 +69,19 @@ listener_turtle1.subscribe(function(message) {
     // listener_turtle1.unsubscribe();
 });
 
+// Version sans topic nommé /turtlebot3_name mais avec le turtlebot2
+var listener_turtle1 = new ROSLIB.Topic({
+    ros : ros,
+    name : '/turtlebot2/imu',
+    messageType : 'sensor_msgs/Imu'
+});
+
+listener_turtle1.subscribe(function(message) {
+    // console.log(message);
+    time_start_turtle2 = performance.now();
+    // listener_turtle1.unsubscribe();
+});
+
 var listener_niryo = new ROSLIB.Topic({
     ros : ros,
     name : '/niryo_one/learning_mode',
@@ -78,6 +92,11 @@ listener_niryo.subscribe(function(message) {
     // console.log(performance.now()-time_start_niryo);
     time_start_niryo = performance.now();
     // listener_niryo.unsubscribe();
+});
+
+var robotName = new ROSLIB.Param({      //parametre pour différencier les robots de même type
+    ros : ros,
+    name : 'robotName'
 });
 
 
@@ -113,26 +132,34 @@ listener_niryo.subscribe(function(message) {
 //Gestion de la fenêtre
 
 window.onload = function () {
-    time_start_turtle1, time_start_niryo = performance.now();
+    time_start_turtle1, time_start_turtle2, time_start_niryo = performance.now();
     initWindowPublisher();
     windowName = "home";
     msgWindow.data = windowName;
     pubWindow.publish(msgWindow);
     console.log(windowName);
     display_turtlebot1(false);
+    display_turtlebot2(false);
     display_niryo(false);
     display_meuble(false);
     robot_connection_timer = setInterval(robot_connection,1000);
+    robotName.set('');  //Initialisation des robots de nom différents
 }
 
 //Gestion de la présence des robots et de leurs affichage
 function robot_connection(){
-    console.log("Inside");  
+    // console.log("test connexion");  
     if ((turtleBot_name == "turtlebot1")&&(performance.now()-time_start_turtle1<200)){
         display_turtlebot1(true);
     }
     else{
         display_turtlebot1(false);
+    }
+    if (performance.now()-time_start_turtle2<200){  //TODO tester la fonction avec le second turtlebot
+        display_turtlebot2(true);
+    }
+    else{
+        display_turtlebot2(false);
     }
     if (performance.now()-time_start_niryo<1000){
         display_niryo(true);
@@ -151,12 +178,22 @@ function robot_connection(){
 
 function display_turtlebot1(value){
     if (value == true){
-        document.getElementById('turtlebot_card_available').style.display = 'flex';
-        document.getElementById('turtlebot_card_unavailable').style.display = 'none';
+        document.getElementById('turtlebot1_card_available').style.display = 'flex';
+        document.getElementById('turtlebot1_card_unavailable').style.display = 'none';
     }
     else {
-        document.getElementById('turtlebot_card_available').style.display = 'none';
-        document.getElementById('turtlebot_card_unavailable').style.display = 'flex'
+        document.getElementById('turtlebot1_card_available').style.display = 'none';
+        document.getElementById('turtlebot1_card_unavailable').style.display = 'flex'
+    }
+}
+function display_turtlebot2(value){
+    if (value == true){
+        document.getElementById('turtlebot2_card_available').style.display = 'flex';
+        document.getElementById('turtlebot2_card_unavailable').style.display = 'none';
+    }
+    else {
+        document.getElementById('turtlebot2_card_available').style.display = 'none';
+        document.getElementById('turtlebot2_card_unavailable').style.display = 'flex'
     }
 }
 function display_niryo(value){
@@ -178,6 +215,11 @@ function display_meuble(value){
         document.getElementById('meuble_card_available').style.display = 'none';
         document.getElementById('meuble_card_unavailable').style.display = 'flex';
     }
+}
+
+function turtlebotName(name){
+    robotName.set(name);
+    console.log(name);      //TODO, pas sur on peut changer
 }
 
 window.addEventListener('beforeunload', function (e) {

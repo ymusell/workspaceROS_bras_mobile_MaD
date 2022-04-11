@@ -7,6 +7,7 @@ var mode;
 var robot_IP;
 var robot_connected;
 var manager;
+var managerSmall;
 var teleop;
 var ros;
 var linSpeed;
@@ -14,13 +15,17 @@ var angSpeed;
 var port = window.location.port;
 var controleManuelDisplayed;
 var navigationRunning;
+
+var indexPosition = [2,4,6,1,5,3]; //Correspondance index bouton/index dans le programme ROS pour les positions
+var robot_name = '';
+
 PC_IP = location.hostname;
 
 ros = new ROSLIB.Ros({
     url: "ws://" + PC_IP + ":9090"
 });
 
-robot_connected = true;
+// robot_connected = true;
 // TODO, il faudra décommenter le texte suivant pour afficher les erreurs liées à la connexion ROS
 // ros.on('error',function(){
 //     alert("Connection impossible avec ROS, veuillez lancer un roscore et rafraichissez la page");
@@ -156,7 +161,7 @@ function initVelocityPublisher() {
     // Init topic object
     cmdVel = new ROSLIB.Topic({
         ros: ros,
-        name: '/cmd_vel',
+        name: robot_name+'/cmd_vel',
         messageType: 'geometry_msgs/Twist',
         latch:'true',
         reconnect_on_close:'false'
@@ -168,7 +173,7 @@ function initVelocityPublisher() {
 // Gestion du niveau de batterie
 var battery = new ROSLIB.Topic({
     ros: ros,
-    name: '/battery_level',
+    name: robot_name+'/battery_level',
     messageType: 'std_msgs/Int32'
 });
 
@@ -195,12 +200,22 @@ listener_turtle1.subscribe(function(message) {
     // listener_turtle1.unsubscribe();
 });
 
+var robotName = new ROSLIB.Param({      //parametre pour différencier les robots de même type
+    ros : ros,
+    name : 'robotName'
+});
+
 ///// Fin de la partie ROS
 
 //Gestion de la fenêtre
 window.onload = function () {
     console.log("La fenêtre du turtle est allumée ")
+    robotName.get(function(value) {
+        robot_name = value;
+        // console.log('My robot\'s name is ' + value);
+    });
     initWindowPublisher();
+    initVelocityPublisher();
     windowName = "turtlebot" 
     msgWindow.data = windowName;
     pubWindow.publish(msgWindow);
@@ -220,8 +235,8 @@ function turtlebot_connection(){
         allow_display(true);
     }
     else{
-        robot_connected = true;
-        allow_display(true);       ///TODO, changer la valeur pour le bon fonctionnement final 
+        robot_connected = false;
+        allow_display(false);       ///TODO, changer la valeur pour le bon fonctionnement final 
     }
 }
 function allow_display(allow){
@@ -242,28 +257,55 @@ function allow_display(allow){
 }
 
 //Partie gestion de la camera
-function AllumeCamera(){
-    console.log("Travail du grand bouton");
-    video = document.getElementById('video_turtlebot');
-    video.height = 308;
-    video.width = 410;
-    video.margin = 1;
+// function AllumeCamera(){
+//     console.log("Travail du grand bouton");
+//     video = document.getElementById('video_turtlebot');
+//     video.height = 308;
+//     video.width = 410;
+//     video.margin = 1;
 
-    // Source de la caméra (de l'image non compressée)
-    video.src = "http://" + PC_IP + ":8080/stream?topic=/raspicam_node/image&type=mjpeg&quality=50";
+//     // Source de la caméra (de l'image non compressée)
+//     video.src = "http://" + PC_IP + ":8080/stream?topic=/raspicam_node/image&type=mjpeg&quality=50";
+//     // video.onload = function () {
+//     //     document.getElementById('message').innerText = "un début de la vidéo"; //TODO ajouter une nouvelle alerte
+//     // };   
+// }
+function AllumeCamera(){
+    video = document.getElementsByClassName("video_turtlebot");
+    for (i = 0; i < video.length; i++) {
+        console.log(video);
+        video[i].height = 308;
+        video[i].width = 410;
+        video[i].margin = 1;
+        // Source de la caméra (de l'image non compressée)
+        video[i].src = "http://" + PC_IP + ":8080/stream?topic="+robot_name+"/raspicam_node/image&type=mjpeg&quality=50";
+    } 
     // video.onload = function () {
     //     document.getElementById('message').innerText = "un début de la vidéo"; //TODO ajouter une nouvelle alerte
     // };   
 }
+// function EteinsCamera(){
+//     console.log("Fermeture du flux vidéo");
+//     var video = document.getElementById('video_turtlebot');
+//     $("#video_turtlebot").css("width", "90%");
+//     $("#video_turtlebot").css("height", "90%");
+//     video.margin = "auto";
+//     video.display = "block";
+//     video.class = "p-1 bg-dark";
+//     video.src = "pictures/camera.svg";
+// }
+
 function EteinsCamera(){
     console.log("Fermeture du flux vidéo");
-    var video = document.getElementById('video_turtlebot');
-    $("#video_turtlebot").css("width", "90%");
-    $("#video_turtlebot").css("height", "90%");
-    video.margin = "auto";
-    video.display = "block";
-    video.class = "p-1 bg-dark";
-    video.src = "pictures/camera.svg";
+    video = document.getElementsByClassName("video_turtlebot");
+    $(".video_turtlebot").css("width", "90%");
+    $(".video_turtlebot").css("height", "90%");
+    for (i = 0; i < video.length; i++) {
+        video[i].margin = "auto";
+        video[i].display = "block";
+        video[i].class = "p-1 bg-dark";
+        video[i].src = "pictures/camera.svg";
+    }
 }
 
 //Partie controle par boutons
@@ -348,7 +390,7 @@ function TeleopMoveAction(lin, ang){
 
 function Up(){
     document.getElementById('letterZ').style.color = 'red';
-    if (mode == 1){
+    if (mode == "clavier"){
         TeleopMoveAction(linSpeed+0.01, angSpeed);
     }
     console.log("appuie touche Z")   
@@ -361,7 +403,7 @@ function UpRelease(){
 
 function Left(){
     document.getElementById('letterQ').style.color = 'red';
-    if (mode == 1){
+    if (mode == "clavier"){
         TeleopMoveAction(linSpeed, angSpeed+0.1);
     }
     console.log("appuie touche Q");   
@@ -374,7 +416,7 @@ function LeftRelease(){
 
 function Center(){
     document.getElementById('letterS').style.color = 'red';
-    if (mode == 1){
+    if (mode == "clavier"){
         moveAction(0,0);
         linSpeed = 0;
         angSpeed = 0;
@@ -389,7 +431,7 @@ function CenterRelease(){
 
 function Right(){
     document.getElementById('letterD').style.color = 'red';
-    if (mode == 1){
+    if (mode == "clavier"){
         TeleopMoveAction(linSpeed, angSpeed-0.1);
     }
     console.log("appuie touche D");  
@@ -402,7 +444,7 @@ function RightRelease(){
 
 function Down(){
     document.getElementById('letterX').style.color = 'red';
-    if (mode == 1){
+    if (mode == "clavier"){
         TeleopMoveAction(linSpeed-0.01, angSpeed);
     }
     console.log("appuie touche X");  
@@ -414,46 +456,50 @@ function DownRelease(){
 }
 
 document.addEventListener('keydown',function(event) {
-    switch(event.key){
-        case 'z':
-            Up();
-            break;
-        case 'q':
-            Left();
-            break;
-        case 's':
-            Center();
-            break;
-        case 'd':
-            Right();
-            break;
-        case 'x':
-            Down();
-            break;
-        default:
-            console.log("autre touche à saisir");
+    if (mode == "clavier"){
+        switch(event.key){
+            case 'z':
+                Up();
+                break;
+            case 'q':
+                Left();
+                break;
+            case 's':
+                Center();
+                break;
+            case 'd':
+                Right();
+                break;
+            case 'x':
+                Down();
+                break;
+            default:
+                console.log("autre touche à saisir");
+        }
     }
 });
 
 document.addEventListener('keyup',function(event) {
-    switch(event.key){
-        case 'z':
-            UpRelease();
-            break;
-        case 'q':
-            LeftRelease();
-            break;
-        case 's':
-            CenterRelease();
-            break;
-        case 'd':
-            RightRelease();
-            break;
-        case 'x':
-            DownRelease();
-            break;
-        default:
-            console.log("autre touche à saisir");
+    if (mode == "clavier"){
+        switch(event.key){
+            case 'z':
+                UpRelease();
+                break;
+            case 'q':
+                LeftRelease();
+                break;
+            case 's':
+                CenterRelease();
+                break;
+            case 'd':
+                RightRelease();
+                break;
+            case 'x':
+                DownRelease();
+                break;
+            default:
+                console.log("autre touche à saisir");
+        }
     }
 });
 
@@ -511,7 +557,7 @@ function createJoystick() {
 // Création du joystick pour le petit écran
 function createJoystickSmall() {
     // Check if joystick was aready created and if there is enough battery
-    if (manager == null) {
+    if (managerSmall == null) {
         joystickContainer = document.getElementById('joystickSmall');
         // joystck configuration, if you want to adjust joystick, refer to:
         // https://yoannmoinet.github.io/nipplejs/
@@ -524,9 +570,9 @@ function createJoystickSmall() {
             restJoystick: true,
         };
 
-        manager = nipplejs.create(options);
+        managerSmall = nipplejs.create(options);
         // event listener for joystick move
-        manager.on('move', function (evt, nipple) {
+        managerSmall.on('move', function (evt, nipple) {
             fadeTime: 0;
             // nipplejs returns direction is screen coordiantes
             // we need to rotate it, that dragging towards screen top will move robot forward
@@ -552,7 +598,7 @@ function createJoystickSmall() {
             }
         });
         // event listener for joystick release, always send stop message
-        manager.on('end', function () {
+        managerSmall.on('end', function () {
             moveAction(0, 0);
         });
     }
@@ -593,7 +639,7 @@ function gestionNavigation(){
     navigationRunning = !navigationRunning;
     bouton_navigation = document.getElementById("bouton_navigation");
     etat_commande_position = document.getElementById("etat_commande_position");
-    console.log(etat_commande_position);
+    // console.log(etat_commande_position);
     // console.log(bouton_navigation.children[1]);
     if (navigationRunning == true){
         //Partie ros
@@ -602,7 +648,6 @@ function gestionNavigation(){
         pubMode.publish(msgMode);
         msgChoix.data = checkButtonValue();
         pubChoix.publish(msgChoix);
-        console.log(msgChoix.data);
         //Autre partie
         bouton_navigation.children[0].src = "pictures/pause-circle.svg";
         bouton_navigation.children[1].textContent = "Arrêter la navigation";
@@ -616,9 +661,8 @@ function gestionNavigation(){
         mode = "attente";
         msgMode.data = mode;
         pubMode.publish(msgMode);
-        msgChoix.data = 1;
+        msgChoix.data = -1;
         pubChoix.publish(msgChoix);
-        console.log(msgChoix.data);
         //Autre partie
         bouton_navigation.children[0].src = "pictures/play-circle.svg";
         bouton_navigation.children[1].textContent = "Lancer la navigation";
@@ -626,23 +670,32 @@ function gestionNavigation(){
         griserCheckBox(false);
         etat_commande_position.innerText = "En attente"
     }
+    console.log("Envoie de commande pour choix et message");
+    console.log(msgChoix.data);
+    console.log(msgMode.data);
 }
 
 function checkButtonValue(){
-    //TODO afficher la valeur des checkbuttons
+    checkButtonList = document.getElementsByClassName("containerRadio");
+    for (i = 0; i < checkButtonList.length; i++) {
+        // console.log(checkButtonList[i].children[0]);
+        if (checkButtonList[i].children[0].checked){
+            return indexPosition[i];
+        }
+    } 
 }
 
 function griserCheckBox(griser){
     checkButtonList = document.getElementsByClassName("containerRadio");
     if (griser == true){
         for (i = 0; i < checkButtonList.length; i++) {
-            console.log(checkButtonList[i]);
+            // console.log(checkButtonList[i]);
             checkButtonList[i].children[0].disabled = true;
         } 
     }
     else {
         for (i = 0; i < checkButtonList.length; i++) {
-            console.log(checkButtonList[i]);
+            // console.log(checkButtonList[i]);
             checkButtonList[i].children[0].disabled = false;
         } 
     }
@@ -658,6 +711,15 @@ function gestionControleManuel(){
     }
     else {
         image_bouton.src = "pictures/flecheBas.svg";
+    }
+}
+
+function modeChange(commandeManuel){
+    if(mode != commandeManuel){
+        mode = commandeManuel;
+        msgMode.data = mode;
+        pubMode.publish(msgMode);
+        console.log("changement de mode");
     }
 }
 
@@ -701,26 +763,26 @@ window.addEventListener('beforeunload', function (e) {
 });
 
 document.getElementById("camera_button").addEventListener('change', function (e){
-    console.log("au moins on rentre dedans");
-    console.log(robot_connected);
+    // console.log("au moins on rentre dedans");
+    // console.log(robot_connected);
     if (robot_connected == true){
         var camera_status = document.getElementById("camera_status");
         if (!document.getElementById("camera_button").checked){
             camera_status.style.backgroundColor = 'red';
             camera_status.innerText = "Désactivé";
             EteinsCamera();
-            console.log("1");
+            console.log("camera allume");
 
         }
         else{
             camera_status.style.backgroundColor = '#0DAC44';
             camera_status.innerText = "Activé";
             AllumeCamera();
-            console.log("2");
+            console.log("camera éteinte");
         }
     }
-    else {
-        alert
-    }
+    // else {
+    //     alert    //TODO ajouter les alertes
+    // }
 });
 

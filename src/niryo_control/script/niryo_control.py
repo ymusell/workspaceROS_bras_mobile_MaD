@@ -21,7 +21,7 @@ import math_functions as math
 class Niryo_Listener:
 	def __init__(self):
 		self.sub = rospy.Subscriber("niryoMode",String,self.callback,queue_size=1)
-		self.ask = "rien"
+		self.ask = "controle"
 	def callback(self,data):
 		#print(data.data)
 		self.ask = data.data
@@ -41,7 +41,7 @@ def pause(n,initial_order,order,rate):#Condition si la valeur d'interaction a ch
 	# global memo_pause
 	if order.obs == 2:		#Si nous avons une demande de mise en pause du programme dans le but de le continuer plus tard
 		print("Action en pause")
-		n.activate_learning_mode(True)	# TODO, test the learning mode if we pause the action
+		n.activate_learning_mode(False)	# TODO, test the learning mode if we pause the action
 		while order.obs == 2:
 			n.wait(0.5)
 			message_pub.publish("action en attente de reprise, appuyer sur marche")
@@ -639,9 +639,9 @@ joint_state_observation = [0.019, 0.101, -1.08, 0.06, 1.0, -2.556] #Etat pour l'
 #Declaration du node
 rospy.init_node('actions_niryo')
 #Test automatisation service et rangement
-print("hello")
-if (len(sys.argv)>1):
-	print(sys.argv[-1])
+# print("hello")
+# if (len(sys.argv)>1):
+# 	print(sys.argv[-1])
 
 #Creation des publishers
 pub = rospy.Publisher('reponse', Int32, queue_size=10)

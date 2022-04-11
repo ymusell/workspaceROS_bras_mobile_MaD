@@ -126,7 +126,16 @@ if __name__=="__main__":
         settings = termios.tcgetattr(sys.stdin)
 
     rospy.init_node('turtlebot3_teleop')
-    pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
+
+    # Select the good cmd_vel
+    print("hello there")
+    turtleName = rospy.get_param('robot_name')
+    if (turtleName != ""):
+        topicName = turtleName + "/cmd_vel"
+    else:
+        topicName = "cmd_vel"
+    
+    pub = rospy.Publisher(topicName, Twist, queue_size=10)
 
     turtlebot3_model = rospy.get_param("model", "burger")
 

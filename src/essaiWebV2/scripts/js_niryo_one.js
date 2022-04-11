@@ -9,6 +9,7 @@ var action_pause;
 var manager;
 var teleop;
 var ros;
+var prevChoix; //Pour se rappeler de l'état précédent du choix
 var port = window.location.port;
 PC_IP = location.hostname;
 
@@ -63,7 +64,7 @@ function initWindowPublisher(){
 function initModePublisher() {
     // Init message with zero values.
     msgMode = new ROSLIB.Message({
-        data: "rien"
+        data: "en attente"
     });
     // Init topic object
     pubMode = new ROSLIB.Topic({
@@ -89,6 +90,18 @@ function initChoixPublisher() {
     // Register publisher within ROS system
     pubChoix.advertise();
 }
+
+var listener_niryo = new ROSLIB.Topic({
+    ros : ros,
+    name : '/niryo_one/learning_mode',
+    messageType : 'std_msgs/Bool'
+});
+
+listener_niryo.subscribe(function(message) {
+    // console.log(performance.now()-time_start_niryo);
+    time_start_niryo = performance.now();
+    // listener_niryo.unsubscribe();
+});
 
 //Collapse gestion
 
@@ -164,7 +177,7 @@ function niryo_connection(){
     }
     else{
         robot_connected = false;    
-        allow_display(true);        //TODO à changer à la fin de la création de l'interface
+        allow_display(false);        //TODO à changer à la fin de la création de l'interface
     }
 }
 function allow_display(allow){
@@ -181,27 +194,32 @@ function allow_display(allow){
     }
 }
 
-//Gestion de la caméra
 function AllumeCamera(){
-    console.log("Travail du grand bouton");
-    video = document.getElementById('video_niryo');
-    video.height = 308;
-    video.width = 410;
-    video.margin = 1;
-
-    // Source de la caméra (de l'image non compressée)
-    video.src = "http://" + PC_IP + ":8080/stream?topic=/niryo_one_vision/video_stream&type=mjpeg&quality=50"; 
+    video = document.getElementsByClassName("video_niryo");
+    for (i = 0; i < video.length; i++) {
+        console.log(video);
+        video[i].height = 308;
+        video[i].width = 410;
+        video[i].margin = 1;
+        // Source de la caméra (de l'image non compressée)
+        video[i].src = "http://" + PC_IP + ":8080/stream?topic=/niryo_one_vision/video_stream&type=mjpeg&quality=50";
+    } 
+    // video.onload = function () {
+    //     document.getElementById('message').innerText = "un début de la vidéo"; //TODO ajouter une nouvelle alerte
+    // };   
 }
 
 function EteinsCamera(){
     console.log("Fermeture du flux vidéo");
-    var video = document.getElementById('video_niryo');
-    $("#video_niryo").css("width", "90%");
-    $("#video_niryo").css("height", "90%");
-    video.margin = "auto";
-    video.display = "block";
-    video.class = "p-1 bg-dark";
-    video.src = "pictures/camera.svg";
+    video = document.getElementsByClassName("video_niryo");
+    $(".video_niryo").css("width", "90%");
+    $(".video_niryo").css("height", "90%");
+    for (i = 0; i < video.length; i++) {
+        video[i].margin = "auto";
+        video[i].display = "block";
+        video[i].class = "p-1 bg-dark";
+        video[i].src = "pictures/camera.svg";
+    }
 }
 
 
@@ -209,18 +227,21 @@ function EteinsCamera(){
 // Bouton salon : qui publie la valeur 1 sur le topic /interface/choix afin d'avertir le robot qu'il doit aller au salon
 //Partie des services
 function Servir() {
+    prevChoix = 1;
     choix = 1;    
     msgChoix.data = choix;
     pubChoix.publish(msgChoix);
 }
 
 function ServirSalon() {
+    prevChoix = 5;
     choix = 5;
     msgChoix.data = choix;
     pubChoix.publish(msgChoix);
 }
 
 function ServirPlanTravail() {
+    prevChoix = 6;
     choix = 6;
     msgChoix.data = choix;
     pubChoix.publish(msgChoix);
@@ -229,32 +250,41 @@ function ServirPlanTravail() {
 function Pause_bras() {
     action_pause = !action_pause;
     // console.log(action_pause);
+    pause_button = document.getElementsByClassName("pause-btn");
     if (action_pause == true){
-        document.getElementById("pause-btn").style.backgroundColor = "#28A745";
-        document.getElementById("pause-btn").innerText = "Reprendre l'action";
+        for (i = 0; i < pause_button.length; i++) {
+            pause_button[i].style.backgroundColor = "#28A745";
+            pause_button[i].innerText = "Reprendre l'action";
+        }
+        choix = 2;   
     }
     else {
-        document.getElementById("pause-btn").style.backgroundColor = "#808080";
-        document.getElementById("pause-btn").innerText = "Mettre en pause";
-    }
-    choix = 2;    
+        for (i = 0; i < pause_button.length; i++) {
+            pause_button[i].style.backgroundColor = "#808080";
+            pause_button[i].innerText = "Mettre en pause";
+        }
+        choix = prevChoix;   
+    } 
     msgChoix.data = choix;
     pubChoix.publish(msgChoix);
 }
 //Partie des rangements
 function Ranger() {
+    prevChoix = 3;
     choix = 3;    
     msgChoix.data = choix;
     pubChoix.publish(msgChoix);
 }
 
 function RangerSalon() {
+    prevChoix = 7;
     choix = 7;    
     msgChoix.data = choix;
     pubChoix.publish(msgChoix);
 }
 
 function RangerPlanTravail() {
+    prevChoix = 8;
     choix = 8;    
     msgChoix.data = choix;
     pubChoix.publish(msgChoix);
@@ -279,7 +309,7 @@ function Up(){
 
 function UpRelease(){
     if (mode=="observation"){
-        document.getElementById('letterZ').style.color = 'white';
+        document.getElementById('letterZ').style.color = 'black';
         console.log("touche Z relachée");
         choix = -1;    
         msgChoix.data = choix;
@@ -299,7 +329,7 @@ function Left(){
 
 function LeftRelease(){
     if (mode=="observation"){
-        document.getElementById('letterQ').style.color = 'white';
+        document.getElementById('letterQ').style.color = 'black';
         console.log("touche Q relachée"); 
         choix = -1;    
         msgChoix.data = choix;
@@ -319,7 +349,7 @@ function Center(){
 
 function CenterRelease(){
     if (mode=="observation"){
-        document.getElementById('letterS').style.color = 'white';
+        document.getElementById('letterS').style.color = 'black';
         console.log("touche S relachée"); 
         choix = -1;    
         msgChoix.data = choix;
@@ -339,7 +369,7 @@ function Right(){
 
 function RightRelease(){
     if (mode=="observation"){
-        document.getElementById('letterD').style.color = 'white';
+        document.getElementById('letterD').style.color = 'black';
         console.log("touche D relachée"); 
         choix = -1;    
         msgChoix.data = choix;
@@ -359,7 +389,7 @@ function Down(){
 
 function DownRelease(){
     if (mode=="observation"){
-        document.getElementById('letterX').style.color = 'white';
+        document.getElementById('letterX').style.color = 'black';
         console.log("touche X relachée"); 
         choix = -1;    
         msgChoix.data = choix;
@@ -411,33 +441,33 @@ document.addEventListener('keyup',function(event) {
     }
 });
 
-function chargeRobot(){
-    // console.log($("#connection_turtlebot").is(":visible"));  
-    var badge_turtle = document.getElementById('connection_turtlebot');
-    var badge_niryo = document.getElementById('connection_niryo');
-    console.log()
-    if ((turtleBot_name == "turtle1")&&(performance.now()-time_start_turtle1<200)){
-        turtleBot_name = ""
-        badge_turtle.className = "badge badge-success";
-        badge_turtle.innerText = "Connected";
-        badge_turtle.parentElement.style.color = "green"
-    }
-    else{
-        badge_turtle.className = "badge badge-danger";
-        badge_turtle.innerText = "Not Connected";
-        badge_turtle.parentElement.style.color = "black"
-    }
-    if (performance.now()-time_start_niryo<1000){
-        badge_niryo.className = "badge badge-success";
-        badge_niryo.innerText = "Connected";
-        badge_niryo.parentElement.style.color = "green"
-    }
-    else{
-        badge_niryo.className = "badge badge-danger";
-        badge_niryo.innerText = "Not Connected";
-        badge_niryo.parentElement.style.color = "black"
-    }
-}
+// function chargeRobot(){
+//     // console.log($("#connection_turtlebot").is(":visible"));  
+//     var badge_turtle = document.getElementById('connection_turtlebot');
+//     var badge_niryo = document.getElementById('connection_niryo');
+//     console.log()
+//     if ((turtleBot_name == "turtle1")&&(performance.now()-time_start_turtle1<200)){
+//         turtleBot_name = ""
+//         badge_turtle.className = "badge badge-success";
+//         badge_turtle.innerText = "Connected";
+//         badge_turtle.parentElement.style.color = "green"
+//     }
+//     else{
+//         badge_turtle.className = "badge badge-danger";
+//         badge_turtle.innerText = "Not Connected";
+//         badge_turtle.parentElement.style.color = "black"
+//     }
+//     if (performance.now()-time_start_niryo<1000){
+//         badge_niryo.className = "badge badge-success";
+//         badge_niryo.innerText = "Connected";
+//         badge_niryo.parentElement.style.color = "green"
+//     }
+//     else{
+//         badge_niryo.className = "badge badge-danger";
+//         badge_niryo.innerText = "Not Connected";
+//         badge_niryo.parentElement.style.color = "black"
+//     }
+// }
 
 // Ouverture du controle manuel
 function openControle(evt, nameWindow) {
@@ -492,17 +522,17 @@ document.getElementById("camera_button").addEventListener('change', function (e)
             camera_status.style.backgroundColor = 'red';
             camera_status.innerText = "Désactivé";
             EteinsCamera();
-            console.log("1");
+            console.log("Fermeture de la camera");
 
         }
         else{
             camera_status.style.backgroundColor = '#0DAC44';
             camera_status.innerText = "Activé";
             AllumeCamera();
-            console.log("2");
+            console.log("allumage de la camera");
         }
     }
-    else {
-        alert
-    }
+    // else {
+    //     alert
+    // }
 });
