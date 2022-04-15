@@ -15,10 +15,12 @@
   <arg name="initial_pose_a" default="0.0052143371"/> -->
 
   <!-- Turtlebot3 -->
-  <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
-    <arg name="model" value="$(arg model)" />
-    <arg name="multi_robot_name" value="turtlebot1"/>
-  </include>
+  <group ns="turtlebot1">
+    <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
+      <arg name="model" value="$(arg model)" />
+      <arg name="multi_robot_name" value="turtlebot1"/>
+    </include>
+  </group>
 
   <!-- Filtering -->
   <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter" output="screen" >
@@ -33,9 +35,9 @@
     <!-- <group if="$(arg filtering)"> 
       <remap from="scan"  to="$(arg scan_topic)" if="$(arg filtering)" />
     </group> -->
-	  <arg name="initial_pose_x" value="$(arg initial_pose_x)" />
-	  <arg name="initial_pose_y" value="$(arg initial_pose_y)" />
-	  <arg name="initial_pose_a" value="$(arg initial_pose_a)" />
+    <arg name="initial_pose_x" value="$(arg initial_pose_x)" />
+    <arg name="initial_pose_y" value="$(arg initial_pose_y)" />
+    <arg name="initial_pose_a" value="$(arg initial_pose_a)" />
   </include>
 
   <!-- move_base -->
@@ -50,6 +52,6 @@
   <!-- rviz -->
   <group if="$(arg open_rviz)"> 
     <node pkg="rviz" type="rviz" name="rviz" required="true"
-          args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
+          args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation_multi.rviz"/>
   </group>
 </launch>
