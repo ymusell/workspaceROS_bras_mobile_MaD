@@ -2,6 +2,7 @@
   <!-- Arguments -->
   <arg name="map_name" default="map" />
   <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+  <arg name="multi_robot_name" default="turtlebot1"/>
   <arg name="map_file" default="$(find turtlebot3_navigation)/maps/$(arg map_name).yaml"/>
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="false"/>
@@ -15,10 +16,10 @@
   <arg name="initial_pose_a" default="0.0052143371"/> -->
 
   <!-- Turtlebot3 -->
-  <group ns="turtlebot1">
+  <group ns="$(arg multi_robot_name)">
     <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
       <arg name="model" value="$(arg model)" />
-      <arg name="multi_robot_name" value="turtlebot1"/>
+      <arg name="multi_robot_name" value="$(arg multi_robot_name)"/>
     </include>
   </group>
 
@@ -31,17 +32,18 @@
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
 
   <!-- AMCL -->
-  <include file="$(find turtlebot3_navigation)/launch/amcl_turtlebot1.launch">
+  <include file="$(find turtlebot3_navigation)/launch/amcl_named.launch">
     <!-- <group if="$(arg filtering)"> 
       <remap from="scan"  to="$(arg scan_topic)" if="$(arg filtering)" />
     </group> -->
+    <arg name="robot_name" value="$(arg multi_robot_name)"/>
     <arg name="initial_pose_x" value="$(arg initial_pose_x)" />
     <arg name="initial_pose_y" value="$(arg initial_pose_y)" />
     <arg name="initial_pose_a" value="$(arg initial_pose_a)" />
   </include>
 
   <!-- move_base -->
-  <include file="$(find turtlebot3_navigation)/launch/move_base_turtlebot1.launch">
+  <include file="$(find turtlebot3_navigation)/launch/move_base_named.launch">
     <!-- <group if="$(arg filtering)"> 
       <remap from="scan"  to="$(arg scan_topic)"/>
     </group> -->

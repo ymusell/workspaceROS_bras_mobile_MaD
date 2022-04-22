@@ -1,21 +1,39 @@
 <launch>
 	<arg name="map_name" default="map" />
 	<arg name="filtering" default="false"/>
+	<arg name="multi_robot_name" default=""/>
 
-	<include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch">
-		<arg name="map_name" value="$(arg map_name)" />
-		<arg name="filtering" value="$(arg filtering)" />
-		<arg name="initial_pose_x" default="0.0483354713851" if="$(eval arg('map_name') == 'chaire_mad')" />
-		<arg name="initial_pose_y" default="-0.00872909076323" if="$(eval arg('map_name') == 'chaire_mad')" />
-		<arg name="initial_pose_a" default="0.0052143371" if="$(eval arg('map_name') == 'chaire_mad')" />
-<!-- 		<group unless="$ (eval map_name == 'chaire_mad')"> ne fonctionne pas, pas de group dans des includes
-			<arg name="initial_pose_x" default="-0.223423328994"/>
-			<arg name="initial_pose_y" default="-0.204416568211"/>
-			<arg name="initial_pose_a" default="0.668531661"/>
-		</group> -->
-	</include>
+	<group if="$(eval multi_robot_name == '')">
+		<include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch">
+			<arg name="map_name" value="$(arg map_name)" />
+			<arg name="filtering" value="$(arg filtering)" />
+			<arg name="initial_pose_x" default="0.0483354713851" if="$(eval arg('map_name') == 'chaire_mad')" />
+			<arg name="initial_pose_y" default="-0.00872909076323" if="$(eval arg('map_name') == 'chaire_mad')" />
+			<arg name="initial_pose_a" default="0.0052143371" if="$(eval arg('map_name') == 'chaire_mad')" />
+	<!-- 		<group unless="$ (eval map_name == 'chaire_mad')"> ne fonctionne pas, pas de group dans des includes
+				<arg name="initial_pose_x" default="-0.223423328994"/>
+				<arg name="initial_pose_y" default="-0.204416568211"/>
+				<arg name="initial_pose_a" default="0.668531661"/>
+			</group> -->
+		</include>
+	</group>
+	<group unless="$(eval multi_robot_name == '')">
+		<include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation_named.launch">
+			<arg name="map_name" value="$(arg map_name)" />
+			<arg name="multi_robot_name" value="$(arg multi_robot_name)" />
+			<arg name="filtering" value="$(arg filtering)" />
+			<arg name="initial_pose_x" default="0.0483354713851" if="$(eval arg('map_name') == 'chaire_mad')" />
+			<arg name="initial_pose_y" default="-0.00872909076323" if="$(eval arg('map_name') == 'chaire_mad')" />
+			<arg name="initial_pose_a" default="0.0052143371" if="$(eval arg('map_name') == 'chaire_mad')" />
+	<!-- 		<group unless="$ (eval map_name == 'chaire_mad')"> ne fonctionne pas, pas de group dans des includes
+				<arg name="initial_pose_x" default="-0.223423328994"/>
+				<arg name="initial_pose_y" default="-0.204416568211"/>
+				<arg name="initial_pose_a" default="0.668531661"/>
+			</group> -->
+		</include>
+	</group>
+	
 	<node pkg="simple_navigation_goals" name="navigation_goals" type="navigation_goals" output="screen"/>
 		<!-- <rosparam command="load" file="$(find simple_navigation_goals)/positions_chaire/essai.yaml"/> 
 	</node> -->
 </launch>
-	

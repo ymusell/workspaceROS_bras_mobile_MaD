@@ -5,6 +5,7 @@
 #include "std_msgs/Int32.h"
 #include "std_msgs/String.h"
 #include <boost/container/string.hpp>
+#include <string>
 
 // Définition d'un nouveau type qui permettra de communiquer avec les actions qui sont liées à MoveBaseAction
 // Nous voyons ici, que nous sommes du côté client
@@ -26,6 +27,7 @@ void Battery_Listener::callback1(const sensor_msgs::BatteryStateConstPtr &msg)
 
 // Initialisation des variables dérivée de ROS
 std_msgs::String message;
+std::string robot_name;
 ros::Publisher client_pub;
 int flag_global = 0;
 int id;
@@ -71,7 +73,6 @@ void doneCb(const actionlib::SimpleClientGoalState &state,
 {
 	flag_global = 1;
 };
-
 int main(int argc, char **argv)
 {
 
@@ -84,32 +85,59 @@ int main(int argc, char **argv)
 	Choice_Listener choice_listener;
 	Turtlebot_Mode mode_listener;
 
+	/*Définition du nom du robot*/  
+	if (nh.getParam("/robotName",robot_name)){
+		ROS_INFO("\n Nom du robot recu\n");
+		std::cout <<"le nom est:"<<robot_name<<std::endl;
+	}
+	else{
+		ROS_INFO("\n Message non recu\n");
+	}
+
 	/*// On indique que l'on va lire les infos du topic /battery_state
 	ros::Subscriber sub1 = nh.subscribe<sensor_msgs::BatteryState>("battery_state", 1, &Battery_Listener::callback1, &battery_listener);*/
 
+
+	/*Code initial
 	// On indique que l'on va lire les infos du topic /choix
-	ros::Subscriber sub2 = nh.subscribe<std_msgs::Int32>("interface/choix", 1, &Choice_Listener::callback2, &choice_listener);
+	ros::Subscriber sub2 = nh.subscribe<std_msgs::Int32>("interface/choix", 1, &Choice_Listener::callback2, &choice_listener); 
 	// On indique que l'on va lire les infos du topic /interface/turtlebotMode
-	ros::Subscriber sub = nh.subscribe<std_msgs::String>("interface/turtlebotMode", 1, &Turtlebot_Mode::callback, &mode_listener);
+	ros::Subscriber sub = nh.subscribe<std_msgs::String>("interface/turtlebotMode", 1, &Turtlebot_Mode::callback, &mode_listener); 
 	// On indique que l'on va publier des messages sur le topic /messages
-	ros::Publisher client_pub = nh.advertise<std_msgs::String>("messages", 1);
+	ros::Publisher client_pub = nh.advertise<std_msgs::String>("messages", 1); */
+
+	std::string prefix_name;
+	if (robot_name=="turtlebot1" || robot_name=="turtlebot2"){
+		prefix_name = robot_name+"/";
+	}else{
+		prefix_name = "";
+	}
+	std::cout <<"le prefix est de :"<<prefix_name<<std::endl;
+
+
+	ros::Subscriber sub2 = nh.subscribe<std_msgs::Int32>(prefix_name+"interface/choix", 1, &Choice_Listener::callback2, &choice_listener); 
+	// On indique que l'on va lire les infos du topic /interface/turtlebotMode
+	ros::Subscriber sub = nh.subscribe<std_msgs::String>(prefix_name+"interface/turtlebotMode", 1, &Turtlebot_Mode::callback, &mode_listener);
+	// On indique que l'on va publier des messages sur le topic /messages
+	ros::Publisher client_pub = nh.advertise<std_msgs::String>(prefix_name+"messages", 1); 
 
 	choice_listener.choix = -1;
 	mode_listener.mode = "en attente";
 
 	// démarage des programmes et du serveur liés à la navigation du robot
-	MoveBaseClient ac("move_base", true);	//true permet de ne pas avoir à utiliser ros::spin(), et le move_base a le rôle de serveur ici
+	MoveBaseClient ac(prefix_name+"move_base", true);	//true permet de ne pas avoir à utiliser ros::spin(), et le move_base a le rôle de serveur ici /*TODO*/
 	move_base_msgs::MoveBaseGoal goal;		
 	goal.target_pose.header.frame_id = "map";
 	goal.target_pose.header.stamp = ros::Time::now();
 	ros::spinOnce();
-
 	//On attend que le serveur action soit lancé et réponde
 	while (!ac.waitForServer(ros::Duration(5.0)) && ros::ok())
 	{
 		ROS_INFO("\n Attente de l'initialisation du systeme\n");
 		// On envoie le message pour l'interface web :
 		message.data = "Attente de l'initialisation du systeme";
+		std::cout <<message<<std::endl;
+		std::cout <<client_pub<<std::endl;
 		client_pub.publish(message);
 	}
 	ROS_INFO("\n Initialisation du system reussie\n");

@@ -127,6 +127,7 @@ rate = rospy.Rate(10) # 10hz
 
 #Creation des processus
 processus_turtlebot_navigation = Process("turtlebot_navigation","roslaunch simple_navigation_goals turtlebot_control.launch", ["map_name:=chaire_mad_etage","filtering:=true"])  #chaire_mad #roslaunch turtlebot3_navigation turtlebot3_navigation.launch
+processus_turtlebot_navigation_named = Process("turtlebot_navigation","roslaunch simple_navigation_goals turtlebot_control.launch", ["map_name:=chaire_mad_etage"])
 # processus_turtlebot_navigation_goals = Process("turtlebot_navigation_goals","rosrun simple_navigation_goals navigation_goals") 
 processus_niryo = Process("niryoOne","rosrun niryo_control niryo_control.py")
 
@@ -152,9 +153,17 @@ if __name__ == '__main__':
 			else:
 				pass
 			if (current_window == "turtlebot"):
-				if not processus_turtlebot_navigation.is_active():
-					processus_turtlebot_navigation.start()
-					rospy.loginfo("nouveau rviz")
+				robot_name = rospy.get_param("/robotName")
+				if (robot_name=="turtlebot1" or robot_name=="turtlebot2"):		# Facon de faire temporaire car elle ne permet pas d avoir 2 robots. (version de test)
+					processus_turtlebot_navigation_named.args.append("multi_robot_name:={0}".format(robot_name))
+					# print(processus_turtlebot_navigation_named.args)
+					if not processus_turtlebot_navigation_named.is_active():
+						processus_turtlebot_navigation_named.start()
+						rospy.loginfo("nouveau rviz")
+				else:
+					if not processus_turtlebot_navigation.is_active():
+						processus_turtlebot_navigation.start()
+						rospy.loginfo("nouveau rviz")
 				# processus_turtlebot_navigation_goals.start()
 				# rospy.loginfo("le pid du nouveau processus est de : %d" % processus_turtlebot_navigation_goals.process.pid)
 			elif (current_window == "niryoOne"):
@@ -172,4 +181,5 @@ if __name__ == '__main__':
 		prev_window = current_window
 		rate.sleep()
 processus_turtlebot_navigation.stop()
+processus_turtlebot_navigation_named.stop()
 

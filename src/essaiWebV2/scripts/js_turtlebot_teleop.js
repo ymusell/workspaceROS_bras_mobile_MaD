@@ -15,6 +15,7 @@ var angSpeed;
 var port = window.location.port;
 var controleManuelDisplayed;
 var navigationRunning;
+turtleBot_name = "rien";
 
 var indexPosition = [2,4,6,1,5,3]; //Correspondance index bouton/index dans le programme ROS pour les positions
 var robot_name = '';
@@ -24,6 +25,12 @@ PC_IP = location.hostname;
 ros = new ROSLIB.Ros({
     url: "ws://" + PC_IP + ":9090"
 });
+
+var robotName = new ROSLIB.Param({      //parametre pour différencier les robots de même type
+    ros : ros,
+    name : 'robotName'
+});
+
 
 // robot_connected = true;
 // TODO, il faudra décommenter le texte suivant pour afficher les erreurs liées à la connexion ROS
@@ -36,17 +43,8 @@ ros = new ROSLIB.Ros({
 //Initialisation de l'affichage
 // document.getElementById('keyboard').style.display="none";
 // document.getElementById('joystickCommand').style.display="none";
-initModePublisher();
-mode = "attente";
-msgMode.data = mode;
-pubMode.publish(msgMode);
-initChoixPublisher();
-choix = 10;     //TODO change this value, corresponding to nothing
-msgChoix.data = choix;
-pubChoix.publish(msgChoix);
-turtleBot_name = "rien"
 
-
+//Ancienne endroit pour les premières initialisation ros
 
 //Affichage
 // function MenuBoutons() {
@@ -111,7 +109,7 @@ function initModePublisher() {
     // Init topic object
     pubMode = new ROSLIB.Topic({
         ros: ros,
-        name: '/interface/turtlebotMode',
+        name: robot_name+'/interface/turtlebotMode',
         messageType: 'std_msgs/String'
     });
     // Register publisher within ROS system
@@ -126,7 +124,7 @@ function initChoixPublisher() {
     // Init topic object
     pubChoix = new ROSLIB.Topic({
         ros: ros,
-        name: '/interface/choix',
+        name: robot_name+'/interface/choix',
         messageType: 'std_msgs/Int32'
     });
     // Register publisher within ROS system
@@ -159,6 +157,8 @@ function initVelocityPublisher() {
         }
     });
     // Init topic object
+    console.log("infin");
+    // console.log(robot_name);
     cmdVel = new ROSLIB.Topic({
         ros: ros,
         name: robot_name+'/cmd_vel',
@@ -200,33 +200,48 @@ listener_turtle1.subscribe(function(message) {
     // listener_turtle1.unsubscribe();
 });
 
-var robotName = new ROSLIB.Param({      //parametre pour différencier les robots de même type
-    ros : ros,
-    name : 'robotName'
-});
-
 ///// Fin de la partie ROS
+function sleep(milliseconds) {  //Pas utile pour la suite mais équivalent à une fct python
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+}
 
-//Gestion de la fenêtre
-window.onload = function () {
-    console.log("La fenêtre du turtle est allumée ")
-    robotName.get(function(value) {
-        robot_name = value;
-        // console.log('My robot\'s name is ' + value);
-    });
+//Gestion de l'ouverture de la fenetre avec la création des bons noms de noeuds ros
+robotName.get(function(value) {     //Obtention du nom du robot
+    robot_name = value;
+    console.log('My robot\'s name is ' + value);
+    document.getElementById("turtlebotName").innerText = value.substr(-1);
+    initModePublisher();
+    mode = "attente";
+    msgMode.data = mode;
+    pubMode.publish(msgMode);
+    initChoixPublisher();
+    choix = 10;     //TODO change this value, corresponding to nothing
+    msgChoix.data = choix;
+    pubChoix.publish(msgChoix);
     initWindowPublisher();
     initVelocityPublisher();
     windowName = "turtlebot" 
     msgWindow.data = windowName;
     pubWindow.publish(msgWindow);
-    console.log(windowName);
+    // console.log(windowName);
+    createJoystickSmall();
+});
+
+//Gestion de la fenêtre
+window.onload = function () {
+    console.log("La fenêtre du turtle est allumée ");
     $("#camera_button").prop("checked", false); //Initialisation du bouton de la caméra
     time_start_turtle1 = performance.now(); //Pour la présence du turtlebot
     turtlebot_connection_timer = setInterval(turtlebot_connection,1000);
-    createJoystickSmall();
     controleManuelDisplayed = false;
     navigationRunning = false;
+    console.log("fin");
 }
+
 //Gestion de la présence du turtlebot et de son affichage
 function turtlebot_connection(){
     // console.log("Inside");  

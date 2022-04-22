@@ -21,6 +21,8 @@ std_msgs/String.h
 /home/yann/catkin_ws/src/simple_navigation_goals/src/std_msgs/String.h
 boost/container/string.hpp
 -
+string
+-
 
 /opt/ros/kinetic/include/actionlib/action_definition.h
 

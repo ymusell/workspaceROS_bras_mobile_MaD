@@ -219,7 +219,7 @@ function display_meuble(value){
 
 function turtlebotName(name){
     robotName.set(name);
-    console.log(name);      //TODO, pas sur on peut changer
+    console.log(name);      //TODO, à enlever si nécessaire
 }
 
 window.addEventListener('beforeunload', function (e) {

@@ -8,8 +8,9 @@ Ainsi tous les topics et transformées auront en préfix le nom du robot.
 ## le lancement global
 La commande à lancer pour le fonctionnement de la navigation est le suivant:  
 
-    roslaunch turtlebot3_navigation turtlebot3_navigation_turtlebot1.launch map_name:=chaire_mad_etage
-Le fonctionnement du launch "turtlebot3_navigation_turtlebot1" est similaire au launch normal de la navigation du turtlebot. La structure est la même mais les fichiers lancés ne le sont pas.
+    roslaunch turtlebot3_navigation turtlebot3_navigation_named.launch map_name:=chaire_mad_etage
+Le fonctionnement du launch "turtlebot3_navigation_named" est similaire au launch normal de la navigation du turtlebot. La structure est la même mais les fichiers lancés ne le sont pas.  
+Il faut aussi changer le fichier du bringup qui est le remote, en ajoutant l'argument multi_robot_name.
 
 ## Fonctionnement d'amcl
 Amcl commence par créer un nouveau namespace, celui du nom du robot. Une autre ligne importante est `<param name="use_map_topic" value="true"/>` pour qu'AMCL puisse se connecter au topic de /map sans passer par un appel de service.  
