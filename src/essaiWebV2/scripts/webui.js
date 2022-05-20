@@ -70,13 +70,13 @@ listener_turtle1.subscribe(function(message) {
 });
 
 // Version sans topic nommé /turtlebot3_name mais avec le turtlebot2
-var listener_turtle1 = new ROSLIB.Topic({
+var listener_turtle2 = new ROSLIB.Topic({
     ros : ros,
     name : '/turtlebot2/imu',
     messageType : 'sensor_msgs/Imu'
 });
 
-listener_turtle1.subscribe(function(message) {
+listener_turtle2.subscribe(function(message) {
     // console.log(message);
     time_start_turtle2 = performance.now();
     // listener_turtle1.unsubscribe();

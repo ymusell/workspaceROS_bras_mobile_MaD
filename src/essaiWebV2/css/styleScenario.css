@@ -1,0 +1,95 @@
+/* Valeurs de l'ancien carousel
+.carousel-indicators .active {
+    background-color: #0051ff;
+}
+
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%230051ff' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+}
+// pour le noir %23ff, le 23 est a oublier
+.carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%230051ff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+} */
+
+/* .essai {
+    text-align: center;
+} */
+
+.right {float: right;}
+
+/* Css de la navbar */
+#navbarSupportedContent .navbar-nav .active > a{ 
+    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+    font-weight: bold;
+    color: #5E005C ;
+}
+
+#navbarSupportedContent .navbar-nav a{ 
+    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+    color: #142B35 ;
+}
+
+#navbarSupportedContent .navbar-nav :not(.active) a:hover{ 
+    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+    font-weight: bold;
+    color: #5E005C ;
+}
+
+#bd-versions {
+    color: #142B35;
+}
+
+#bd-versions:hover {
+    font-weight: bold;
+    color: #5E005C ;
+}
+
+#bd-versions:hover svg{
+    fill: #5E005C;
+    height: 22px;
+    width: 22px;
+}
+
+.navbar-nav > .nav-item > .dropdown-menu a:hover{
+  font-weight: bold;
+  color: #5E005C ;
+}
+
+/* Pour le header de tous les robots */
+#navbarSupportedContent .navbar-nav .nav-item.active .dropdown-menu .dropdown-item.active {
+    background-color: white;
+    font-weight: bold;
+    color: #5E005C;
+}
+
+/* Propriétés des cartes de pour l'accueil */
+.carte {
+    display: flex;
+    flex-direction: column;
+    width: 140px;
+    height: 195px;
+    margin-right: 50px;
+    align-items: center;
+}
+
+.carte a img{
+    height: 125px;
+    width: 125px;
+}
+
+.carte h5{
+    text-align: center;
+}
+
+.connection_status{
+    font-size: smaller;
+}
+
+.connection_status img{
+    height: 20px;
+    width: 20px;
+}
+
+.card .card-body{
+    padding-top: 5px;
+}

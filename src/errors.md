@@ -17,3 +17,4 @@ Si le message ci-dessous apparait lors du bringup et que l'on veut utiliser un r
 ## TODO
 Problème d'erreur de launch avec le les groups dans les includes
 -Mode opératoire pour la déclaration de workspace
+-Compilation d'un seul fichier et ne pas faire un catkin_make à chaque fois: catkin_make <nom du package> 
