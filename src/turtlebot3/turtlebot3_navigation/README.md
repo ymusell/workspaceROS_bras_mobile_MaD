@@ -15,4 +15,5 @@ Il contient une petite liste d'emplacement pour le second étage de l'appartemen
 
 ## A voir  
 
-Continuer la définition de filtering dans le launch
+Continuer la définition de filtering dans le launch  
+Le plus utilisé:`roslaunch turtlebot3_navigation turtlebot3_navigation_named.launch map_name:=chaire_mad_etage`

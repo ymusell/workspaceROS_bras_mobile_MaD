@@ -128,7 +128,7 @@ if __name__=="__main__":
     rospy.init_node('turtlebot3_teleop')
 
     # Select the good cmd_vel
-    print("hello there")
+    # print("hello there")
     turtleName = rospy.get_param('robot_name')
     if (turtleName != ""):
         topicName = turtleName + "/cmd_vel"
