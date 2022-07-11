@@ -1,0 +1,16 @@
+<launch>
+	<arg name="map_name" default="chaire_mad_etage" />
+	<arg name="filtering" default="false"/>
+	<arg name="multi_robot_name" default=""/>
+
+	<include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch">
+		<arg name="map_name" value="$(arg map_name)" />
+		<!-- <arg name="move_forward_only" value="true" /> Ne fonctionne pas car il tourne en rond par moment-->
+		<arg name="filtering" value="$(arg filtering)" />
+		<arg name="initial_pose_x" default="-0.223423328994" />
+		<arg name="initial_pose_y" default="-0.204416568211" />
+		<arg name="initial_pose_a" default="0.668531661" />
+	</include>
+	
+	<node pkg="scenarios" name="scenario2" type="scenario_2.py" output="screen"/>
+</launch>

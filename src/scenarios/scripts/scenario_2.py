@@ -41,7 +41,6 @@ def transformation(fall_message): #Transformation des messsages
 ############## ROS part ##############
 def movebase_client(position):	#aller a la position que l'on donne en argument
 
-    client = actionlib.SimpleActionClient('move_base',MoveBaseAction)
     client.wait_for_server()
 
     goal = MoveBaseGoal()
@@ -58,16 +57,16 @@ def movebase_client(position):	#aller a la position que l'on donne en argument
     goal.target_pose.pose.orientation.w = quaternion_angle[3]
 
     client.send_goal(goal)
-    wait = client.wait_for_result()
-    if not wait:
-        rospy.logerr("Action server not available!")
-        rospy.signal_shutdown("Action server not available!")
-    else:
-        return client.get_result()
+    # wait = client.wait_for_result()
+    # if not wait:
+    #     rospy.logerr("Action server not available!")
+    #     rospy.signal_shutdown("Action server not available!")
+    # else:
+    #     return client.get_result()
 
 class Fall__listener:
     def __init__(self):
-        # self.sub = rospy.Subscriber('messages_niryo', Vector3,self.callback,queue_size=1)  #Changer le type de message a voir
+        self.sub = rospy.Subscriber('fallValue', Vector3,self.callback,queue_size=1)  #Changer le type de message a voir
         self.x = 0.0
         self.y = 0.0
         self.theta = 0.0
@@ -94,7 +93,8 @@ rospy.init_node('scenario2')
 # order = rospy.Publisher("interface/choix",Int32, queue_size=2)
 
 fall_message = Fall__listener() 
-fall_message.remplir(7.01,4.01,np.pi) #4.01,6.01
+# fall_message.remplir(7.01,4.01,np.pi) #4.01,6.01
+client = actionlib.SimpleActionClient('move_base',MoveBaseAction)
 
 rate = rospy.Rate(10) # 10hz
 
@@ -104,56 +104,16 @@ if __name__ == '__main__':
         if (not fall_message.empty()):
             print("fall detected")
             fall_new_world = transformation(fall_message)
-            print(fall_new_world)
             result = movebase_client(fall_new_world)
             if result:
                 print("Goal to base reached!")  #rospy.loginfo
                 sys.exit()
         else:
             print("no fall detected")
+            try:
+                client.cancel_goal()
+            except:
+                pass
         rate.sleep()
-		# try:
-		# 	if (currentScenarioSequence ==  scenarioSequence.avancer.value):
-		# 		# is_sequence_finished = False
-		# 		result = movebase_client("bringup_niryo")
-		# 		if result:
-		# 			rospy.loginfo("Goal to niryo bringup reached!")
-		# 			currentScenarioSequence = scenarioSequence.bringup_niryo.value
-		# 	elif (currentScenarioSequence ==  scenarioSequence.bringup_niryo.value):
-		# 		# processus_niryo.start()
-		# 		interaction.publish("controle")
-		# 		print("bringup du niryo")
-		# 		currentScenarioSequence = scenarioSequence.deplacement_salon.value
-		# 	elif (currentScenarioSequence ==  scenarioSequence.deplacement_salon.value):
-		# 		result = movebase_client("chambre")
-		# 		if result:
-		# 			rospy.loginfo("Goal to the living room reached!")
-		# 			currentScenarioSequence = scenarioSequence.prendre_objet.value
-		# 	elif (currentScenarioSequence ==  scenarioSequence.prendre_objet.value):
-		# 		print("catch the blue puck")
-		# 		order.publish(7)		#A tester pour voir si cela fonctionne
-		# 		if (niryo_message.value == "Le bras a range l'objet dans le meuble" or passer):
-		# 			rospy.loginfo("Object taken!")
-		# 			currentScenarioSequence = scenarioSequence.deplacement_cuisine.value
-		# 	elif (currentScenarioSequence ==  scenarioSequence.deplacement_cuisine.value):
-		# 		result = movebase_client("cuisine")
-		# 		if result:
-		# 			rospy.loginfo("Goal to kitchen reached!")
-		# 			currentScenarioSequence = scenarioSequence.deposer_objet.value
-		# 	elif (currentScenarioSequence ==  scenarioSequence.deposer_objet.value):
-		# 		print("drop the blue puck")
-		# 		order.publish(6)		#A tester pour voir si cela fonctionne
-		# 		if (niryo_message.value == "Le bras a depose l'objet sur la zone de depot du plan de travail" or passer):
-		# 			rospy.loginfo("Object taken!")
-		# 			# processus_niryo.stop()
-		# 			print("fin du process niryo")
-		# 			currentScenarioSequence = scenarioSequence.rentrer_base.value
-		# 	elif (currentScenarioSequence ==  scenarioSequence.rentrer_base.value):
-		# 		result = movebase_client("base")
-		# 		if result:
-		# 			rospy.loginfo("Goal to base reached!")
-		# 			sys.exit()
-		# except rospy.ROSInterruptException:
-		# 	rospy.loginfo("Navigation test finished.")
 
 

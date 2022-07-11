@@ -15,7 +15,11 @@ Il permet à un robot de prendre un objet d'un point A et de le déposer à un p
 ## Le second scénario 
 Il permet de détecter une chute (avec les données fournies par le SensFloor), le robot va automatiquement se diriger vers le point de détection de la chute.  
 Pour la transformation des 2 repères il y aurait peut-être de petits ajustements à faire car nous ne possédons pas de coordonnées précise pour ce changement de repère.  
-Les données sont fournies par un message ros (vector3) qui nous envoie les valeurs x,y et un angle. Une version supplémentaire pourrait être de traiter les 4 coins de la box que peut envoyer les web sockets. Le message des sockets et l'envoie d'un message peut seulement se faire via python3.5 ou plus, ce qui fait qu'il nous faut une machine avec python3 et ros Noetic pour ce faire.
+Les données sont fournies par un message ros (vector3) qui nous envoie les valeurs x,y et un angle. Une version supplémentaire pourrait être de traiter les 4 coins de la box que peut envoyer les web sockets. Le message des sockets et l'envoie d'un message peut seulement se faire via python3.5 ou plus, ce qui fait qu'il nous faut une machine avec python3 et ros Noetic pour ce faire.  
+Le programme pour la détection de chute se fait actuellement sur machine virtuelle sous ubuntu 20 dans un package ROS qui s'appelle "fall" et le nom des programmes sont les suivants `socketSensFloorV<numéro du programme>.py`. Les différents versions du programme sont expliquées dans le README.
 
 ## TODO
 Faire le second scénario
+
+Pour le lancer, il faudra lancer sur noetic `rosrun fall socketSensFloor.py `
+Et sur l'ordinateur ou est lancé le master, il faudra faire: `roslaunch scenarios scenario2.launch`  ( déjà affiché avant, il faudra d'abord faire un roslaunch puis le run)
